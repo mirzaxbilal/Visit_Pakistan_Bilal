@@ -9,7 +9,7 @@ const signup = async (req, res) => {
 
     const { username, email, password } = req.body;
     try {
-        const existingUser = await userModel.findOne({ email: email });
+        const existingUser = await userModel.findOne({ email: email, isDeleted: false });
         if (existingUser) {
             return res.status(400).json({ message: "User already exists" });
         }
@@ -20,8 +20,10 @@ const signup = async (req, res) => {
             username: username,
             email: email,
             password: hashedPassword,
+            isDeleted: false
 
         });
+
 
         const token = jwt.sign({ id: result._id }, SECRET_KEY_access, { expiresIn: '10m' });
         const refreshToken = jwt.sign({ id: result._id }, SECRET_KEY_refresh, { expiresIn: '2h' });
@@ -36,9 +38,8 @@ const signup = async (req, res) => {
 const signin = async (req, res) => {
 
     const { email, password } = req.body;
-    console.log(req.body)
     try {
-        const existingUser = await userModel.findOne({ email: email });
+        const existingUser = await userModel.findOne({ email: email, isDeleted: false });
         if (!existingUser) {
             return res.status(400).json({ message: "User not found!" });
         }
@@ -62,22 +63,18 @@ const signin = async (req, res) => {
 }
 
 const getProfile = async (req, res) => {
-    const existingUser = await userModel.findById(req.userId)
+    const existingUser = await userModel.findOne({ _id: req.userId, isDeleted: false })
     if (!existingUser) {
         return res.status(400).json({ message: "User not found!" });
     }
-    res.status(200).json({
-        success: true,
-        user: existingUser.username,
-        email: existingUser.email
-    });
+    res.status(200).json({ user_name: existingUser.username, email: existingUser.email, password: existingUser.password });
 
 }
 
 const updateProfile = async (req, res) => {
     const { username, email, password } = req.body;
 
-    const existingUser = await userModel.findById(req.userId)
+    const existingUser = await userModel.findOne({ _id: req.userId, isDeleted: false })
     if (!existingUser) {
         return res.status(400).json({ message: "User not found!" });
     }
@@ -97,7 +94,12 @@ const updateProfile = async (req, res) => {
 const deleteProfile = async (req, res) => {
 
     try {
-        await userModel.findByIdAndRemove(req.userId)
+        const existingUser = await userModel.findOne({ _id: req.userId, isDeleted: false })
+        if (!existingUser) {
+            return res.status(400).json({ message: "User not found!" });
+        }
+        existingUser.isDeleted = true;
+        await existingUser.save();
         res.status(200).json({
             success: true,
             message: "Successfully Deleted."

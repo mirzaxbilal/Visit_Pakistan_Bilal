@@ -13,7 +13,12 @@ const UserSchema = mongoose.Schema({
     email: {
         type: 'String',
         required: true
+    },
+    isDeleted: {
+        type: 'Boolean',
+        required: true
     }
+
 
 }, { timestamps: true });
 
