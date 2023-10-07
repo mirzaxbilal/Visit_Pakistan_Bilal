@@ -4,11 +4,13 @@ const jwt = require("jsonwebtoken");
 const dotenv = require('dotenv').config();
 const SECRET_KEY_access = process.env.SECRET_KEY_ACCESS;
 const SECRET_KEY_refresh = process.env.SECRET_KEY_REFRESH;
+const { signupSchema, loginSchema } = require('../validator/schemaValidator')
 
 const signup = async (req, res) => {
 
     const { username, email, password } = req.body;
     try {
+        const validate = await signupSchema.validateAsync(req.body)
         const existingUser = await userModel.findOne({ email: email, isDeleted: false });
         if (existingUser) {
             return res.status(400).json({ message: "User already exists" });
@@ -25,13 +27,13 @@ const signup = async (req, res) => {
         });
 
 
-        const token = jwt.sign({ id: result._id }, SECRET_KEY_access, { expiresIn: '10m' });
+        const token = jwt.sign({ id: result._id }, SECRET_KEY_access, { expiresIn: '30m' });
         const refreshToken = jwt.sign({ id: result._id }, SECRET_KEY_refresh, { expiresIn: '2h' });
         res.status(201).json({ user: result, token: token, refreshToken: refreshToken });
 
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "Something went wrong" });
+        res.status(500).json({ message: error.message });
     }
 }
 
@@ -39,6 +41,7 @@ const signin = async (req, res) => {
 
     const { email, password } = req.body;
     try {
+        const validate = await loginSchema.validateAsync(req.body)
         const existingUser = await userModel.findOne({ email: email, isDeleted: false });
         if (!existingUser) {
             return res.status(400).json({ message: "User not found!" });
@@ -50,14 +53,14 @@ const signin = async (req, res) => {
             return res.status(400).json({ message: "Invalid Credentials" });
         }
 
-        const token = jwt.sign({ id: existingUser._id }, SECRET_KEY_access, { expiresIn: '10m' });
+        const token = jwt.sign({ id: existingUser._id }, SECRET_KEY_access, { expiresIn: '30m' });
         const refreshToken = jwt.sign({ id: existingUser._id }, SECRET_KEY_refresh, { expiresIn: '2h' });
 
         res.status(201).json({ email: existingUser.email, token: token, refreshToken: refreshToken });
 
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "Something went wrong" });
+        res.status(500).json({ message: error.message });
     }
 
 }
@@ -117,7 +120,7 @@ const refreshtoken = async (req, res) => {
     try {
 
         const existingUser = await userModel.findById(req.userId);
-        const token = jwt.sign({ id: existingUser._id }, SECRET_KEY_access, { expiresIn: '10m' });
+        const token = jwt.sign({ id: existingUser._id }, SECRET_KEY_access, { expiresIn: '20m' });
         res.status(201).json({ email: existingUser.email, token: token });
 
     } catch (error) {
