@@ -30,6 +30,10 @@ const AgentSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'booking'
     }],
+    packages: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'tourPackage'
+    }],
     isDeleted: {
         type: 'Boolean',
         required: true

@@ -10,7 +10,9 @@ const auth_access = (req, res, next) => {
         if (token) {
             token = token.split(" ")[1];
             let user = jwt.verify(token, SECRET_KEY_access);
-            req.userId = user.id;
+            console.log("1", user);
+            req.id = user.id;
+            req.role = user.role;
 
         }
         else {
@@ -31,7 +33,7 @@ const auth_refresh = (req, res, next) => {
         if (token) {
             token = token.split(" ")[1];
             let user = jwt.verify(token, SECRET_KEY_refresh);
-            req.userId = user.id;
+            req.id = user.id;
 
         }
         else {

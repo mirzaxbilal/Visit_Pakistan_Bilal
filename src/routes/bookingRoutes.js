@@ -1,5 +1,6 @@
 const express = require('express');
 const bookingRouter = express.Router();
+const { auth_access } = require('../middlewares/auth');
 const { createBooking, getBookings, getBookingById, updateBooking, deleteBooking } = require('../controllers/bookingController');
 
 bookingRouter.post('/createBooking', createBooking);

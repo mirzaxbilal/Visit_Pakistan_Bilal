@@ -11,9 +11,9 @@ userRouter.get('/:id', auth_access, getProfile);
 
 userRouter.get('/', auth_access, getAllUsers);
 
-userRouter.put('/updateprofile', auth_access, updateProfile);
+userRouter.put('/updateprofile/:id', auth_access, updateProfile);
 
-userRouter.delete('/deleteprofile', auth_access, deleteProfile);
+userRouter.delete('/deleteprofile/:id', auth_access, deleteProfile);
 
 userRouter.post('/refreshtoken', auth_refresh, refreshtoken);
 
