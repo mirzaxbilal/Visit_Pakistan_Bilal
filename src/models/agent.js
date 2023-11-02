@@ -42,4 +42,4 @@ const AgentSchema = mongoose.Schema({
 
 }, { timestamps: true });
 
-module.exports = mongoose.model("Agent", AgentSchema);
+module.exports = mongoose.model("agent", AgentSchema);

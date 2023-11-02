@@ -2,6 +2,7 @@ const userModel = require("../models/user");
 const packageModel = require("../models/tourPackage");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { UserSignupValidation, UserLoginValidation, UserUpdateProfileValidation } = require('../validator/schemaValidator')
 const dotenv = require('dotenv').config();
 const SECRET_KEY_access = process.env.SECRET_KEY_ACCESS;
 const SECRET_KEY_refresh = process.env.SECRET_KEY_REFRESH;
@@ -10,6 +11,11 @@ const signup = async (req, res) => {
 
     const { username, password, email, phone } = req.body;
     try {
+        try {
+            const validate = await UserSignupValidation.validateAsync(req.body);
+        } catch (error) {
+            return res.status(400).json({ message: error.details[0].message });
+        }
         const existingUser = await userModel.findOne({ email: email, isDeleted: false });
         if (existingUser) {
             return res.status(400).json({ message: "User already exists" });
@@ -41,6 +47,11 @@ const signin = async (req, res) => {
 
     const { email, password } = req.body;
     try {
+        try {
+            const validate = await UserLoginValidation.validateAsync(req.body);
+        } catch (error) {
+            return res.status(400).json({ message: error.details[0].message });
+        }
         const existingUser = await userModel.findOne({ email: email, isDeleted: false });
         if (!existingUser) {
             return res.status(400).json({ message: "User not found!" });
@@ -75,7 +86,7 @@ const getProfile = async (req, res) => {
         }
         res.status(200).json(existingUser);
     } else {
-        return res.status(400).json({ message: "Unauthorised for this action" });
+        return res.status(401).json({ message: "Unauthorised for this action" });
     }
 }
 
@@ -84,7 +95,7 @@ const getAllUsers = async (req, res) => {
         const existingUsers = await userModel.find({ isDeleted: false })
         res.status(200).json(existingUsers);
     } else {
-        return res.status(400).json({ message: "Unauthorised for this action" });
+        return res.status(401).json({ message: "Unauthorised for this action" });
     }
 
 }
@@ -92,10 +103,13 @@ const getAllUsers = async (req, res) => {
 
 const updateProfile = async (req, res) => {
     try {
-
         if (req.role == "admin" || (req.role == "user" && req.id == req.params.id)) {
             const { username, email, password, phone, favourite, remove_favourite, role } = req.body;
-
+            try {
+                const validate = await UserUpdateProfileValidation.validateAsync(req.body);
+            } catch (error) {
+                return res.status(400).json({ message: error.details[0].message });
+            }
             const existingUser = await userModel.findOne({ _id: req.params.id, isDeleted: false })
             if (!existingUser) {
                 return res.status(400).json({ message: "User not found!" });
@@ -132,7 +146,7 @@ const updateProfile = async (req, res) => {
                 if (req.role == "admin") {
                     existingUser.role = req.body.role;
                 } else {
-                    return res.status(500).json({ message: "Unauthorized for this action" });
+                    return res.status(401).json({ message: "Unauthorized for this action" });
                 }
             }
 
@@ -143,7 +157,7 @@ const updateProfile = async (req, res) => {
                 existingUser
             });
         } else {
-            return res.status(400).json({ message: "Unauthorised for this action" });
+            return res.status(401).json({ message: "Unauthorised for this action" });
         }
     } catch (error) {
         console.log(error);
@@ -166,7 +180,7 @@ const deleteProfile = async (req, res) => {
                 message: "Successfully Deleted."
             });
         } else {
-            return res.status(400).json({ message: "Unauthorised for this action" });
+            return res.status(401).json({ message: "Unauthorised for this action" });
         }
     } catch (error) {
         console.log(error);

@@ -53,7 +53,7 @@ const updatePackage = async (req, res) => {
             console.log(req.id);
             console.log(existingPackage.agentId);
             if (req.id != existingPackage.agentId && req.role != "admin") {
-                return res.status(400).json({ message: "**Unauthorized Access" });
+                return res.status(400).json({ message: "Unauthorized Access" });
             }
             if (req.body.title) {
                 existingPackage.title = req.body.title;
@@ -91,7 +91,7 @@ const updatePackage = async (req, res) => {
                 if (req.role == "admin") {
                     existingPackage.isApproved = req.body.isApproved;
                 } else {
-                    res.status(401).json({ message: "--Unauthorized Access" });
+                    res.status(401).json({ message: "Unauthorized Access" });
                 }
             }
 
@@ -145,11 +145,16 @@ const deletePackage = async (req, res) => {
 
 const getAllPackages = async (req, res) => {
     try {
+        if (req.role === "admin") {
+            const packages = await packageModel.find({ isDeleted: false }).populate({
+                path: 'agentId',
+                select: 'email phone'
+            });
+            res.status(200).json(packages);
 
-        const packages = await packageModel.find({ isDeleted: false });
-        res.status(200).json(packages);
-
-
+        } else {
+            res.status(401).json({ message: "Unauthorized Access" });
+        }
 
     } catch (error) {
         console.error(error);
@@ -161,11 +166,18 @@ const getAllPackages = async (req, res) => {
 const getPackageById = async (req, res) => {
     try {
 
-        const package = await packageModel.find({ _id: req.params.id, isDeleted: false });
+        const package = await packageModel.findOne({ _id: req.params.id, isDeleted: false }).populate({
+            path: 'agentId',
+            select: 'email phone'
+        });
         if (!package) {
             return res.status(404).json({ message: "Package not found" });
         }
-        res.status(200).json(package);
+        if (package.isApproved) {
+            res.status(200).json(package);
+        } else {
+            return res.status(404).json({ message: "Package not yet approved" });
+        }
 
     }
     catch (error) {
@@ -175,4 +187,44 @@ const getPackageById = async (req, res) => {
 
 }
 
-module.exports = { createPackage, updatePackage, deletePackage, getAllPackages, getPackageById }
+const getUnapprovedPackages = async (req, res) => {
+    try {
+        if (req.role === "admin") {
+            const package = await packageModel.find({ _id: req.params.id, isApproved: false, isDeleted: false }).populate({
+                path: 'agentId',
+                select: 'email phone'
+            });
+            if (!package) {
+                return res.status(404).json({ message: "Package not found" });
+            }
+            res.status(200).json(package);
+        } else {
+            res.status(401).json({ message: "Unauthorized Access" });
+        }
+
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Something went wrong" });
+    }
+
+}
+
+const getAprrovedPackages = async (req, res) => {
+    try {
+
+        const packages = await packageModel.find({ isApproved: true, isDeleted: false }).populate({
+            path: 'agentId',
+            select: 'email phone'
+        });
+        res.status(200).json(packages);
+
+
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Something went wrong" });
+    }
+}
+
+module.exports = { createPackage, updatePackage, deletePackage, getAllPackages, getPackageById, getUnapprovedPackages, getAprrovedPackages }

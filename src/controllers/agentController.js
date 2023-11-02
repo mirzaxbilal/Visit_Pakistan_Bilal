@@ -1,6 +1,7 @@
 const Agent = require('../models/agent');
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { UserSignupValidation, UserLoginValidation, UserUpdateProfileValidation, AgentSignupValidation, AgentLoginValidation, AgentUpdateValidation } = require('../validator/schemaValidator')
 const dotenv = require('dotenv').config();
 const SECRET_KEY_access = process.env.SECRET_KEY_ACCESS;
 const SECRET_KEY_refresh = process.env.SECRET_KEY_REFRESH;
@@ -8,6 +9,12 @@ const SECRET_KEY_refresh = process.env.SECRET_KEY_REFRESH;
 const createAgent = async (req, res) => {
     try {
         const { name, phone, email, password, cnic_image, license_image } = req.body;
+
+        try {
+            const validate = await AgentSignupValidation.validateAsync(req.body);
+        } catch (error) {
+            return res.status(400).json({ message: error.details[0].message });
+        }
 
         const phoneCheck = await Agent.findOne({ phone: phone, isDeleted: false });
         if (phoneCheck) {
@@ -48,6 +55,12 @@ const signin = async (req, res) => {
 
     const { email, password } = req.body;
     try {
+        try {
+            const validate = await AgentLoginValidation.validateAsync(req.body);
+        } catch (error) {
+            return res.status(400).json({ message: error.details[0].message });
+        }
+
         const existingAgent = await Agent.findOne({ email: email, isDeleted: false });
         if (!existingAgent) {
             return res.status(400).json({ message: "Agent not found!" });
@@ -74,6 +87,11 @@ const signin = async (req, res) => {
 const updateAgent = async (req, res) => {
     try {
         if (req.role == "admin" || (req.role == "agent" && req.id == req.params.id)) {
+            try {
+                const validate = await AgentUpdateValidation.validateAsync(req.body);
+            } catch (error) {
+                return res.status(400).json({ message: error.details[0].message });
+            }
             const agentId = req.params.id;
             const existingAgent = await Agent.findOne({ _id: agentId, isDeleted: false });
             if (!existingAgent) {

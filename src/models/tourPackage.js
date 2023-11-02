@@ -42,4 +42,4 @@ const tourPackageSchema = new mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model('TourPackage', tourPackageSchema);
+module.exports = mongoose.model('tourPackage', tourPackageSchema);

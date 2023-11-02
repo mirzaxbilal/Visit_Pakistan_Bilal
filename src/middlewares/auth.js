@@ -10,7 +10,6 @@ const auth_access = (req, res, next) => {
         if (token) {
             token = token.split(" ")[1];
             let user = jwt.verify(token, SECRET_KEY_access);
-            console.log("1", user);
             req.id = user.id;
             req.role = user.role;
 
