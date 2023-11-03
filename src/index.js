@@ -1,4 +1,7 @@
 const express = require('express');
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUI = require('swagger-ui-express');
+
 const app = express();
 const userRouter = require('./routes/userRoutes');
 const agentRouter = require('./routes/agentRoutes');
@@ -6,6 +9,31 @@ const packageRouter = require('./routes/packageRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 const mongoose = require('mongoose');
 const cors = require('cors');
+
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Visit Pakistan API',
+            version: '1.0.0',
+            description: 'API Documentation for the Visit Pakistan app',
+            contact: {
+                name: "Hamza Wala Qadr",
+                email: "mh.hamza01@gmail.com"
+            }
+        },
+        servers: [
+        {
+            url: 'http://localhost:5000/',
+            description: 'Development server',
+        },
+        ],
+    },
+    apis: ['./src/routes/*.js'],
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 const dotenv = require('dotenv').config();
 app.use(cors());
@@ -31,9 +59,8 @@ app.get('/', (req, res) => {
 mongoose.connect(process.env.MONGO_URL)
     .then(() => {
         app.listen(5000, () => {
-            console.log("server has started on port 5000")
+            console.log("Server has started on port 5000")
         })
     }).catch((error) => {
         console.log(error);
     })
-
