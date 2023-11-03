@@ -26,11 +26,14 @@ const UserUpdateProfileValidation = Joi.object({
     email: Joi.string().email().lowercase(),
     password: Joi.string().min(8)
         .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\\$%^&*])"), 'Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character'),
-    phone: Joi.string().pattern(/^\d{11}$/)
+    phone: Joi.string().pattern(/^\d{11}$/),
+    favourite: Joi.string(),
+    remove_favourite: Joi.string(),
+    role: Joi.string()
 });
 
 const AgentSignupValidation = Joi.object({
-    username: Joi.string().required()
+    name: Joi.string().required()
         .min(6)
         .max(30)
         .regex(/^[a-zA-Z\s]+$/, 'Alphabetic characters and spaces only'),
@@ -41,6 +44,7 @@ const AgentSignupValidation = Joi.object({
     cnic_image: Joi.string().required(),
     license_image: Joi.string().required(),
 
+
 });
 
 const AgentLoginValidation = Joi.object({
@@ -50,7 +54,7 @@ const AgentLoginValidation = Joi.object({
 });
 
 const AgentUpdateValidation = Joi.object({
-    username: Joi.string()
+    name: Joi.string()
         .min(6)
         .max(30)
         .regex(/^[a-zA-Z\s]+$/, 'Alphabetic characters and spaces only'),
@@ -58,8 +62,8 @@ const AgentUpdateValidation = Joi.object({
     email: Joi.string().email().lowercase(),
     password: Joi.string().min(8)
         .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\\$%^&*])"), 'Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character'),
-    cnic_image: Joi.string(), // You can add more specific validation for image URLs if needed
-    license_image: Joi.string(), // You can add more specific validation for image URLs if needed
+    cnic_image: Joi.string(),
+    license_image: Joi.string(),
 });
 
 module.exports = {

@@ -3,7 +3,7 @@ const packageRouter = express.Router();
 const { auth_access } = require('../middlewares/auth');
 const { createPackage, updatePackage, deletePackage, getAllPackages, getPackageById, getUnapprovedPackages, getAprrovedPackages } = require('../controllers/packageController');
 
-packageRouter.post('/createPackage/:id', auth_access, createPackage);
+packageRouter.post('/createPackage', auth_access, createPackage);
 
 packageRouter.get('/', getAprrovedPackages);
 
