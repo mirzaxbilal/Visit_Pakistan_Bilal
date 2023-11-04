@@ -1,6 +1,6 @@
 const packageModel = require("../models/tourPackage");
 const agentModel = require("../models/agent");
-const { CreatePackageValidation } = require('../validator/packageValidator');
+const { CreatePackageValidation, UpdatePackageValidation } = require('../validator/packageValidator');
 
 const createPackage = async (req, res) => {
 
@@ -50,6 +50,12 @@ const createPackage = async (req, res) => {
 const updatePackage = async (req, res) => {
     try {
         if (req.role == "admin" || (req.role == "agent")) {
+            try {
+                const validate = await UpdatePackageValidation.validateAsync(req.body);
+            } catch (error) {
+                return res.status(400).json({ message: error.details[0].message });
+            }
+
             const packageId = req.params.id;
             const existingPackage = await packageModel.findOne({ _id: packageId, isDeleted: false });
 
@@ -159,7 +165,7 @@ const getAllPackages = async (req, res) => {
             res.status(200).json(packages);
 
         } else {
-            res.status(401).json({ message: "Unauthorized Access" });
+            res.status(401).json({ message: "Unauthorized Access--" });
         }
 
     } catch (error) {

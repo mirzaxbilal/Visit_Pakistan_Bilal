@@ -12,7 +12,21 @@ const CreatePackageValidation = Joi.object({
 
 });
 
+const UpdatePackageValidation = Joi.object({
+    title: Joi.string().required().min(10).max(100), // Adjust the min and max lengths as needed
+    overview: Joi.string().min(20),
+    whatsIncluded: Joi.string().min(10),
+    tourItinerary: Joi.string(),
+    price: Joi.number().required().positive(), // Assuming the price should be a positive number
+    duration: Joi.number().required().positive(), // Assuming the duration should be a positive number
+    images: Joi.array().items(Joi.string()), // Assuming images are optional or an array of strings
+    locationTags: Joi.array().items(Joi.string()), // Assuming locationTags are optional or an array of strings
+    isApproved: Joi.boolean()
+
+});
+
 
 module.exports = {
-    CreatePackageValidation
+    CreatePackageValidation,
+    UpdatePackageValidation
 };

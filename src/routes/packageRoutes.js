@@ -7,7 +7,7 @@ packageRouter.post('/createPackage', auth_access, createPackage);
 
 packageRouter.get('/', getAprrovedPackages);
 
-packageRouter.get('/getAllPackages', getAllPackages);
+packageRouter.get('/getAllPackages', auth_access, getAllPackages);
 
 packageRouter.get('/getUnapprovedPackages', auth_access, getUnapprovedPackages);
 
