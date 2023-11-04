@@ -17,7 +17,7 @@ const createBooking = async (req, res) => {
             if (!existingPackage) {
                 return res.status(400).json({ message: "Package does not exists" });
             }
-            const existingAgent = await AgentModel.findOne({ _id: existingPackage.agentId, isDeleted: false });
+            const existingAgent = await AgentModel.findOne({ _id: existingPackage.agentId._id, isDeleted: false });
             if (!existingAgent) {
                 return res.status(400).json({ message: "Agent does not exists" });
             }
@@ -45,7 +45,7 @@ const createBooking = async (req, res) => {
 
 
 
-            res.status(201).json({ message: "Booking created successfully", booking: savedBooking });
+            res.status(201).json({ message: "Booking created successfully", booking: savedBooking._id });
         } else {
             res.status(401).json({ message: "Unauthorized Access" });
         }
