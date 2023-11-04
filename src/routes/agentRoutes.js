@@ -1,5 +1,7 @@
 const express = require('express');
 const agentRouter = express.Router();
+const { auth_access, auth_refresh } = require('../middlewares/auth');
+const { createAgent, getAllAgents, updateAgent, getAgentById, deleteAgent, signin, refreshtoken } = require('../controllers/agentController');
 const { createAgent, getAllAgents, updateAgent, getAgentById, deleteAgent, signin } = require('../controllers/agentController');
 /**
  * @swagger
@@ -138,7 +140,7 @@ agentRouter.post('/signin', signin);
  *       500:
  *         description: Server error
  */
-agentRouter.get('/', getAllAgents);
+agentRouter.get('/', auth_access, getAllAgents);
 
 /**
  * @swagger
@@ -165,7 +167,7 @@ agentRouter.get('/', getAllAgents);
  *       500:
  *         description: Server error
  */
-agentRouter.get('/:id', getAgentById);
+agentRouter.get('/:id', auth_access, getAgentById);
 
 /**
  * @swagger
@@ -198,7 +200,7 @@ agentRouter.get('/:id', getAgentById);
  *       500:
  *         description: Server error
  */
-agentRouter.put('/updateAgent/:id', updateAgent);
+agentRouter.put('/updateAgent/:id', auth_access, updateAgent);
 
 /**
  * @swagger
@@ -221,6 +223,8 @@ agentRouter.put('/updateAgent/:id', updateAgent);
  *       500:
  *         description: Server error
  */
-agentRouter.delete('/deleteAgent/:id', deleteAgent);
+agentRouter.delete('/deleteAgent/:id', auth_access, deleteAgent);
+
+agentRouter.post('/refreshtoken', auth_refresh, refreshtoken);
 
 module.exports = agentRouter;
