@@ -120,8 +120,7 @@ packageRouter.get('/', getAprrovedPackages);
  *   get:
  *     security:
  *       - Bearer: []
- *     tags:
- *       - Packages
+ *     tags: [TourPackages]
  *     summary: Get all packages
  *     description: Retrieve a list of all packages. Requires admin privileges.
  *     responses:
@@ -132,7 +131,7 @@ packageRouter.get('/', getAprrovedPackages);
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Package'
+ *                 $ref: '#/components/schemas/TourPackage'
  *       401:
  *         description: Unauthorized Access -- Only accessible by admin.
  *       500:
@@ -146,8 +145,7 @@ packageRouter.get('/getAllPackages', auth_access, getAllPackages);
  *   get:
  *     security:
  *       - Bearer: []
- *     tags:
- *       - Packages
+ *     tags: [TourPackages]
  *     summary: Get unapproved packages
  *     description: Retrieve a list of unapproved packages. Requires admin privileges.
  *     responses:
@@ -158,7 +156,7 @@ packageRouter.get('/getAllPackages', auth_access, getAllPackages);
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Package'
+ *                 $ref: '#/components/schemas/TouPackage'
  *       404:
  *         description: No unapproved packages found.
  *       401:
