@@ -203,7 +203,7 @@ userRouter.get('/', auth_access, getAllUsers);
  *       500:
  *         description: Server error
  */
-userRouter.put('/updateprofile', auth_access, updateProfile);
+userRouter.put('/updateprofile/:id', auth_access, updateProfile);
 
 /**
  * @swagger
@@ -219,7 +219,7 @@ userRouter.put('/updateprofile', auth_access, updateProfile);
  *       500:
  *         description: Server error
  */
-userRouter.delete('/deleteprofile', auth_access, deleteProfile);
+userRouter.delete('/deleteprofile/:id', auth_access, deleteProfile);
 
 /**
  * @swagger

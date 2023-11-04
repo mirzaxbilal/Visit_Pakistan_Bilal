@@ -1,11 +1,12 @@
 const express = require('express');
 const packageRouter = express.Router();
 const {
-  createPackage,
+  auth_access } = require('../middlewares/auth');
+const { createPackage,
   updatePackage,
   deletePackage,
   getAllPackages,
-  getPackageById
+  getPackageById, getUnapprovedPackages, getAprrovedPackages
 } = require('../controllers/packageController');
 
 /**
@@ -88,7 +89,7 @@ const {
  *       500:
  *         description: Server error
  */
-packageRouter.post('/createPackage', createPackage);
+packageRouter.post('/createPackage/:id', auth_access, createPackage);
 
 /**
  * @swagger
@@ -108,7 +109,11 @@ packageRouter.post('/createPackage', createPackage);
  *       500:
  *         description: Server error
  */
-packageRouter.get('/', getAllPackages);
+packageRouter.get('/', getAprrovedPackages);
+
+packageRouter.get('/getAllPackages', getAllPackages);
+
+packageRouter.get('/getUnapprovedPackages', auth_access, getUnapprovedPackages);
 
 /**
  * @swagger
@@ -166,7 +171,7 @@ packageRouter.get('/:id', getPackageById);
  *       500:
  *         description: Server error
  */
-packageRouter.put('/updatePackage/:id', updatePackage);
+packageRouter.put('/updatePackage/:id', auth_access, updatePackage);
 
 /**
  * @swagger
@@ -189,6 +194,6 @@ packageRouter.put('/updatePackage/:id', updatePackage);
  *       500:
  *         description: Server error
  */
-packageRouter.delete('/deletePackage/:id', deletePackage);
+packageRouter.delete('/deletePackage/:id', auth_access, deletePackage);
 
 module.exports = packageRouter;

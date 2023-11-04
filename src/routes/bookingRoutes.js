@@ -1,12 +1,7 @@
 const express = require('express');
 const bookingRouter = express.Router();
-const {
-  createBooking,
-  getBookings,
-  getBookingById,
-  updateBooking,
-  deleteBooking
-} = require('../controllers/bookingController');
+const { auth_access } = require('../middlewares/auth');
+const { createBooking, getBookings, getBookingById, updateBooking, deleteBooking } = require('../controllers/bookingController');
 
 /**
  * @swagger
@@ -67,7 +62,7 @@ const {
  *       500:
  *         description: Server error
  */
-bookingRouter.post('/createBooking', createBooking);
+bookingRouter.post('/createBooking', auth_access, createBooking);
 
 /**
  * @swagger
@@ -87,7 +82,7 @@ bookingRouter.post('/createBooking', createBooking);
  *       500:
  *         description: Server error
  */
-bookingRouter.get('/', getBookings);
+bookingRouter.get('/', auth_access, getBookings);
 
 /**
  * @swagger
@@ -114,7 +109,7 @@ bookingRouter.get('/', getBookings);
  *       500:
  *         description: Server error
  */
-bookingRouter.get('/:id', getBookingById);
+bookingRouter.get('/:id', auth_access, getBookingById);
 
 /**
  * @swagger
@@ -145,7 +140,7 @@ bookingRouter.get('/:id', getBookingById);
  *       500:
  *         description: Server error
  */
-bookingRouter.put('/updateBooking/:id', updateBooking);
+bookingRouter.put('/updateBooking/:id', auth_access, updateBooking);
 
 /**
  * @swagger
@@ -168,6 +163,6 @@ bookingRouter.put('/updateBooking/:id', updateBooking);
  *       500:
  *         description: Server error
  */
-bookingRouter.delete('/deleteBooking/:id', deleteBooking);
+bookingRouter.delete('/deleteBooking/:id', auth_access, deleteBooking);
 
 module.exports = bookingRouter;

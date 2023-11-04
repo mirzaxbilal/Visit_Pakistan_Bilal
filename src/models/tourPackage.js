@@ -27,13 +27,10 @@ const tourPackageSchema = new mongoose.Schema({
     },
     images: [{ type: String }],
     locationTags: [{ type: String }],
-    agentName: {
-        type: String,
-        required: true
-    },
     agentId: {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'agent'
     },
     isDeleted: {
         type: Boolean,
@@ -45,4 +42,4 @@ const tourPackageSchema = new mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model('TourPackage', tourPackageSchema);
+module.exports = mongoose.model('tourPackage', tourPackageSchema);
