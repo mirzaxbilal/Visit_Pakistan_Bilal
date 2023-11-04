@@ -89,6 +89,9 @@ const { createPackage,
  *       500:
  *         description: Server error
  */
+packageRouter.post('/createPackage', auth_access, createPackage);
+
+
 packageRouter.post('/createPackage/:id', auth_access, createPackage);
 
 /**
@@ -111,7 +114,7 @@ packageRouter.post('/createPackage/:id', auth_access, createPackage);
  */
 packageRouter.get('/', getAprrovedPackages);
 
-packageRouter.get('/getAllPackages', getAllPackages);
+packageRouter.get('/getAllPackages', auth_access, getAllPackages);
 
 packageRouter.get('/getUnapprovedPackages', auth_access, getUnapprovedPackages);
 

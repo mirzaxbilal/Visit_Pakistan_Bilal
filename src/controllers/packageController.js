@@ -1,12 +1,18 @@
 const packageModel = require("../models/tourPackage");
 const agentModel = require("../models/agent");
-
+const { CreatePackageValidation, UpdatePackageValidation } = require('../validator/packageValidator');
 
 const createPackage = async (req, res) => {
 
     try {
-        if (req.role == "admin" || (req.role == "agent" && req.id == req.params.id)) {
-            const agent = await agentModel.findOne({ _id: req.params.id, isDeleted: false });
+        if (req.role == "agent") {
+            try {
+                const validate = await CreatePackageValidation.validateAsync(req.body);
+            } catch (error) {
+                return res.status(400).json({ message: error.details[0].message });
+            }
+
+            const agent = await agentModel.findOne({ _id: req.id, isDeleted: false });
 
             if (!agent) {
                 console.log(agent);
@@ -30,7 +36,7 @@ const createPackage = async (req, res) => {
             const savedPackage = await package.save();
             agent.packages.push(savedPackage);
             await agent.save();
-            res.status(201).json({ savedPackage, message: "Package created. Awaiting approval" });
+            res.status(201).json({ packageId: savedPackage._id, message: "Package created. Awaiting approval" });
         } else {
             res.status(401).json({ message: "Unauthorized Access" });
         }
@@ -44,6 +50,12 @@ const createPackage = async (req, res) => {
 const updatePackage = async (req, res) => {
     try {
         if (req.role == "admin" || (req.role == "agent")) {
+            try {
+                const validate = await UpdatePackageValidation.validateAsync(req.body);
+            } catch (error) {
+                return res.status(400).json({ message: error.details[0].message });
+            }
+
             const packageId = req.params.id;
             const existingPackage = await packageModel.findOne({ _id: packageId, isDeleted: false });
 
@@ -153,7 +165,7 @@ const getAllPackages = async (req, res) => {
             res.status(200).json(packages);
 
         } else {
-            res.status(401).json({ message: "Unauthorized Access" });
+            res.status(401).json({ message: "Unauthorized Access--" });
         }
 
     } catch (error) {
@@ -190,7 +202,7 @@ const getPackageById = async (req, res) => {
 const getUnapprovedPackages = async (req, res) => {
     try {
         if (req.role === "admin") {
-            const package = await packageModel.find({ _id: req.params.id, isApproved: false, isDeleted: false }).populate({
+            const package = await packageModel.find({ isApproved: false, isDeleted: false }).populate({
                 path: 'agentId',
                 select: 'email phone'
             });
