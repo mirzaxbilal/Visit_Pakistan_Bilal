@@ -2,7 +2,8 @@ const userModel = require("../models/user");
 const packageModel = require("../models/tourPackage");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { UserSignupValidation, UserLoginValidation, UserUpdateProfileValidation } = require('../validator/schemaValidator')
+const { UserSignupValidation, UserLoginValidation, UserUpdateProfileValidation } = require('../validator/schemaValidator');
+const { auth_access } = require("../middlewares/auth");
 const dotenv = require('dotenv').config();
 const SECRET_KEY_access = process.env.SECRET_KEY_ACCESS;
 const SECRET_KEY_refresh = process.env.SECRET_KEY_REFRESH;
@@ -32,10 +33,21 @@ const signup = async (req, res) => {
             isDeleted: false
         });
 
+        // const token = jwt.sign({ id: result._id, role: result.role }, SECRET_KEY_access, { expiresIn: '10m' });
+        // const refreshToken = jwt.sign({ id: result._id, role: result.role }, SECRET_KEY_refresh, { expiresIn: '2h' });
 
-        const token = jwt.sign({ id: result._id, role: result.role }, SECRET_KEY_access, { expiresIn: '10m' });
-        const refreshToken = jwt.sign({ id: result._id, role: result.role }, SECRET_KEY_refresh, { expiresIn: '2h' });
-        res.status(201).json({ user: result, token: token, refreshToken: refreshToken });
+        // res.cookie('accessToken', token, {
+        //     httpOnly: true,
+        //     expires: token.expiresIn, // 10 minutes
+        // });
+
+        // res.cookie('refreshToken', refreshToken, {
+        //     httpOnly: true,
+        //     expires: refreshToken.expiresIn, // 2 hours
+        // });
+
+
+        res.status(200).json({ message: "Account created successfuly" });
 
     } catch (error) {
         console.log(error);
@@ -47,6 +59,7 @@ const signin = async (req, res) => {
 
     const { email, password } = req.body;
     try {
+        console.log("1");
         try {
             const validate = await UserLoginValidation.validateAsync(req.body);
         } catch (error) {
@@ -56,6 +69,7 @@ const signin = async (req, res) => {
         if (!existingUser) {
             return res.status(400).json({ message: "User not found!" });
         }
+        console.log("2");
 
         const matchPassword = await bcryptjs.compare(password, existingUser.password);
 
@@ -66,10 +80,25 @@ const signin = async (req, res) => {
         const token = jwt.sign({ id: existingUser._id, role: existingUser.role }, SECRET_KEY_access, { expiresIn: '10m' });
         const refreshToken = jwt.sign({ id: existingUser._id, role: existingUser.role }, SECRET_KEY_refresh, { expiresIn: '2h' });
 
+        // res.cookie('accessToken', token, {
+        //     httpOnly: true,
+        //     expires: token.expiresIn, // 10 minutes
+        // });
 
+        // res.cookie('refreshToken', refreshToken, {
+        //     httpOnly: true,
+        //     expires: refreshToken.expiresIn, // 2 hours
+        // });
 
-
-        res.status(201).json({ email: existingUser, token: token, refreshToken: refreshToken });
+        res.status(200).json({
+            data: {
+                name: existingUser.username,
+                id: existingUser._id,
+                AccessToken: token,
+                RefreshToken: refreshToken,
+            },
+            message: "logged In successfully!"
+        });
 
     } catch (error) {
         console.log(error);
@@ -79,11 +108,18 @@ const signin = async (req, res) => {
 }
 
 const getProfile = async (req, res) => {
+    console.log("all good0");
+    console.log(req.id);
+    console.log(req.params.id);
     if (req.role == "admin" || (req.role == "user" && req.id == req.params.id)) {
+        console.log("all good1");
         const existingUser = await userModel.findOne({ _id: req.params.id, isDeleted: false })
+        console.log("all good2");
         if (!existingUser) {
+
             return res.status(400).json({ message: "User not found!" });
         }
+        console.log("all good3");
         res.status(200).json(existingUser);
     } else {
         return res.status(401).json({ message: "Unauthorised for this action" });
@@ -155,6 +191,7 @@ const updateProfile = async (req, res) => {
                 success: true,
                 message: "Profile updated successfully.",
                 existingUser
+
             });
         } else {
             return res.status(401).json({ message: "Unauthorised for this action" });
@@ -193,9 +230,14 @@ const deleteProfile = async (req, res) => {
 const refreshtoken = async (req, res) => {
 
     try {
-
+        console.log("Refreshing");
         const existingUser = await userModel.findById(req.id);
         const token = jwt.sign({ id: existingUser._id, role: existingUser.role }, SECRET_KEY_access, { expiresIn: '10m' });
+        res.cookie('accessToken', token, {
+            httpOnly: true,
+            expires: token.expiresIn, // 10 minutes
+        });
+
         res.status(201).json({ email: existingUser.email, token: token });
 
     } catch (error) {
