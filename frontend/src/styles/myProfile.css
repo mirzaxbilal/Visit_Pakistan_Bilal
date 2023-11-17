@@ -1,0 +1,60 @@
+/* profile.css */
+
+.profile__container {
+    padding: 50px;
+    background: var(--secondary-color);
+    box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+    margin-top: 100px;
+}
+
+.profile__container h2 {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.profile__info {
+    margin-bottom: 2rem;
+}
+
+.profile__info p {
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.profile__update {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile__update h4 {
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.profile__update label {
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.profile__update input {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    color: var(--heading-color);
+}
+
+.profile__update input:focus {
+    outline: none;
+}
+
+.auth__btn {
+    background: var(--heading-color) !important;
+    width: 100%;
+    color: #fff !important;
+    margin-top: 1rem;
+}
