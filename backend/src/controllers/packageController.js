@@ -69,35 +69,51 @@ const updatePackage = async (req, res) => {
             }
             if (req.body.title) {
                 existingPackage.title = req.body.title;
-                existingPackage.isApproved = false;
+                if (req.role != "admin") {
+                    existingPackage.isApproved = false;
+                }
             }
             if (req.body.overview) {
                 existingPackage.overview = req.body.overview;
-                existingPackage.isApproved = false;
+                if (req.role != "admin") {
+                    existingPackage.isApproved = false;
+                }
             }
             if (req.body.whatsIncluded) {
                 existingPackage.whatsIncluded = req.body.whatsIncluded;
-                existingPackage.isApproved = false;
+                if (req.role != "admin") {
+                    existingPackage.isApproved = false;
+                }
             }
             if (req.body.tourItinerary) {
                 existingPackage.tourItinerary = req.body.tourItinerary;
-                existingPackage.isApproved = false;
+                if (req.role != "admin") {
+                    existingPackage.isApproved = false;
+                }
             }
             if (req.body.price) {
                 existingPackage.price = req.body.price;
-                existingPackage.isApproved = false;
+                if (req.role != "admin") {
+                    existingPackage.isApproved = false;
+                }
             }
             if (req.body.duration) {
                 existingPackage.duration = req.body.duration;
-                existingPackage.isApproved = false;
+                if (req.role != "admin") {
+                    existingPackage.isApproved = false;
+                }
             }
             if (req.body.images) {
                 existingPackage.images = req.body.images;
-                existingPackage.isApproved = false;
+                if (req.role != "admin") {
+                    existingPackage.isApproved = false;
+                }
             }
             if (req.body.locationTags) {
                 existingPackage.locationTags = req.body.locationTags;
-                existingPackage.isApproved = false;
+                if (req.role != "admin") {
+                    existingPackage.isApproved = false;
+                }
             }
             if (req.body.isApproved) {
                 if (req.role == "admin") {

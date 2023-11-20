@@ -13,12 +13,12 @@ const CreatePackageValidation = Joi.object({
 });
 
 const UpdatePackageValidation = Joi.object({
-    title: Joi.string().required().min(10).max(100),
+    title: Joi.string().min(10).max(100),
     overview: Joi.string().min(20),
     whatsIncluded: Joi.string().min(10),
     tourItinerary: Joi.string(),
-    price: Joi.number().required().positive(),
-    duration: Joi.number().required().positive(),
+    price: Joi.number().positive(),
+    duration: Joi.number().positive(),
     images: Joi.array().items(Joi.string()),
     locationTags: Joi.array().items(Joi.string()),
     isApproved: Joi.boolean()
