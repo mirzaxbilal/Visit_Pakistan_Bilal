@@ -181,16 +181,13 @@ const removeAttraction = async (req, res) => {
 const getAllLocations = async (req, res) => {
     try {
         // Check if the user has the required permissions (role checking)
-        if (req.role === "admin") {
-            // Retrieve all locations from the database
-            const locations = await locationModel.find({ isDeleted: false });
 
-            // Respond with the list of locations
-            res.status(200).json(locations);
-        } else {
-            // Unauthorized access
-            res.status(401).json({ message: "Unauthorized Access" });
-        }
+        // Retrieve all locations from the database
+        const locations = await locationModel.find({ isDeleted: false });
+
+        // Respond with the list of locations
+        res.status(200).json(locations);
+
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Something went wrong" });

@@ -13,7 +13,7 @@ const {
 console.log("here")
 locationRouter.post('/createLocation', auth_access, createLocation);
 locationRouter.put('/updateLocation/:id', auth_access, updateLocation);
-locationRouter.get('/', auth_access, getAllLocations);
+locationRouter.get('/', getAllLocations);
 locationRouter.get('/:id', getLocationById);
 locationRouter.put('/addAttraction/:id', auth_access, addAttraction);
 locationRouter.put('/removeAttraction/:id', auth_access, removeAttraction);

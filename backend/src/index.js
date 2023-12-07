@@ -47,15 +47,15 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/users', userRouter)
+app.use('/users', userRouter);
 
-app.use('/agents', agentRouter)
+app.use('/agents', agentRouter);
 
-app.use('/packages', packageRouter)
+app.use('/packages', packageRouter);
+app.use('/locations', locationRouter);
+app.use('/bookings', bookingRouter);
 
-app.use('/bookings', bookingRouter)
 
-app.use('/locations', locationRouter)
 
 app.get('/', (req, res) => {
     res.send("hello");
