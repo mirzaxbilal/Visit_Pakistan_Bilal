@@ -26,7 +26,7 @@ const createPackage = async (req, res) => {
                 price: req.body.price,
                 duration: req.body.duration,
                 images: req.body.images,
-                locationTags: req.body.locationTags,
+                locations: req.body.locations,
                 agentId: agent,
                 isDeleted: false,
                 isApproved: false,
@@ -109,8 +109,8 @@ const updatePackage = async (req, res) => {
                     existingPackage.isApproved = false;
                 }
             }
-            if (req.body.locationTags) {
-                existingPackage.locationTags = req.body.locationTags;
+            if (req.body.locations) {
+                existingPackage.locations = req.body.locations;
                 if (req.role != "admin") {
                     existingPackage.isApproved = false;
                 }
@@ -197,7 +197,11 @@ const getPackageById = async (req, res) => {
         const package = await packageModel.findOne({ _id: req.params.id, isDeleted: false }).populate({
             path: 'agentId',
             select: 'email phone'
+        }).populate({
+            path: 'locations', // Assuming 'locations' is the field that references the Location model
+            select: 'name'
         });
+
         if (!package) {
             return res.status(404).json({ message: "Package not found" });
         }
@@ -221,7 +225,11 @@ const getUnapprovedPackages = async (req, res) => {
             const package = await packageModel.find({ isApproved: false, isDeleted: false }).populate({
                 path: 'agentId',
                 select: 'email phone'
+            }).populate({
+                path: 'locations', // Assuming 'locations' is the field that references the Location model
+                select: 'name'
             });
+
             if (!package) {
                 return res.status(404).json({ message: "Package not found" });
             }
@@ -244,6 +252,9 @@ const getAprrovedPackages = async (req, res) => {
         const packages = await packageModel.find({ isApproved: true, isDeleted: false }).populate({
             path: 'agentId',
             select: 'email phone'
+        }).populate({
+            path: 'locations', // Assuming 'locations' is the field that references the Location model
+            select: 'name'
         });
         res.status(200).json(packages);
 

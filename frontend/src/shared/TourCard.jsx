@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import "./tour-card.css"
 
 const TourCard = ({ tour }) => {
-    const { _id, title, locationTags, images, price } = tour
+    const { _id, title, locations, images, price } = tour
     console.log(images[0]);
 
     return (
@@ -20,7 +20,7 @@ const TourCard = ({ tour }) => {
                 <CardBody>
                     <div className="card__top d-flex align-items-center justify-content-between">
                         <span className="tour__location d-flex align-items-center gap-1">
-                            <i class="ri-map-pin-line"></i> {locationTags[0]}
+                            <i class="ri-map-pin-line"></i> {locations[0].name}
                         </span>
                     </div>
                     <h5 className="tour__title"><Link to={`/tours/${_id}`}>{title}</Link></h5>

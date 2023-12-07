@@ -7,6 +7,7 @@ const userRouter = require('./routes/userRoutes');
 const agentRouter = require('./routes/agentRoutes');
 const packageRouter = require('./routes/packageRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
+const locationRouter = require('./routes/locationRoutes');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -24,10 +25,10 @@ const swaggerOptions = {
             }
         },
         servers: [
-        {
-            url: 'http://localhost:5000/',
-            description: 'Development server',
-        },
+            {
+                url: 'http://localhost:5000/',
+                description: 'Development server',
+            },
         ],
     },
     apis: ['./src/routes/*.js'],
@@ -53,6 +54,8 @@ app.use('/agents', agentRouter)
 app.use('/packages', packageRouter)
 
 app.use('/bookings', bookingRouter)
+
+app.use('/locations', locationRouter)
 
 app.get('/', (req, res) => {
     res.send("hello");

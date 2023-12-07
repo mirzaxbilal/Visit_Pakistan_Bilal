@@ -8,7 +8,7 @@ const CreatePackageValidation = Joi.object({
     price: Joi.number().required().positive(),
     duration: Joi.number().required().positive(),
     images: Joi.array().items(Joi.string()).required(),
-    locationTags: Joi.array().items(Joi.string()),
+    locations: Joi.array().items(Joi.string()),
 
 });
 
@@ -20,7 +20,7 @@ const UpdatePackageValidation = Joi.object({
     price: Joi.number().positive(),
     duration: Joi.number().positive(),
     images: Joi.array().items(Joi.string()),
-    locationTags: Joi.array().items(Joi.string()),
+    locations: Joi.array().items(Joi.string()),
     isApproved: Joi.boolean()
 
 });

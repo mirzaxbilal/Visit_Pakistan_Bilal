@@ -14,7 +14,7 @@ const auth_access = (req, res, next) => {
             let user = jwt.verify(token, SECRET_KEY_access);
             req.id = user.id;
             req.role = user.role;
-
+            console.log("authorized");
             // jwt.verify(token, SECRET_KEY_access, (err, user) => {
             //     if (err) {
             //         return res.status(401).json({ success: false, message: "token is invalid" })

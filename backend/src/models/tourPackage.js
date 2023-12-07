@@ -26,7 +26,10 @@ const tourPackageSchema = new mongoose.Schema({
         required: true
     },
     images: [{ type: String }],
-    locationTags: [{ type: String }],
+    locations: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'location'
+    }],
     agentId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
