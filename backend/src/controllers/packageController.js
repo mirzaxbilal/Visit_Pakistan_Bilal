@@ -5,6 +5,7 @@ const { CreatePackageValidation, UpdatePackageValidation } = require('../validat
 const createPackage = async (req, res) => {
 
     try {
+        console.log(req.role);
         if (req.role == "agent") {
             try {
                 const validate = await CreatePackageValidation.validateAsync(req.body);
@@ -67,6 +68,7 @@ const updatePackage = async (req, res) => {
             if (req.id != existingPackage.agentId && req.role != "admin") {
                 return res.status(400).json({ message: "Unauthorized Access" });
             }
+            console.log(req.body)
             if (req.body.title) {
                 existingPackage.title = req.body.title;
                 if (req.role != "admin") {
@@ -115,14 +117,20 @@ const updatePackage = async (req, res) => {
                     existingPackage.isApproved = false;
                 }
             }
-            if (req.body.isApproved) {
+            if ('isApproved' in req.body) {
                 if (req.role == "admin") {
                     existingPackage.isApproved = req.body.isApproved;
                 } else {
                     res.status(401).json({ message: "Unauthorized Access" });
                 }
             }
-
+            if ('isDeleted' in req.body) {
+                if (req.role == "admin") {
+                    existingPackage.isDeleted = req.body.isDeleted;
+                } else {
+                    res.status(401).json({ message: "Unauthorized Access" });
+                }
+            }
 
             await existingPackage.save();
 

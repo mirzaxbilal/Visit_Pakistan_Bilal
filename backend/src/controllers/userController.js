@@ -95,8 +95,8 @@ const signin = async (req, res) => {
             if (!matchPassword) {
                 return res.status(400).json({ message: "Invalid Credentials" });
             }
-            const token = jwt.sign({ id: existingAgent._id, role: existingAgent.role }, SECRET_KEY_access, { expiresIn: '10m' });
-            const refreshToken = jwt.sign({ id: existingAgent._id, role: existingAgent.role }, SECRET_KEY_refresh, { expiresIn: '2h' });
+            const token = jwt.sign({ id: existingAgent._id, role: "agent" }, SECRET_KEY_access, { expiresIn: '10m' });
+            const refreshToken = jwt.sign({ id: existingAgent._id, role: "agent" }, SECRET_KEY_refresh, { expiresIn: '2h' });
             res.status(200).json({
                 data: {
                     name: existingAgent.name,

@@ -5,6 +5,7 @@ import Tour from './../pages/Tours';
 import Login from './../pages/Login';
 import Register from './../pages/Register';
 import MyProfile from './../pages/MyProfile';
+import CreatePackage from '../pages/CreatePackage';
 
 const Router = () => {
     return (
@@ -15,6 +16,7 @@ const Router = () => {
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
             <Route path='/myprofile' element={<MyProfile />} />
+            <Route path='/create-package' element={<CreatePackage />} />
         </Routes >
     )
 }

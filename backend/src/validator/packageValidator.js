@@ -21,8 +21,8 @@ const UpdatePackageValidation = Joi.object({
     duration: Joi.number().positive(),
     images: Joi.array().items(Joi.string()),
     locations: Joi.array().items(Joi.string()),
-    isApproved: Joi.boolean()
-
+    isApproved: Joi.boolean(),
+    isDeleted: Joi.boolean()
 });
 
 
