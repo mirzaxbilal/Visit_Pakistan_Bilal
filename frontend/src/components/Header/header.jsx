@@ -6,21 +6,6 @@ import logo from '../../assets/images/logo.png';
 import './header.css';
 import { AuthContext } from './../../context/AuthContext';
 
-const nav_links = [
-    {
-        path: '/home',
-        display: 'Home'
-    },
-    {
-        path: 'about',
-        display: 'About'
-    },
-    {
-        path: '/tours',
-        display: 'Tours'
-    }
-];
-
 const Header = () => {
     const headerRef = useRef(null);
     const navigate = useNavigate();
@@ -28,17 +13,9 @@ const Header = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [locations, setLocations] = useState([]);
 
-    const toggleDropdown = () => {
-        setDropdownOpen(!dropdownOpen);
-    };
-
-    const openDropdown = () => {
-        setDropdownOpen(true);
-    };
-
-    const closeDropdown = () => {
-        setDropdownOpen(false);
-    };
+    const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+    const openDropdown = () => setDropdownOpen(true);
+    const closeDropdown = () => setDropdownOpen(false);
 
     const logout = () => {
         dispatch({ type: 'LOGOUT' });
@@ -57,8 +34,6 @@ const Header = () => {
 
     useEffect(() => {
         fetchLocations();
-        stickyHeaderFunc();
-        return () => window.removeEventListener('scroll', stickyHeaderFunc);
     }, []);
 
     const redirectToLocation = (locationId) => {
@@ -73,14 +48,22 @@ const Header = () => {
         ));
     };
 
-    const stickyHeaderFunc = () => {
-        window.addEventListener('scroll', () => {
-            if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
-                headerRef.current.classList.add('sticky__header');
-            } else {
-                headerRef.current.classList.remove('sticky__header');
-            }
-        });
+    const getNavLinks = () => {
+        let links = [
+            { path: '/home', display: 'Home' },
+            { path: '/about', display: 'About' },
+            { path: '/tours', display: 'Tours' }
+        ];
+
+        if (user && user.role === 'agent') {
+            links = [
+                { path: '/create-package', display: 'Create Package' },
+                { path: '/my-packages', display: 'My Packages' },
+                { path: '/my-bookings', display: 'My Bookings' }
+            ];
+        }
+
+        return links;
     };
 
     return (
@@ -89,11 +72,11 @@ const Header = () => {
                 <Row>
                     <div className="nav_wrapper d-flex align-items-center justify-content-between">
                         <div className="logo">
-                            <img src={logo} alt="" />
+                            <img src={logo} alt="Logo" />
                         </div>
                         <div className="navigation">
                             <ul className="menu d-flex align-items-center gap-5">
-                                {nav_links.map((item, index) => (
+                                {getNavLinks().map((item, index) => (
                                     <li className="nav__item" key={index}>
                                         <NavLink
                                             to={item.path}
@@ -103,16 +86,18 @@ const Header = () => {
                                         </NavLink>
                                     </li>
                                 ))}
-                                <li className="nav__item">
-                                    <UncontrolledDropdown
-                                        onMouseOver={openDropdown}
-                                        onMouseLeave={closeDropdown}
-                                        isOpen={dropdownOpen}
-                                    >
-                                        <DropdownToggle caret>Places to Visit</DropdownToggle>
-                                        <DropdownMenu>{renderLocationsDropdown()}</DropdownMenu>
-                                    </UncontrolledDropdown>
-                                </li>
+                                {(!user || (user && user.role !== 'agent')) && (
+                                    <li className="nav__item">
+                                        <UncontrolledDropdown
+                                            onMouseOver={openDropdown}
+                                            onMouseLeave={closeDropdown}
+                                            isOpen={dropdownOpen}
+                                        >
+                                            <DropdownToggle caret>Places to Visit</DropdownToggle>
+                                            <DropdownMenu>{renderLocationsDropdown()}</DropdownMenu>
+                                        </UncontrolledDropdown>
+                                    </li>
+                                )}
                             </ul>
                         </div>
                         <div className="nav__right d-flex align-items-center gap-4">

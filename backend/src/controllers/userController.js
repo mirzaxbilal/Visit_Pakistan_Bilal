@@ -1,4 +1,5 @@
 const userModel = require("../models/user");
+const Agent = require('../models/agent');
 const packageModel = require("../models/tourPackage");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -66,39 +67,47 @@ const signin = async (req, res) => {
             return res.status(400).json({ message: error.details[0].message });
         }
         const existingUser = await userModel.findOne({ email: email, isDeleted: false });
-        if (!existingUser) {
-            return res.status(400).json({ message: "User not found!" });
+        if (existingUser) {
+            const matchPassword = await bcryptjs.compare(password, existingUser.password);
+
+            if (!matchPassword) {
+                return res.status(400).json({ message: "Invalid Credentials" });
+            }
+
+            const token = jwt.sign({ id: existingUser._id, role: existingUser.role }, SECRET_KEY_access, { expiresIn: '10m' });
+            const refreshToken = jwt.sign({ id: existingUser._id, role: existingUser.role }, SECRET_KEY_refresh, { expiresIn: '2h' });
+            res.status(200).json({
+                data: {
+                    name: existingUser.username,
+                    id: existingUser._id,
+                    role: existingUser.role,
+                    AccessToken: token,
+                    RefreshToken: refreshToken,
+                },
+                message: "logged In successfully!"
+            });
+        } else {
+            const existingAgent = await Agent.findOne({ email: email, isDeleted: false });
+            if (!existingAgent) {
+                return res.status(400).json({ message: "User not found!" });
+            }
+            const matchPassword = await bcryptjs.compare(password, existingAgent.password);
+            if (!matchPassword) {
+                return res.status(400).json({ message: "Invalid Credentials" });
+            }
+            const token = jwt.sign({ id: existingAgent._id, role: existingAgent.role }, SECRET_KEY_access, { expiresIn: '10m' });
+            const refreshToken = jwt.sign({ id: existingAgent._id, role: existingAgent.role }, SECRET_KEY_refresh, { expiresIn: '2h' });
+            res.status(200).json({
+                data: {
+                    name: existingAgent.name,
+                    id: existingAgent._id,
+                    role: "agent",
+                    AccessToken: token,
+                    RefreshToken: refreshToken,
+                },
+                message: "logged In successfully!"
+            });
         }
-        console.log("2");
-
-        const matchPassword = await bcryptjs.compare(password, existingUser.password);
-
-        if (!matchPassword) {
-            return res.status(400).json({ message: "Invalid Credentials" });
-        }
-
-        const token = jwt.sign({ id: existingUser._id, role: existingUser.role }, SECRET_KEY_access, { expiresIn: '10m' });
-        const refreshToken = jwt.sign({ id: existingUser._id, role: existingUser.role }, SECRET_KEY_refresh, { expiresIn: '2h' });
-
-        // res.cookie('accessToken', token, {
-        //     httpOnly: true,
-        //     expires: token.expiresIn, // 10 minutes
-        // });
-
-        // res.cookie('refreshToken', refreshToken, {
-        //     httpOnly: true,
-        //     expires: refreshToken.expiresIn, // 2 hours
-        // });
-
-        res.status(200).json({
-            data: {
-                name: existingUser.username,
-                id: existingUser._id,
-                AccessToken: token,
-                RefreshToken: refreshToken,
-            },
-            message: "logged In successfully!"
-        });
 
     } catch (error) {
         console.log(error);
