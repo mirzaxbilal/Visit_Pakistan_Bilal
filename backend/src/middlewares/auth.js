@@ -5,11 +5,10 @@ const SECRET_KEY_refresh = process.env.SECRET_KEY_REFRESH;
 
 const auth_access = (req, res, next) => {
     try {
-        console.log(req.headers.authorization);
-        //const token = req.cookies.accessToken; //new line1
-        let token = req.headers.authorization; //old line1
 
-        if (token) {
+
+        if (req.headers && req.headers.authorization) {
+            let token = req.headers.authorization;
             token = token.split(" ")[1];
             let user = jwt.verify(token, SECRET_KEY_access);
             req.id = user.id;
@@ -24,13 +23,14 @@ const auth_access = (req, res, next) => {
 
         }
         else {
-            res.status(401).json({ message: "Unauthorized User" });
+            console.log("invalid token")
+            return res.status(401).json({ message: "Unauthorized User" });
         }
         next();
 
     } catch (error) {
         console.log(error);
-        res.status(401).json({ message: "Unauthorized User" });
+        return res.status(401).json({ message: "Unauthorized User" });
     }
 }
 
@@ -46,13 +46,13 @@ const auth_refresh = (req, res, next) => {
 
         }
         else {
-            res.status(401).json({ message: "Unauthorized User" });
+            return res.status(401).json({ message: "Unauthorized User" });
         }
         next();
 
     } catch (error) {
         console.log(error);
-        res.status(401).json({ message: "Unauthorized User" });
+        return res.status(401).json({ message: "Unauthorized User" });
     }
 }
 

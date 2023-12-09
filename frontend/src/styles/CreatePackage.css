@@ -48,4 +48,23 @@ button:hover {
     background-color: #45a049;
 }
 
+/* Styles for location checkboxes and labels */
+.locations-checkbox-container {
+    overflow-y: auto;
+    max-height: 200px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.locations-checkbox-container>div {
+    margin-right: 20px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.locations-checkbox-container input {
+    margin-right: 5px;
+}
+
 /* Add more styles as needed */

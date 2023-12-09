@@ -6,6 +6,7 @@ import Login from './../pages/Login';
 import Register from './../pages/Register';
 import MyProfile from './../pages/MyProfile';
 import CreatePackage from '../pages/CreatePackage';
+import MyPackages from '../pages/MyPackages';
 
 const Router = () => {
     return (
@@ -17,6 +18,7 @@ const Router = () => {
             <Route path='/register' element={<Register />} />
             <Route path='/myprofile' element={<MyProfile />} />
             <Route path='/create-package' element={<CreatePackage />} />
+            <Route path='/my-packages' element={<MyPackages />} />
         </Routes >
     )
 }

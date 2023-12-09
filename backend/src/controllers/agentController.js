@@ -147,10 +147,13 @@ const getAllAgents = async (req, res) => {
 
 const getAgentById = async (req, res) => {
     try {
+        console.log(req.role);
+        console.log(req.id);
         if (req.role == "admin" || (req.role == "agent" && req.id == req.params.id)) {
             const agent = await Agent.find({ _id: req.params.id, isDeleted: false });
             res.status(200).json(agent);
         } else {
+            console.log("1")
             res.status(401).json({ message: "Unauthorized action" });
         }
     } catch (error) {
@@ -182,6 +185,36 @@ const deleteAgent = async (req, res) => {
     }
 };
 
+const getAgentPackages = async (req, res) => {
+    try {
+        if (req.role == "admin" || (req.role == "agent" && req.id == req.params.id)) {
+            const agentId = req.params.id;
+
+            // Check if the agent exists and is not deleted
+            const existingAgent = await Agent.findOne({ _id: agentId, isDeleted: false });
+            if (!existingAgent) {
+                return res.status(404).json({ message: "Agent not found or deleted." });
+            }
+
+            // Populate the 'packages' array in the Agent model to get the details of each package
+            const agent = await existingAgent.populate('packages');
+
+            // Extract the populated packages
+            const agentPackages = agent.packages;
+
+            res.status(200).json(agentPackages);
+        } else {
+            res.status(401).json({ message: "Unauthorized action" });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Something went wrong" });
+    }
+};
+
+
+
+
 const refreshtoken = async (req, res) => {
 
     try {
@@ -199,4 +232,4 @@ const refreshtoken = async (req, res) => {
 
 }
 
-module.exports = { createAgent, getAllAgents, updateAgent, getAgentById, deleteAgent, signin, refreshtoken };
+module.exports = { createAgent, getAllAgents, updateAgent, getAgentById, deleteAgent, signin, refreshtoken, getAgentPackages };

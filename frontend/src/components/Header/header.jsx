@@ -26,6 +26,7 @@ const Header = () => {
         try {
             const response = await fetch('http://localhost:5000/locations/');
             const data = await response.json();
+            console.log(data);
             setLocations(data);
         } catch (error) {
             console.error('Error fetching locations:', error);

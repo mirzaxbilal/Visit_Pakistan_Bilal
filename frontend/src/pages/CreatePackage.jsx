@@ -9,6 +9,7 @@ const CreatePackage = () => {
     const navigate = useNavigate();
     const [locations, setLocations] = useState([]);
     const [selectedFiles, setSelectedFiles] = useState([]);
+    const [checkedLocations, setCheckedLocations] = useState({});
     const [formData, setFormData] = useState({
         title: '',
         overview: '',
@@ -34,6 +35,10 @@ const CreatePackage = () => {
 
         fetchLocations();
     }, []);
+    const handleLocationCheckboxChange = (e) => {
+        const { value, checked } = e.target;
+        setCheckedLocations(prev => ({ ...prev, [value]: checked }));
+    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -74,11 +79,15 @@ const CreatePackage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const selectedLocations = Object.entries(checkedLocations)
+            .filter(([_, checked]) => checked)
+            .map(([id, _]) => id);
 
         const imageUrls = await uploadImagesToCloudinary();
         const completeFormData = {
             ...formData,
             images: imageUrls,
+            locations: selectedLocations, // Use selectedLocations here
         };
 
         try {
@@ -174,18 +183,20 @@ const CreatePackage = () => {
 
                         <div className="form-group">
                             <label>Select Locations:</label>
-                            <select
-                                multiple
-                                name="locations"
-                                value={formData.locations}
-                                onChange={handleLocationChange}
-                            >
+                            <div className="locations-checkbox-container" style={{ overflowY: 'auto', maxHeight: '200px' }}>
                                 {locations.map((location) => (
-                                    <option key={location._id} value={location._id}>
-                                        {location.name}
-                                    </option>
+                                    <div key={location._id} className="location-checkbox">
+                                        <input
+                                            type="checkbox"
+                                            id={location._id}
+                                            value={location._id}
+                                            checked={checkedLocations[location._id] || false}
+                                            onChange={handleLocationCheckboxChange}
+                                        />
+                                        <label htmlFor={location._id}>{location.name}</label>
+                                    </div>
                                 ))}
-                            </select>
+                            </div>
                         </div>
 
                         <button type="submit">Create Package</button>
