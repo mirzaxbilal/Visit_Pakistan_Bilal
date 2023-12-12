@@ -6,7 +6,7 @@ const { createPackage,
   updatePackage,
   deletePackage,
   getAllPackages,
-  getPackageById, getUnapprovedPackages, getAprrovedPackages
+  getApporovedPackageById, getUnapprovedPackages, getAprrovedPackages, getPackageById
 } = require('../controllers/packageController');
 
 /**
@@ -143,8 +143,8 @@ packageRouter.get('/getUnapprovedPackages', auth_access, getUnapprovedPackages);
  *       500:
  *         description: Server error
  */
-packageRouter.get('/:id', getPackageById);
-
+packageRouter.get('/:id', getApporovedPackageById);
+packageRouter.get('/getPackage/:id', auth_access, getPackageById);
 /**
  * @swagger
  * /packages/updatePackage/{id}:

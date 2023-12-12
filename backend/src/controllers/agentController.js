@@ -191,13 +191,24 @@ const getAgentPackages = async (req, res) => {
             const agentId = req.params.id;
 
             // Check if the agent exists and is not deleted
-            const existingAgent = await Agent.findOne({ _id: agentId, isDeleted: false });
+            const existingAgent = await Agent.findOne({ _id: agentId, isDeleted: false })
+            // .populate({
+            //     path: 'locations',
+            //     select: 'name'
+            // });
             if (!existingAgent) {
                 return res.status(404).json({ message: "Agent not found or deleted." });
             }
 
             // Populate the 'packages' array in the Agent model to get the details of each package
-            const agent = await existingAgent.populate('packages');
+            const agent = await existingAgent.populate({
+                path: 'packages',
+                populate: {
+                    path: 'locations',
+                    select: 'name' // Adjust the fields you want to select for locations
+                }
+            });
+
 
             // Extract the populated packages
             const agentPackages = agent.packages;

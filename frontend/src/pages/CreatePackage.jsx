@@ -139,12 +139,11 @@ const CreatePackage = () => {
 
                         <div className="form-group">
                             <label>What's Included:</label>
-                            <input
-                                type="text"
+                            <textarea
                                 name="whatsIncluded"
                                 value={formData.whatsIncluded}
                                 onChange={handleInputChange}
-                            />
+                            ></textarea>
                         </div>
 
                         <div className="form-group">

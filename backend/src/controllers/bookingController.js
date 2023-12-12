@@ -213,7 +213,31 @@ const deleteBooking = async (req, res) => {
     }
 };
 
-module.exports = { createBooking, getBookings, getBookingById, updateBooking, deleteBooking };
+const getBookingsByAgent = async (req, res) => {
+    try {
+        const { id: agentId } = req.params;
+
+        if (req.role === "admin" || (req.role === "agent" && req.id === agentId)) {
+            const bookings = await BookingModel.find({ 'agent': agentId, isDeleted: false }).populate({
+                path: 'user',
+                select: 'username email phone'
+            }).populate({
+                path: 'package',
+                select: 'title'
+            }).populate({
+                path: 'agent',
+                select: 'name email phone'
+            });
+
+            res.status(200).json(bookings);
+        } else {
+            res.status(401).json({ message: "Unauthorized Access" });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Something went wrong" });
+    }
+};
 
 
-module.exports = { createBooking, getBookings, getBookingById, updateBooking, deleteBooking };
+module.exports = { createBooking, getBookings, getBookingById, updateBooking, deleteBooking, getBookingsByAgent };

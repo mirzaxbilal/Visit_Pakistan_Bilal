@@ -1,7 +1,7 @@
 const express = require('express');
 const bookingRouter = express.Router();
 const { auth_access } = require('../middlewares/auth');
-const { createBooking, getBookings, getBookingById, updateBooking, deleteBooking } = require('../controllers/bookingController');
+const { createBooking, getBookings, getBookingById, updateBooking, deleteBooking, getBookingsByAgent } = require('../controllers/bookingController');
 
 /**
  * @swagger
@@ -164,5 +164,6 @@ bookingRouter.put('/updateBooking/:id', auth_access, updateBooking);
  *         description: Server error
  */
 bookingRouter.delete('/deleteBooking/:id', auth_access, deleteBooking);
+bookingRouter.get('/getBookingsByAgent/:id', auth_access, getBookingsByAgent);
 
 module.exports = bookingRouter;

@@ -13,6 +13,7 @@ const CreatePackageValidation = Joi.object({
 });
 
 const UpdatePackageValidation = Joi.object({
+    _id: Joi.string(),
     title: Joi.string().min(10).max(100),
     overview: Joi.string().min(20),
     whatsIncluded: Joi.string().min(10),
@@ -22,7 +23,13 @@ const UpdatePackageValidation = Joi.object({
     images: Joi.array().items(Joi.string()),
     locations: Joi.array().items(Joi.string()),
     isApproved: Joi.boolean(),
-    isDeleted: Joi.boolean()
+    isDeleted: Joi.boolean(),
+    agentId: Joi.object({
+        _id: Joi.string(),
+        phone: Joi.string(),
+        email: Joi.string(),
+    }),
+    __v: Joi.number()
 });
 
 

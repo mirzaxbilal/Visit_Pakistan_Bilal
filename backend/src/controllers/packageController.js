@@ -37,14 +37,14 @@ const createPackage = async (req, res) => {
             const savedPackage = await package.save();
             agent.packages.push(savedPackage);
             await agent.save();
-            res.status(201).json({ packageId: savedPackage._id, message: "Package created. Awaiting approval" });
+            return res.status(201).json({ packageId: savedPackage._id, message: "Package created. Awaiting approval" });
         } else {
             res.status(401).json({ message: "Unauthorized Access" });
         }
 
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "Something went wrong" });
+        return res.status(500).json({ message: "Something went wrong" });
     }
 }
 
@@ -69,54 +69,63 @@ const updatePackage = async (req, res) => {
                 return res.status(400).json({ message: "Unauthorized Access" });
             }
             console.log(req.body)
+            console.log(1);
             if (req.body.title) {
                 existingPackage.title = req.body.title;
                 if (req.role != "admin") {
                     existingPackage.isApproved = false;
                 }
             }
+            console.log(2);
             if (req.body.overview) {
                 existingPackage.overview = req.body.overview;
                 if (req.role != "admin") {
                     existingPackage.isApproved = false;
                 }
             }
+            console.log(3);
             if (req.body.whatsIncluded) {
                 existingPackage.whatsIncluded = req.body.whatsIncluded;
                 if (req.role != "admin") {
                     existingPackage.isApproved = false;
                 }
             }
+            console.log(4);
             if (req.body.tourItinerary) {
                 existingPackage.tourItinerary = req.body.tourItinerary;
                 if (req.role != "admin") {
                     existingPackage.isApproved = false;
                 }
             }
+            console.log(5);
             if (req.body.price) {
                 existingPackage.price = req.body.price;
                 if (req.role != "admin") {
                     existingPackage.isApproved = false;
                 }
             }
+            console.log(6);
             if (req.body.duration) {
                 existingPackage.duration = req.body.duration;
                 if (req.role != "admin") {
                     existingPackage.isApproved = false;
                 }
             }
+            console.log(7);
             if (req.body.images) {
                 existingPackage.images = req.body.images;
                 if (req.role != "admin") {
                     existingPackage.isApproved = false;
                 }
             }
+            console.log(8);
             if (req.body.locations) {
                 existingPackage.locations = req.body.locations;
                 if (req.role != "admin") {
                     existingPackage.isApproved = false;
                 }
             }
+            console.log(9);
             if ('isApproved' in req.body) {
                 if (req.role == "admin") {
                     existingPackage.isApproved = req.body.isApproved;
@@ -124,6 +133,7 @@ const updatePackage = async (req, res) => {
                     res.status(401).json({ message: "Unauthorized Access" });
                 }
             }
+            console.log(10);
             if ('isDeleted' in req.body) {
                 if (req.role == "admin") {
                     existingPackage.isDeleted = req.body.isDeleted;
@@ -136,13 +146,13 @@ const updatePackage = async (req, res) => {
 
 
 
-            res.status(201).json({ existingPackage, message: "Package updated" });
+            return res.status(201).json({ existingPackage, message: "Package updated" });
         } else {
-            res.status(401).json({ message: "Unauthorized Access" });
+            return res.status(401).json({ message: "Unauthorized Access" });
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "Something went wrong" });
+        return res.status(500).json({ message: "Something went wrong" });
     }
 }
 
@@ -166,16 +176,16 @@ const deletePackage = async (req, res) => {
             await existingPackage.save();
             existingAgent.packages.pull(existingPackage);
             await existingAgent.save();
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 message: "Successfully Deleted."
             });
         } else {
-            res.status(401).json({ message: "Unauthorized Access" });
+            return res.status(401).json({ message: "Unauthorized Access" });
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "Something went wrong" });
+        return res.status(500).json({ message: "Something went wrong" });
     }
 }
 
@@ -186,27 +196,27 @@ const getAllPackages = async (req, res) => {
                 path: 'agentId',
                 select: 'email phone'
             });
-            res.status(200).json(packages);
+            return res.status(200).json(packages);
 
         } else {
-            res.status(401).json({ message: "Unauthorized Access--" });
+            return res.status(401).json({ message: "Unauthorized Access--" });
         }
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Something went wrong" });
+        return res.status(500).json({ message: "Something went wrong" });
     }
 }
 
 
-const getPackageById = async (req, res) => {
+const getApporovedPackageById = async (req, res) => {
     try {
 
         const package = await packageModel.findOne({ _id: req.params.id, isDeleted: false }).populate({
             path: 'agentId',
             select: 'email phone'
         }).populate({
-            path: 'locations', // Assuming 'locations' is the field that references the Location model
+            path: 'locations',
             select: 'name'
         });
 
@@ -222,7 +232,38 @@ const getPackageById = async (req, res) => {
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Something went wrong" });
+        return res.status(500).json({ message: "Something went wrong" });
+    }
+
+}
+
+const getPackageById = async (req, res) => {
+    try {
+        if (req.role == "admin" || (req.role == "agent")) {
+            const package = await packageModel.findOne({ _id: req.params.id, isDeleted: false }).populate({
+                path: 'agentId',
+                select: 'email phone'
+            }).populate({
+                path: 'locations',
+                select: 'name'
+            });
+            console.log(package);
+
+            if (!package) {
+                return res.status(404).json({ message: "Package not found" });
+            } else if (req.id != package.agentId._id && req.role != "admin") {
+                return res.status(400).json({ message: "Unauthorized Access" });
+            } else {
+                return res.status(200).json(package);
+
+            }
+        } else {
+            return res.status(401).json({ message: "Unauthorized Access" });
+        }
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Something went wrong" });
     }
 
 }
@@ -249,7 +290,7 @@ const getUnapprovedPackages = async (req, res) => {
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Something went wrong" });
+        return res.status(500).json({ message: "Something went wrong" });
     }
 
 }
@@ -264,14 +305,14 @@ const getAprrovedPackages = async (req, res) => {
             path: 'locations', // Assuming 'locations' is the field that references the Location model
             select: 'name'
         });
-        res.status(200).json(packages);
+        return res.status(200).json(packages);
 
 
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Something went wrong" });
+        return res.status(500).json({ message: "Something went wrong" });
     }
 }
 
-module.exports = { createPackage, updatePackage, deletePackage, getAllPackages, getPackageById, getUnapprovedPackages, getAprrovedPackages }
+module.exports = { createPackage, updatePackage, deletePackage, getAllPackages, getApporovedPackageById, getUnapprovedPackages, getAprrovedPackages, getPackageById }

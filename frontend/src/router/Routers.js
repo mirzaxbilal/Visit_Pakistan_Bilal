@@ -7,6 +7,7 @@ import Register from './../pages/Register';
 import MyProfile from './../pages/MyProfile';
 import CreatePackage from '../pages/CreatePackage';
 import MyPackages from '../pages/MyPackages';
+import UpdatePackage from '../pages/UpdatePackage';
 
 const Router = () => {
     return (
@@ -19,6 +20,8 @@ const Router = () => {
             <Route path='/myprofile' element={<MyProfile />} />
             <Route path='/create-package' element={<CreatePackage />} />
             <Route path='/my-packages' element={<MyPackages />} />
+            <Route path='/update-package/:packageId' element={<UpdatePackage />} />
+
         </Routes >
     )
 }
