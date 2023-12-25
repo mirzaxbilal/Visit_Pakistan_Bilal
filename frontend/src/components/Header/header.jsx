@@ -13,7 +13,7 @@ const Header = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [locations, setLocations] = useState([]);
 
-    const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+    // const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
     const openDropdown = () => setDropdownOpen(true);
     const closeDropdown = () => setDropdownOpen(false);
 
@@ -32,6 +32,7 @@ const Header = () => {
             console.error('Error fetching locations:', error);
         }
     };
+
 
     useEffect(() => {
         fetchLocations();
@@ -106,11 +107,16 @@ const Header = () => {
                                 {user ? (
                                     <>
                                         <Button className="btn secondary__btn">
-                                            <Link to="/myprofile">{user.name}</Link>
+                                            {user.role === 'user' ? (
+                                                <Link to="/userprofile">{user.name}</Link>
+                                            ) : user.role === 'agent' ? (
+                                                <Link to="/agentprofile">{user.name}</Link>
+                                            ) : null}
                                         </Button>
                                         <Button className="btn btn-dark" onClick={logout}>
                                             Logout
                                         </Button>
+
                                     </>
                                 ) : (
                                     <>

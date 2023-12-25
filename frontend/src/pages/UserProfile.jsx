@@ -1,3 +1,4 @@
+// UserProfile.js
 import React, { useContext, useEffect, useState } from 'react';
 import { Container, Row, Col, Button, Form, FormGroup, Tooltip, Label } from 'reactstrap';
 import { AuthContext } from './../context/AuthContext';
@@ -7,8 +8,7 @@ import '../styles/login.css';
 import userIcon from '../assets/images/user.png';
 import registerImg from '../assets/images/profilepic.png';
 
-
-const MyProfile = () => {
+const UserProfile = () => {
     const { user } = useContext(AuthContext);
     const [profileData, setProfileData] = useState(null);
     const navigate = useNavigate();
@@ -17,31 +17,31 @@ const MyProfile = () => {
         username: '',
         email: '',
         password: '',
-        phone: ''
+        phone: '',
     });
 
     const [errors, setErrors] = useState({
         username: '',
         email: '',
         password: '',
-        phone: ''
+        phone: '',
     });
 
     const [tooltips, setTooltips] = useState({
         username: false,
         email: false,
         password: false,
-        phone: false
+        phone: false,
     });
 
-    const handleChange = e => {
-        setCredentials(prev => ({ ...prev, [e.target.id]: e.target.value }));
-        setErrors(prev => ({ ...prev, [e.target.id]: '' }));
-        setTooltips(prev => ({ ...prev, [e.target.id]: false }));
+    const handleChange = (e) => {
+        setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+        setErrors((prev) => ({ ...prev, [e.target.id]: '' }));
+        setTooltips((prev) => ({ ...prev, [e.target.id]: false }));
     };
 
-    const handleTooltipToggle = field => {
-        setTooltips(prev => ({ ...prev, [field]: !prev[field] }));
+    const handleTooltipToggle = (field) => {
+        setTooltips((prev) => ({ ...prev, [field]: !prev[field] }));
     };
 
     const handleDeleteProfile = async () => {
@@ -51,7 +51,7 @@ const MyProfile = () => {
                     method: 'delete',
                     headers: {
                         'Content-Type': 'application/json',
-                        'authorization': `Bearer ${user.AccessToken}`
+                        authorization: `Bearer ${user.AccessToken}`,
                     },
                     credentials: 'same-origin',
                 });
@@ -98,10 +98,7 @@ const MyProfile = () => {
         }
 
         // Validate email if it has a value
-        if (
-            nonEmptyCredentials.email &&
-            !/\S+@\S+\.\S+/.test(nonEmptyCredentials.email)
-        ) {
+        if (nonEmptyCredentials.email && !/\S+@\S+\.\S+/.test(nonEmptyCredentials.email)) {
             newErrors.email = 'Please enter a valid email address.';
             setTooltips((prev) => ({ ...prev, email: true }));
         }
@@ -109,9 +106,7 @@ const MyProfile = () => {
         // Validate password if it has a value
         if (
             nonEmptyCredentials.password &&
-            (!/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/.test(
-                nonEmptyCredentials.password
-            ) ||
+            (!/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/.test(nonEmptyCredentials.password) ||
                 nonEmptyCredentials.password.length < 8)
         ) {
             newErrors.password =
@@ -120,28 +115,22 @@ const MyProfile = () => {
         }
 
         // Validate phone number if it has a value
-        if (
-            nonEmptyCredentials.phone &&
-            !/^\d{11}$/.test(nonEmptyCredentials.phone)
-        ) {
-            newErrors.phone =
-                'Please enter a valid phone number (exactly 11 digits).';
+        if (nonEmptyCredentials.phone && !/^\d{11}$/.test(nonEmptyCredentials.phone)) {
+            newErrors.phone = 'Please enter a valid phone number (exactly 11 digits).';
             setTooltips((prev) => ({ ...prev, phone: true }));
         }
-
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
         } else {
             try {
-
                 const res = await fetch(`${BASE_URL}/users/updateprofile/${user.id}`, {
                     method: 'put',
                     headers: {
                         'Content-Type': 'application/json',
-                        'authorization': `Bearer ${user.AccessToken}`
+                        authorization: `Bearer ${user.AccessToken}`,
                     },
-                    credentials: "same-origin",
+                    credentials: 'same-origin',
                     body: JSON.stringify(nonEmptyCredentials),
                 });
 
@@ -150,45 +139,42 @@ const MyProfile = () => {
                 if (!res.ok) {
                     alert(result.message);
                 } else {
-                    console.log(result.data);
-
                     dispatch({
                         type: 'PROFILE_UPDATE_SUCCESS',
-                        payload: result.existingUser, // Use the user data received in the update response
+                        payload: result.existingUser,
                     });
-                    alert("Profile updated successfully.")
+                    alert('Profile updated successfully.');
                     navigate('/login');
                 }
-
             } catch (err) {
                 alert(err.message);
             }
         }
     };
 
-
-
-
     useEffect(() => {
         const fetchProfile = async () => {
             if (user) {
                 try {
-                    const res = await fetch(`${BASE_URL}/users/${user.id}`, {
+                    const profileEndpoint = `${BASE_URL}/users/${user.id}`;
+
+                    const res = await fetch(profileEndpoint, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
-                            'authorization': `Bearer ${user.AccessToken}`
+                            authorization: `Bearer ${user.AccessToken}`,
                         },
-                        credentials: "same-origin",
+                        credentials: 'same-origin',
                     });
 
                     const result = await res.json();
 
                     if (!res.ok) {
                         alert(result.message);
-                        console.error("something went wrong");
+                        console.error('something went wrong');
                     } else {
-                        setProfileData(result);
+                        const profileName = result.username;
+                        setProfileData({ ...result, name: profileName });
                     }
                 } catch (error) {
                     console.error(error.message);
@@ -202,8 +188,7 @@ const MyProfile = () => {
     return (
         <Container>
             <Row>
-                {/* lg='8' className='m-auto' */}
-                <Col  >
+                <Col>
                     {user ? (
                         profileData ? (
                             <section>
@@ -224,8 +209,7 @@ const MyProfile = () => {
                                                             <Label for="username">Name: </Label>
                                                             <input
                                                                 type="text"
-                                                                placeholder={profileData.username}
-
+                                                                placeholder={profileData.name}
                                                                 id="username"
                                                                 onChange={handleChange}
                                                                 value={credentials.username}
@@ -239,7 +223,6 @@ const MyProfile = () => {
                                                             <input
                                                                 type="email"
                                                                 placeholder={profileData.email}
-
                                                                 id="email"
                                                                 onChange={handleChange}
                                                                 value={credentials.email}
@@ -253,7 +236,6 @@ const MyProfile = () => {
                                                             <input
                                                                 type="tel"
                                                                 placeholder={profileData.phone}
-
                                                                 id="phone"
                                                                 onChange={handleChange}
                                                                 value={credentials.phone}
@@ -263,11 +245,10 @@ const MyProfile = () => {
                                                             </Tooltip>
                                                         </FormGroup>
                                                         <FormGroup>
-                                                            <Label for="phone">New Password: </Label>
+                                                            <Label for="password">New Password: </Label>
                                                             <input
                                                                 type="password"
                                                                 placeholder="Enter new password."
-
                                                                 id="password"
                                                                 onChange={handleChange}
                                                                 value={credentials.password}
@@ -276,6 +257,7 @@ const MyProfile = () => {
                                                                 {errors.password}
                                                             </Tooltip>
                                                         </FormGroup>
+                                                        <br />
                                                         <Button className="btn secondary__btn auth__btn" type="submit">
                                                             Update Profile
                                                         </Button>
@@ -284,15 +266,11 @@ const MyProfile = () => {
                                                                 Delete Profile
                                                             </Button>
                                                         </div>
-
                                                     </Form>
-
                                                 </div>
                                             </div>
                                         </Col>
-
                                     </Row>
-
                                 </Container>
                             </section>
                         ) : (
@@ -305,9 +283,8 @@ const MyProfile = () => {
                     )}
                 </Col>
             </Row>
-        </Container >
+        </Container>
     );
-
 };
 
-export default MyProfile;
+export default UserProfile;

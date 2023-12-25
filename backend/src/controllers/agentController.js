@@ -150,7 +150,7 @@ const getAgentById = async (req, res) => {
         console.log(req.role);
         console.log(req.id);
         if (req.role == "admin" || (req.role == "agent" && req.id == req.params.id)) {
-            const agent = await Agent.find({ _id: req.params.id, isDeleted: false });
+            const agent = await Agent.findOne({ _id: req.params.id, isDeleted: false });
             res.status(200).json(agent);
         } else {
             console.log("1")

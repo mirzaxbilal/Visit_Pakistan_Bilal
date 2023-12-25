@@ -172,6 +172,9 @@ const Register = () => {
                                     <p>
                                         Already have an account?<Link to='/login'>Login</Link>
                                     </p>
+                                    <p>
+                                        <Link to='/AgentRegister'>Register as a Travel Agent</Link>
+                                    </p>
                                 </Form>
                             </div>
                         </div>
