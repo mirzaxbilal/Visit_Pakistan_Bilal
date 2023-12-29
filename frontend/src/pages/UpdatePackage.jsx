@@ -29,7 +29,7 @@ const UpdatePackage = () => {
                     'Authorization': `Bearer ${user.AccessToken}`
                 };
 
-                // Concurrently fetch locations and package data
+
                 const [locationsResponse, packageResponse] = await Promise.all([
                     fetch(`${BASE_URL}/locations/`, {
                         method: 'GET',
@@ -47,14 +47,13 @@ const UpdatePackage = () => {
 
                 const [locationsData, packageData] = await Promise.all([locationsResponse.json(), packageResponse.json()]);
 
-                // Create a map of checked locations
+
                 const checkedLocationsMap = locationsData.reduce((acc, location) => {
                     const isLocationChecked = packageData.locations.some(packageLocation => packageLocation._id === location._id);
                     acc[location._id] = isLocationChecked;
                     return acc;
                 }, {});
 
-                // Set both locations and checked locations
                 setLocations(locationsData);
                 setCheckedLocations(checkedLocationsMap);
                 setFormData({ ...packageData });

@@ -1,4 +1,4 @@
-// UserProfile.js
+
 import React, { useContext, useEffect, useState } from 'react';
 import { Container, Row, Col, Button, Form, FormGroup, Tooltip, Label } from 'reactstrap';
 import { AuthContext } from './../context/AuthContext';
@@ -77,15 +77,14 @@ const UserProfile = () => {
     const handleClick = async (e) => {
         e.preventDefault();
 
-        // Filter out empty values from credentials
+
         const nonEmptyCredentials = Object.fromEntries(
             Object.entries(credentials).filter(([key, value]) => value.trim() !== '')
         );
 
-        // Validate input fields with values
         let newErrors = {};
 
-        // Validate username if it has a value
+
         if (
             nonEmptyCredentials.username &&
             (nonEmptyCredentials.username.length < 6 ||

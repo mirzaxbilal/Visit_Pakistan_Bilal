@@ -1,4 +1,4 @@
-// AgentProfile.js
+
 import React, { useContext, useEffect, useState } from 'react';
 import { Container, Row, Col, Button, Form, FormGroup, Tooltip, Label } from 'reactstrap';
 import { AuthContext } from './../context/AuthContext';
@@ -87,10 +87,9 @@ const AgentProfile = () => {
             Object.entries(credentials).filter(([key, value]) => value.trim() !== '')
         );
 
-        // Validate input fields with values
+
         let newErrors = {};
 
-        // Validate name if it has a value
         if (
             nonEmptyCredentials.name &&
             (nonEmptyCredentials.name.length < 6 ||
@@ -102,13 +101,12 @@ const AgentProfile = () => {
             setTooltips((prev) => ({ ...prev, name: true }));
         }
 
-        // Validate email if it has a value
+
         if (nonEmptyCredentials.email && !/\S+@\S+\.\S+/.test(nonEmptyCredentials.email)) {
             newErrors.email = 'Please enter a valid email address.';
             setTooltips((prev) => ({ ...prev, email: true }));
         }
 
-        // Validate password if it has a value
         if (
             nonEmptyCredentials.password &&
             (!/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/.test(nonEmptyCredentials.password) ||
@@ -119,19 +117,19 @@ const AgentProfile = () => {
             setTooltips((prev) => ({ ...prev, password: true }));
         }
 
-        // Validate phone number if it has a value
+
         if (nonEmptyCredentials.phone && !/^\d{11}$/.test(nonEmptyCredentials.phone)) {
             newErrors.phone = 'Please enter a valid phone number (exactly 11 digits).';
             setTooltips((prev) => ({ ...prev, phone: true }));
         }
 
-        // Validate CNIC image if it has a value
+
         if (nonEmptyCredentials.cnic_image && !nonEmptyCredentials.cnic_image.startsWith('http')) {
             newErrors.cnic_image = 'Please provide a valid URL for the CNIC image.';
             setTooltips((prev) => ({ ...prev, cnic_image: true }));
         }
 
-        // Validate license image if it has a value
+
         if (nonEmptyCredentials.license_image && !nonEmptyCredentials.license_image.startsWith('http')) {
             newErrors.license_image = 'Please provide a valid URL for the License image.';
             setTooltips((prev) => ({ ...prev, license_image: true }));

@@ -194,7 +194,7 @@ const getAllPackages = async (req, res) => {
         if (req.role === "admin") {
             const packages = await packageModel.find({ isDeleted: false }).populate({
                 path: 'agentId',
-                select: 'email phone'
+                select: 'name email phone'
             });
             return res.status(200).json(packages);
 
@@ -214,7 +214,7 @@ const getApporovedPackageById = async (req, res) => {
 
         const package = await packageModel.findOne({ _id: req.params.id, isDeleted: false }).populate({
             path: 'agentId',
-            select: 'email phone'
+            select: 'name email phone'
         }).populate({
             path: 'locations',
             select: 'name'
@@ -242,7 +242,7 @@ const getPackageById = async (req, res) => {
         if (req.role == "admin" || (req.role == "agent")) {
             const package = await packageModel.findOne({ _id: req.params.id, isDeleted: false }).populate({
                 path: 'agentId',
-                select: 'email phone'
+                select: 'name email phone'
             }).populate({
                 path: 'locations',
                 select: 'name'

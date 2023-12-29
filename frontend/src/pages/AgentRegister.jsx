@@ -75,43 +75,41 @@ const AgentRegister = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Validate input fields
         let newErrors = {};
 
-        // Validate agency name
+
         if (!agentInfo.name || agentInfo.name.length < 3 || agentInfo.name.length > 50) {
             newErrors.name = 'Please enter a valid agency name (between 3 and 50 characters).';
             setTooltips((prev) => ({ ...prev, name: true }));
         }
 
-        // Validate email
+
         if (!agentInfo.email || !/\S+@\S+\.\S+/.test(agentInfo.email)) {
             newErrors.email = 'Please enter a valid email address.';
             setTooltips((prev) => ({ ...prev, email: true }));
         }
 
-        // Validate phone number
+
         if (!agentInfo.phone || !/^\d{11}$/.test(agentInfo.phone)) {
             newErrors.phone = 'Please enter a valid phone number (exactly 11 digits).';
             setTooltips((prev) => ({ ...prev, phone: true }));
         }
 
-        // Validate password
+
         if (!agentInfo.password || agentInfo.password.length < 8) {
             newErrors.password = 'Please enter a valid password (at least 8 characters).';
             setTooltips((prev) => ({ ...prev, password: true }));
         }
 
-        // If there are errors, set the state with the new error messages
+
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
         } else {
             try {
-                // Upload images to Cloudinary
+
                 const cnic_imageUrl = await uploadImageToCloudinary(agentInfo.cnic_image);
                 const license_imageUrl = await uploadImageToCloudinary(agentInfo.license_image);
 
-                // Prepare data for API request
                 const requestData = {
                     name: agentInfo.name,
                     phone: agentInfo.phone,

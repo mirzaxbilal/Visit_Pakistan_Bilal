@@ -65,7 +65,7 @@ const CreatePackage = () => {
                 const response = await fetch(`${CloudinaryLink}`, {
                     method: 'POST',
                     body: formData,
-                    mode: 'cors', // Added CORS mode
+                    mode: 'cors',
                 });
                 const data = await response.json();
                 console.log(data);
@@ -87,7 +87,7 @@ const CreatePackage = () => {
         const completeFormData = {
             ...formData,
             images: imageUrls,
-            locations: selectedLocations, // Use selectedLocations here
+            locations: selectedLocations,
         };
 
         try {
@@ -103,19 +103,19 @@ const CreatePackage = () => {
             if (!response.ok) {
                 const errorData = await response.json();
                 console.error('Error creating package:', errorData.message);
-                // Show error alert
+
                 alert(`Error creating package: ${errorData.message}`);
                 return;
             }
 
             const result = await response.json();
             console.log('Package created successfully:', result);
-            // Show success alert
+
             alert('Package created successfully');
             navigate('/packages');
         } catch (error) {
             console.error('Error creating package:', error);
-            // Show error alert
+
             alert('Error creating package. Please try again.');
         }
     };

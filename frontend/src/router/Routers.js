@@ -11,6 +11,7 @@ import UpdatePackage from '../pages/UpdatePackage';
 import AgentRegister from '../pages/AgentRegister';
 import AgentProfile from '../pages/AgentProfile';
 import UserProfile from '../pages/UserProfile';
+import PackageDetails from '../pages/PackageDetails';
 
 const Router = () => {
     return (
@@ -18,6 +19,7 @@ const Router = () => {
             <Route path='/' element={<Navigate to='/home' />} />
             <Route path='/home' element={<Home />} />
             <Route path='/tours' element={<Tour />} />
+            <Route path='/tours/:id' element={<PackageDetails />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
             {/* <Route path='/myprofile' element={<MyProfile />} /> */}

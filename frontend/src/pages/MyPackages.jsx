@@ -29,11 +29,11 @@ const MyPackages = () => {
     }, [user.id]);
 
     const handleDelete = async (packageId) => {
-        // Show a confirmation dialog before deleting
+
         const confirmDelete = window.confirm('Are you sure you want to delete this package?');
 
         if (!confirmDelete) {
-            return; // If the user cancels the deletion, do nothing
+            return;
         }
 
         try {
@@ -60,7 +60,7 @@ const MyPackages = () => {
     };
 
     const handleUpdate = (packageId) => {
-        // Navigate to the update package page
+
         navigate(`/update-package/${packageId}`);
     };
 
