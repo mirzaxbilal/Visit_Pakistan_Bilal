@@ -61,7 +61,7 @@ const Header = () => {
             links = [
                 { path: '/create-package', display: 'Create Package' },
                 { path: '/my-packages', display: 'My Packages' },
-                { path: '/my-bookings', display: 'My Bookings' }
+                { path: '/AgentMyBookings', display: 'My Bookings' }
             ];
         }
         if (user && user.role === 'user') {

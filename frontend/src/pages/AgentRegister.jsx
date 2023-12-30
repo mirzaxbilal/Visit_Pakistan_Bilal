@@ -38,7 +38,6 @@ const AgentRegister = () => {
     const handleChange = (e) => {
         const { id, value, files } = e.target;
 
-        // For file inputs, set the state with the file object
         if (files) {
             setAgentInfo((prev) => ({ ...prev, [id]: files[0] }));
         } else {

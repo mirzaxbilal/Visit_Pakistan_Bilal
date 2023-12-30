@@ -13,6 +13,7 @@ import AgentProfile from '../pages/AgentProfile';
 import UserProfile from '../pages/UserProfile';
 import PackageDetails from '../pages/PackageDetails';
 import MyBookings from '../pages/MyBookings';
+import AgentMyBookings from '../pages/AgentMyBookings';
 
 const Router = () => {
     return (
@@ -31,6 +32,7 @@ const Router = () => {
             <Route path='/AgentProfile' element={<AgentProfile />} />
             <Route path='/UserProfile' element={<UserProfile />} />
             <Route path='/MyBookings' element={<MyBookings />} />
+            <Route path='/AgentMyBookings' element={<AgentMyBookings />} />
         </Routes >
     )
 }

@@ -4,6 +4,13 @@
     min-height: 100vh;
 }
 
+.filter-input {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    width: 200px;
+    float: right;
+}
+
 .booking-item {
     margin-bottom: 20px;
     border: 1px solid #ddd;
@@ -37,15 +44,12 @@
 }
 
 .custom-card-title:hover {
-
     color: #616161;
 }
 
 .custom-card-title a {
     color: inherit !important;
-
     text-decoration: none !important;
-
 }
 
 .custom-card-text {
@@ -58,7 +62,6 @@
     cursor: pointer;
     margin-left: 10px;
 }
-
 
 .btn-danger {
     background-color: #dc3545 !important;
