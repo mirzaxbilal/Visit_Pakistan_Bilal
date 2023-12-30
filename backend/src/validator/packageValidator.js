@@ -8,6 +8,7 @@ const CreatePackageValidation = Joi.object({
     price: Joi.number().required().positive(),
     duration: Joi.number().required().positive(),
     images: Joi.array().items(Joi.string()).required(),
+    maxPersons: Joi.number().required().positive(),
     locations: Joi.array().items(Joi.string()),
 
 });
@@ -22,6 +23,7 @@ const UpdatePackageValidation = Joi.object({
     duration: Joi.number().positive(),
     images: Joi.array().items(Joi.string()),
     locations: Joi.array().items(Joi.string()),
+    maxPersons: Joi.number().positive(),
     isApproved: Joi.boolean(),
     isDeleted: Joi.boolean(),
     agentId: Joi.object({

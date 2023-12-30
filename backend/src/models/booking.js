@@ -16,7 +16,15 @@ const BookingSchema = new mongoose.Schema({
         required: true,
         ref: 'agent'
     },
+    departure_date: {
+        type: Date,
+        required: true
+    },
     no_of_persons: {
+        type: Number,
+        required: true
+    },
+    no_of_infants: {
         type: Number,
         required: true
     },
@@ -27,7 +35,7 @@ const BookingSchema = new mongoose.Schema({
     status: {
         type: 'String',
         required: true,
-        enum: ['Confirmed', 'Cancelled']
+        enum: ['Confirmed', 'Cancelled', 'Payment Pending']
     },
     isDeleted: {
         type: 'Boolean',

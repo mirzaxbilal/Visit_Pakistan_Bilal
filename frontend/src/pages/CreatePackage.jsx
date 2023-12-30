@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/CreatePackage.css';
 import { BASE_URL } from './../utils/config';
 import { CloudinaryLink } from './../utils/config';
+
 const CreatePackage = () => {
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -17,12 +18,12 @@ const CreatePackage = () => {
         tourItinerary: '',
         price: 0,
         duration: 0,
+        maxPersons: 1,
         images: [],
         locations: [],
     });
 
     useEffect(() => {
-        // Fetch locations when the component mounts
         const fetchLocations = async () => {
             try {
                 const response = await fetch(`${BASE_URL}/locations/`);
@@ -35,14 +36,18 @@ const CreatePackage = () => {
 
         fetchLocations();
     }, []);
+
     const handleLocationCheckboxChange = (e) => {
         const { value, checked } = e.target;
-        setCheckedLocations(prev => ({ ...prev, [value]: checked }));
+        setCheckedLocations((prev) => ({ ...prev, [value]: checked }));
     };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prevData) => ({ ...prevData, [name]: value }));
+
+        const newValue = name === 'maxPersons' ? Math.max(1, parseInt(value, 10) || 1) : value;
+
+        setFormData((prevData) => ({ ...prevData, [name]: newValue }));
     };
 
     const handleLocationChange = (e) => {
@@ -120,7 +125,6 @@ const CreatePackage = () => {
         }
     };
 
-
     return (
         <div className="create-package-container">
             {user && user.role === 'agent' ? (
@@ -174,6 +178,17 @@ const CreatePackage = () => {
                                 onChange={handleInputChange}
                             />
                         </div>
+
+                        <div className="form-group">
+                            <label>Max Persons Allowed:</label>
+                            <input
+                                type="number"
+                                name="maxPersons"
+                                value={formData.maxPersons}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+
 
                         <div className="form-group">
                             <label>Images:</label>

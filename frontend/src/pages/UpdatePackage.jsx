@@ -18,6 +18,7 @@ const UpdatePackage = () => {
         tourItinerary: '',
         price: 0,
         duration: 0,
+        maxPersons: 1, // Added field
         locations: [],
         images: [],
     });
@@ -28,7 +29,6 @@ const UpdatePackage = () => {
                 const authHeader = {
                     'Authorization': `Bearer ${user.AccessToken}`
                 };
-
 
                 const [locationsResponse, packageResponse] = await Promise.all([
                     fetch(`${BASE_URL}/locations/`, {
@@ -47,7 +47,6 @@ const UpdatePackage = () => {
 
                 const [locationsData, packageData] = await Promise.all([locationsResponse.json(), packageResponse.json()]);
 
-
                 const checkedLocationsMap = locationsData.reduce((acc, location) => {
                     const isLocationChecked = packageData.locations.some(packageLocation => packageLocation._id === location._id);
                     acc[location._id] = isLocationChecked;
@@ -57,7 +56,6 @@ const UpdatePackage = () => {
                 setLocations(locationsData);
                 setCheckedLocations(checkedLocationsMap);
                 setFormData({ ...packageData });
-
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -66,19 +64,19 @@ const UpdatePackage = () => {
         fetchLocationsAndPackageData();
     }, [packageId, user.AccessToken]);
 
-
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData((prevData) => ({ ...prevData, [name]: value }));
+
+        // Add specific logic for individual fields if needed
+        // Example: Ensure that maxPersons is not less than 1
+        const newValue = name === 'maxPersons' ? Math.max(1, parseInt(value, 10) || 1) : value;
+
+        setFormData((prevData) => ({ ...prevData, [name]: newValue }));
     };
 
     const handleLocationCheckboxChange = (e) => {
         const { value, checked } = e.target;
-        setCheckedLocations(prev => ({
-            ...prev,
-            [value]: checked
-        }));
+        setCheckedLocations((prev) => ({ ...prev, [value]: checked }));
     };
 
     const handleFileChange = (e) => {
@@ -114,6 +112,7 @@ const UpdatePackage = () => {
         if (selectedFiles.length > 0) {
             imageUrls = await uploadImagesToCloudinary();
         }
+
         const { isDeleted, isApproved, agentId, __v, ...formDataWithoutFlags } = formData;
 
         const updatedFormData = {
@@ -123,7 +122,6 @@ const UpdatePackage = () => {
         };
 
         try {
-            console.log("hello", JSON.stringify(updatedFormData));
             const response = await fetch(`${BASE_URL}/packages/updatePackage/${packageId}`, {
                 method: 'PUT',
                 headers: {
@@ -184,6 +182,11 @@ const UpdatePackage = () => {
                     </div>
 
                     <div className="form-group">
+                        <label>Max Persons Allowed:</label>
+                        <input type="number" name="maxPersons" value={formData.maxPersons} onChange={handleInputChange} />
+                    </div>
+
+                    <div className="form-group">
                         <label>Images:</label>
                         <input type="file" multiple onChange={handleFileChange} />
                     </div>
@@ -205,7 +208,6 @@ const UpdatePackage = () => {
                             ))}
                         </div>
                     </div>
-
 
                     <button type="submit">Update Package</button>
                 </form>

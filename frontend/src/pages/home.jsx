@@ -2,7 +2,8 @@ import React from 'react'
 
 const home = () => {
     return (
-        <div>home</div>
+        <div><img src="/checked.png" alt="Checkmark" className="checkmark-image" />
+        </div>
     )
 }
 

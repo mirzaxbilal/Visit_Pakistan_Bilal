@@ -35,6 +35,10 @@ const tourPackageSchema = new mongoose.Schema({
         required: true,
         ref: 'agent'
     },
+    maxPersons: {
+        type: Number,
+        required: true
+    },
     isDeleted: {
         type: Boolean,
         required: true

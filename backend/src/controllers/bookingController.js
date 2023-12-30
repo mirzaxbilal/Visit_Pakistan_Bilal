@@ -2,18 +2,23 @@ const AgentModel = require('../models/agent');
 const BookingModel = require('../models/booking');
 const UserModel = require('../models/user');
 const PackageModel = require('../models/tourPackage');
+const { CreateBookingValidation, UpdateBookingValidation } = require('../validator/bookingValidator');
 
 
 const createBooking = async (req, res) => {
     try {
         if (req.role == "admin" || (req.role == "user")) {
-            const { package_id, no_of_persons } = req.body;
+            try {
+                const validate = await CreateBookingValidation.validateAsync(req.body);
+            } catch (error) {
+                return res.status(400).json({ message: error.details[0].message });
+            }
 
             const existingUser = await UserModel.findOne({ _id: req.id, isDeleted: false });
             if (!existingUser) {
                 return res.status(400).json({ message: "User does not exists" });
             }
-            const existingPackage = await PackageModel.findOne({ _id: package_id, isDeleted: false });
+            const existingPackage = await PackageModel.findOne({ _id: req.body.package_id, isDeleted: false });
             if (!existingPackage) {
                 return res.status(400).json({ message: "Package does not exists" });
             }
@@ -21,18 +26,23 @@ const createBooking = async (req, res) => {
             if (!existingAgent) {
                 return res.status(400).json({ message: "Agent does not exists" });
             }
-            if (no_of_persons < 1) {
+            if (req.body.no_of_persons < 1) {
                 return res.status(400).json({ message: "Number of persons should be atleast 1" });
             }
-            const total_price = no_of_persons * existingPackage.price;
+            if (req.body.no_of_persons > existingPackage.maxPersons) {
+                return res.status(400).json({ message: `Max number of allowed persons excluding infants are ${existingPackage.maxPersons}.` });
+            }
+
 
             const newBooking = new BookingModel({
                 user: existingUser,
                 package: existingPackage,
                 agent: existingAgent,
-                no_of_persons,
-                total_price,
-                status: "Confirmed",
+                departure_date: req.body.departure_date,
+                no_of_persons: req.body.no_of_persons,
+                no_of_infants: req.body.no_of_persons,
+                total_price: req.body.price,
+                status: "Payment Pending",
                 isDeleted: false,
             });
 
@@ -110,9 +120,18 @@ const getBookingById = async (req, res) => {
 
 const updateBooking = async (req, res) => {
     try {
+
+
+        try {
+            const validate = await UpdateBookingValidation.validateAsync(req.body);
+        } catch (error) {
+            return res.status(400).json({ message: error.details[0].message });
+        }
+
         const bookingId = req.params.id;
 
         const existingBooking = await BookingModel.findOne({ _id: bookingId, isDeleted: false });
+
         if (!existingBooking) {
             return res.status(404).json({ message: "Booking not found" });
         }
@@ -150,17 +169,40 @@ const updateBooking = async (req, res) => {
                 return res.status(401).json({ message: "Unauthorized Access" });
             }
         }
+        if (req.body.departure_date) {
+            if (req.role == "admin") {
+
+                existingBooking.departure_date = req.body.departure_date;
+
+            } else {
+                return res.status(401).json({ message: "Unauthorized Access" });
+            }
+        }
         if (req.body.no_of_persons) {
             if (req.role == "admin") {
                 if (req.body.no_of_persons < 1) {
                     return res.status(400).json({ message: "Number of persons should be atleast 1" });
                 }
-                existingBooking.no_of_persons = req.body.no_of_persons;
                 const existingPackage = await PackageModel.findOne({ _id: existingBooking.package, isDeleted: false });
                 if (!existingPackage) {
                     return res.status(400).json({ message: "Package does not exists" });
                 }
-                existingBooking.total_price = req.body.no_of_persons * existingPackage.price;
+                if (req.body.no_of_persons > existingPackage.maxPersons) {
+                    return res.status(400).json({ message: `Max number of allowed persons excluding infants are ${existingPackage.maxPersons}.` });
+                }
+                existingBooking.no_of_persons = req.body.no_of_persons;
+                existingBooking.total_price = (req.body.no_of_persons * existingPackage.price) + 10;
+            } else {
+                return res.status(401).json({ message: "Unauthorized Access" });
+            }
+        }
+        if (req.body.no_of_infants) {
+            if (req.role == "admin") {
+                if (req.body.no_of_infants < 0) {
+                    return res.status(400).json({ message: "Number of infants cannot be less than 0" });
+                }
+                existingBooking.no_of_infants = req.body.no_of_infants;
+
             } else {
                 return res.status(401).json({ message: "Unauthorized Access" });
             }

@@ -28,6 +28,7 @@ const createPackage = async (req, res) => {
                 duration: req.body.duration,
                 images: req.body.images,
                 locations: req.body.locations,
+                maxPersons: req.body.maxPersons,
                 agentId: agent,
                 isDeleted: false,
                 isApproved: false,
@@ -121,6 +122,12 @@ const updatePackage = async (req, res) => {
             console.log(8);
             if (req.body.locations) {
                 existingPackage.locations = req.body.locations;
+                if (req.role != "admin") {
+                    existingPackage.isApproved = false;
+                }
+            }
+            if (req.body.maxPersons) {
+                existingPackage.maxPersons = req.body.maxPersons;
                 if (req.role != "admin") {
                     existingPackage.isApproved = false;
                 }

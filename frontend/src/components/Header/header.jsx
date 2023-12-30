@@ -64,6 +64,13 @@ const Header = () => {
                 { path: '/my-bookings', display: 'My Bookings' }
             ];
         }
+        if (user && user.role === 'user') {
+            links = [
+                { path: '/home', display: 'Home' },
+                { path: '/tours', display: 'Tours' },
+                { path: '/my-bookings', display: 'My Bookings' }
+            ];
+        }
 
         return links;
     };
