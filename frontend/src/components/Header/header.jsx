@@ -68,7 +68,7 @@ const Header = () => {
             links = [
                 { path: '/home', display: 'Home' },
                 { path: '/tours', display: 'Tours' },
-                { path: '/my-bookings', display: 'My Bookings' }
+                { path: '/MyBookings', display: 'My Bookings' }
             ];
         }
 

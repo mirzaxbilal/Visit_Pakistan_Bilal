@@ -123,7 +123,19 @@ const getProfile = async (req, res) => {
     console.log(req.params.id);
     if (req.role == "admin" || (req.role == "user" && req.id == req.params.id)) {
         console.log("all good1");
-        const existingUser = await userModel.findOne({ _id: req.params.id, isDeleted: false })
+        const existingUser = await userModel.findOne({ _id: req.params.id, isDeleted: false }).populate({
+            path: 'bookings',
+            populate: [
+                {
+                    path: 'agent',
+                    select: 'name phone email'
+                },
+                {
+                    path: 'package',
+                    select: 'title'
+                }
+            ]
+        });
         console.log("all good2");
         if (!existingUser) {
 

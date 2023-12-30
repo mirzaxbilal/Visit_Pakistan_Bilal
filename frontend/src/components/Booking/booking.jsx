@@ -35,7 +35,7 @@ const Booking = ({ packageData }) => {
 
     const handleBooking = async () => {
         if (user) {
-            // Check if the selected departure date is after today
+
             const selectedDate = document.getElementById('bookAt').value;
 
             if (!selectedDate) {
@@ -67,7 +67,7 @@ const Booking = ({ packageData }) => {
             };
 
             try {
-                // Call the API to make the booking
+
                 const response = await fetch(`${BASE_URL}/bookings/createBooking`, {
                     method: 'POST',
                     headers: {
@@ -83,7 +83,7 @@ const Booking = ({ packageData }) => {
                     return;
                 }
 
-                setBookingSuccessful(true); // Set booking status to true on success
+                setBookingSuccessful(true);
 
             } catch (error) {
                 console.error('Error creating booking:', error);
@@ -101,7 +101,7 @@ const Booking = ({ packageData }) => {
 
     const handlePaymentSuccess = () => {
         console.log('Payment successful. Continue booking logic here');
-        setBookingSuccessful(true); // Set booking status to true on payment success
+        setBookingSuccessful(true);
     };
 
     return (

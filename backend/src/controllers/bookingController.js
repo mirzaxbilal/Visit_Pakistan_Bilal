@@ -40,7 +40,7 @@ const createBooking = async (req, res) => {
                 agent: existingAgent,
                 departure_date: req.body.departure_date,
                 no_of_persons: req.body.no_of_persons,
-                no_of_infants: req.body.no_of_persons,
+                no_of_infants: req.body.no_of_infants,
                 total_price: req.body.price,
                 status: "Payment Pending",
                 isDeleted: false,
