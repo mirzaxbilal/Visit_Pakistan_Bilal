@@ -66,5 +66,5 @@
     "prettier": "^3.0.3"
   },
   "homepage": "https://material-dashboard-react-nodejs.creative-tim.com/",
-  "proxy": "https://node-json-api-free.creative-tim.com/"
+  "proxy": "http://localhost:8080"
 }
