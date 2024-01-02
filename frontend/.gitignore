@@ -1,5 +1,0 @@
-node_modules/
-.env
-node_modules
-frontend/src/utils/config.js
-config.js
