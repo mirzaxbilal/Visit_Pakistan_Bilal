@@ -5,7 +5,7 @@ import "./tour-card.css"
 
 const TourCard = ({ tour }) => {
     const { _id, title, locations, images, price } = tour
-    console.log(images[0]);
+
 
     return (
         <div className="tour__card">
@@ -19,6 +19,9 @@ const TourCard = ({ tour }) => {
                     <div className="card__top d-flex align-items-center justify-content-between">
                         <span className="tour__location d-flex align-items-center gap-1">
                             <i className="ri-map-pin-line"></i> {locations.map(location => location.name).join(', ')}
+                        </span>
+                        <span className="tour__location d-flex align-items-center gap-1">
+                            <i class="ri-store-line"></i> {locations.map(location => location.name).join(', ')}
                         </span>
                     </div>
                     <h5 className="tour__title">
