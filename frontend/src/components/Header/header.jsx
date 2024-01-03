@@ -1,12 +1,14 @@
 import React, { useRef, useEffect, useContext, useState } from 'react';
 import { Container, Row, Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { NavLink, Link, useNavigate, useLocation } from 'react-router-dom';
 
 import logo from '../../assets/images/logo.png';
 import './header.css';
 import { AuthContext } from './../../context/AuthContext';
 
 const Header = () => {
+    const location = useLocation(); // Get the current location
+    const isTransparent = location.pathname === '/home'; // Check if the current route is home
     const headerRef = useRef(null);
     const navigate = useNavigate();
     const { user, dispatch } = useContext(AuthContext);
@@ -76,7 +78,7 @@ const Header = () => {
     };
 
     return (
-        <header className="header" ref={headerRef}>
+        <header className={`header ${isTransparent ? 'transparent' : ''}`} ref={headerRef}>
             <Container>
                 <Row>
                     <div className="nav_wrapper d-flex align-items-center justify-content-between">

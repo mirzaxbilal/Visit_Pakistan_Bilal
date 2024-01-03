@@ -1,10 +1,21 @@
 import React from 'react'
-
+import Header from '../components/Header/header'; // Adjust the path as per your project structure
+import '../styles/Home.css'
+import Vid from '../assets/videos/home.mp4';
 const home = () => {
     return (
-        <div><img src="/checked.png" alt="Checkmark" className="checkmark-image" />
+        <div className="home-container">
+            <Header isTransparent={true} />
+            <video autoPlay loop muted className="background-video">
+                <source src={Vid} type="video/mp4" />
+                Your browser does not support the video tag.
+            </video>
+            <div className="content">
+                <h1>Find your pace in Pakistan</h1>
+                <p>Where endless sunshine meets vibrant culture, enriching experiences and limitless adventure.</p>
+            </div>
         </div>
-    )
-}
+    );
+};
 
-export default home
+export default home;
