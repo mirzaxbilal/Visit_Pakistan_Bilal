@@ -1,11 +1,9 @@
 import React from 'react'
-import Header from '../components/Header/header'; // Adjust the path as per your project structure
 import '../styles/Home.css'
 import Vid from '../assets/videos/home.mp4';
 const home = () => {
     return (
         <div className="home-container">
-            <Header isTransparent={true} />
             <video autoPlay loop muted className="background-video">
                 <source src={Vid} type="video/mp4" />
                 Your browser does not support the video tag.
