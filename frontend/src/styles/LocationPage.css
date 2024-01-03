@@ -1,0 +1,102 @@
+.location-page {
+    padding: 0;
+    margin: 0;
+}
+
+.img__col {
+
+    padding: 0rem !important;
+
+
+}
+
+.custom__description {
+    font-size: 1.3rem;
+    text-align: justify;
+
+}
+
+.attraction__heading {
+    padding-left: 2rem;
+}
+
+.custom__attraction_description {
+    font-size: 1.3rem;
+    text-align: justify;
+    padding: 0rem 2rem;
+}
+
+.location-header {
+    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.location-main-image {
+    width: 100%;
+    max-height: 90vh;
+    /* Control the height of the main image */
+    object-fit: cover;
+}
+
+.location-name-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    z-index: 2;
+    font-size: 4rem;
+    /* Adjust the font size as needed */
+}
+
+.location-content {
+    padding: 4rem 4rem;
+}
+
+.attraction-row {
+    margin-bottom: 2rem;
+    align-items: center;
+    display: flex;
+}
+
+.attraction-image {
+    padding: 2rem;
+    /* If you want no padding around the images */
+}
+
+.attraction-image img {
+    border-radius: 15px;
+    /* Rounded corners for images */
+    max-height: 350px;
+    /* Control the height of the attraction images */
+    width: 100%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+    /* Space between the image and the text on smaller screens */
+}
+
+.attraction-info {
+    padding: 1rem;
+}
+
+@media (min-width: 768px) {
+    .attraction-row {
+        flex-direction: row;
+    }
+
+    .attraction-row.flex-row-reverse {
+        flex-direction: row-reverse;
+        /* Ensure images alternate sides */
+    }
+
+    .attraction-image img {
+        margin-bottom: 0;
+        /* Remove the margin between image and text on larger screens */
+    }
+
+    .attraction-info {
+        padding: 1rem 15px;
+        /* Padding around the text */
+    }
+}

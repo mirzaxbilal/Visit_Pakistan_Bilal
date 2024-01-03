@@ -241,7 +241,6 @@ const getApporovedPackageById = async (req, res) => {
         console.error(error);
         return res.status(500).json({ message: "Something went wrong" });
     }
-
 }
 
 const getPackageById = async (req, res) => {
@@ -299,22 +298,20 @@ const getUnapprovedPackages = async (req, res) => {
         console.error(error);
         return res.status(500).json({ message: "Something went wrong" });
     }
-
 }
 
 const getAprrovedPackages = async (req, res) => {
     try {
+        const page = parseInt(req.query.page);
 
-        const packages = await packageModel.find({ isApproved: true, isDeleted: false }).populate({
+        const packages = await packageModel.find({ isApproved: true, isDeleted: false }).skip(page * 1).limit(1).populate({
             path: 'agentId',
             select: 'email phone'
         }).populate({
-            path: 'locations', // Assuming 'locations' is the field that references the Location model
+            path: 'locations',
             select: 'name'
         });
         return res.status(200).json(packages);
-
-
 
     } catch (error) {
         console.error(error);
@@ -322,4 +319,42 @@ const getAprrovedPackages = async (req, res) => {
     }
 }
 
-module.exports = { createPackage, updatePackage, deletePackage, getAllPackages, getApporovedPackageById, getUnapprovedPackages, getAprrovedPackages, getPackageById }
+const getPackageBySearch = async (req, res) => {
+    try {
+        const searchWord = req.query.title;
+
+        const packages = await packageModel.find({
+            isApproved: true,
+            isDeleted: false,
+            title: { $regex: searchWord, $options: 'i' }
+        })
+            .populate({
+                path: 'agentId',
+                select: 'email phone'
+            })
+            .populate({
+                path: 'locations',
+                select: 'name'
+            });
+
+        return res.status(200).json(packages);
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Something went wrong" });
+    }
+};
+
+const getApprovedPackagesCount = async (req, res) => {
+    try {
+        const count = await packageModel.countDocuments({ isApproved: true, isDeleted: false });
+        return res.status(200).json({ count });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Something went wrong" });
+    }
+};
+
+
+module.exports = { createPackage, updatePackage, deletePackage, getAllPackages, getApporovedPackageById, getUnapprovedPackages, getAprrovedPackages, getPackageById, getPackageBySearch, getApprovedPackagesCount }

@@ -6,7 +6,7 @@ const { createPackage,
   updatePackage,
   deletePackage,
   getAllPackages,
-  getApporovedPackageById, getUnapprovedPackages, getAprrovedPackages, getPackageById
+  getApporovedPackageById, getUnapprovedPackages, getAprrovedPackages, getPackageById, getPackageBySearch, getApprovedPackagesCount
 } = require('../controllers/packageController');
 
 /**
@@ -142,8 +142,15 @@ packageRouter.get('/getUnapprovedPackages', auth_access, getUnapprovedPackages);
  *         description: Tour package not found
  *       500:
  *         description: Server error
+ * 
  */
+
+packageRouter.get('/getPackageBySearch', getPackageBySearch);
+
+packageRouter.get('/getApprovedPackagesCount', getApprovedPackagesCount);
+
 packageRouter.get('/:id', getApporovedPackageById);
+
 packageRouter.get('/getPackage/:id', auth_access, getPackageById);
 /**
  * @swagger
@@ -197,6 +204,9 @@ packageRouter.put('/updatePackage/:id', auth_access, updatePackage);
  *       500:
  *         description: Server error
  */
+
 packageRouter.delete('/deletePackage/:id', auth_access, deletePackage);
+
+
 
 module.exports = packageRouter;

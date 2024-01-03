@@ -10,7 +10,7 @@
 
 .checkmark-container {
     margin-bottom: 10px;
-    /* Adjust as needed for spacing */
+
 }
 
 .booking__success-text .custom__message {
@@ -25,25 +25,25 @@
 
 .checkmark-image {
     width: 128px;
-    /* Adjust the size as needed */
+
     height: 128px;
-    /* Adjust the size as needed */
+
     margin-right: 20px;
-    /* Adjust the spacing as needed */
+
 }
 
 .booking__success-message h1 {
     font-size: 2em;
-    /* Adjust the font size as needed */
+
     margin-bottom: 10px;
-    /* Adjust the spacing as needed */
+
 }
 
 .normal-text {
     font-size: 1em;
-    /* Adjust the font size as needed */
+
     margin-top: 0;
-    /* Reset top margin */
+
 }
 
 

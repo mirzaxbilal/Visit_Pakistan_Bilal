@@ -14,6 +14,8 @@ import UserProfile from '../pages/UserProfile';
 import PackageDetails from '../pages/PackageDetails';
 import MyBookings from '../pages/MyBookings';
 import AgentMyBookings from '../pages/AgentMyBookings';
+import LocationPage from '../pages/LocationPage';
+import SearchResultList from '../pages/SearchResultList';
 
 const Router = () => {
     return (
@@ -21,6 +23,7 @@ const Router = () => {
             <Route path='/' element={<Navigate to='/home' />} />
             <Route path='/home' element={<Home />} />
             <Route path='/tours' element={<Tour />} />
+            <Route path='/tours/search' element={<SearchResultList />} />
             <Route path='/tours/:id' element={<PackageDetails />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
@@ -33,6 +36,8 @@ const Router = () => {
             <Route path='/UserProfile' element={<UserProfile />} />
             <Route path='/MyBookings' element={<MyBookings />} />
             <Route path='/AgentMyBookings' element={<AgentMyBookings />} />
+            <Route path='/location/:id' element={<LocationPage />} />
+
         </Routes >
     )
 }
