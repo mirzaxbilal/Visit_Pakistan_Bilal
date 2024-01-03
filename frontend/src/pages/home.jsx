@@ -6,6 +6,8 @@ import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import Vid from '../assets/videos/home.mp4';
+import Img from '../assets/images/plan.jpg';
+
 const Home = () => {
     const [locations, setLocations] = useState([]);
     const navigate = useNavigate();
@@ -28,14 +30,17 @@ const Home = () => {
         fetchLocations();
     }, []);
     
+    const redirectToLocation = (locationId) => {
+        navigate(`/location/${locationId}`);
+    };
+
     const settings = {
         dots: true,
         infinite: true,
         speed: 500,
         slidesToShow: 3,
         slidesToScroll: 3,
-        swipeToSlide: true, // Enable mouse dragging
-        arrows: true, // Enable navigation arrows
+        swipeToSlide: true, // Enable swipe to slide
         responsive: [
             {
                 breakpoint: 768,
@@ -66,20 +71,34 @@ const Home = () => {
                     <p>Where endless sunshine meets vibrant culture, enriching experiences and limitless adventure.</p>
                 </div>
             </div>
-            <Container className="plan-your-trip-section">
-                <h2>Plan your trip</h2>
-                <Button className="start-planning-btn" onClick={() => navigate('/tours')}>
-                    <i className="fas fa-plane"></i>Start Planning
-                </Button>
+            <Container>
+                <h2 className="plan-your-trip-section">Explore the Untouched Beauty of Pakistan</h2>
                 <Slider {...settings}>
                     {locations.map((location, index) => (
-                        <div key={index} className="location-card">
+                        <Col md="4" key={index} className="location-card" onClick={() => redirectToLocation(location._id)}>
                             <div className="card-content" style={{ backgroundImage: `url(${location.picture})` }}>
-                                <h3>{location.name}</h3>
+                            <h3 className="location-name">{location.name}</h3>
+                            <h3 className="location-title">{location.title}</h3>
                             </div>
-                        </div>
+                        </Col>
                     ))}
                 </Slider>
+            </Container>
+            <Container>
+            <div className="new-section">
+                <div className="text-and-button">
+                    <h2>Explore Pakistan with us.</h2>
+                    <p>Discover the hidden gems of Pakistan, where ancient traditions meet 
+                        breathtaking landscapes. Embark on a journey filled with vibrant culture, 
+                        majestic mountains, and warm hospitality that stays with you forever.</p>
+                    <Button className="start-planning-btn" onClick={() => navigate('/tours')}>
+                        <i className="fas fa-plane"></i> Plan Your Trip!
+                    </Button>
+                </div>
+                <div className="section-image">
+                    <img src={Img} alt="Scenic view of Pakistan" />
+                </div>
+            </div>
             </Container>
         </>
     );

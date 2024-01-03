@@ -4,8 +4,8 @@
 .start-planning-btn {
     background-color: var(--secondary-color) !important;
     color: white !important;
-    padding: 10px 20px !important;
-    font-size: 1em !important;
+    padding: 17px 25px !important;
+    font-size: 1.2em !important;
     border: none !important;
     border-radius: 30px !important;
     margin-top: 20px;
@@ -21,19 +21,17 @@
 }
 
 .plan-your-trip-section {
-    text-align: left;
-    font-size: larger;
+    font-size: 35px;
 }
 
-.plan-your-trip-section h2{
-    font-size: 50px;
-}
 
 .location-card {
+    cursor: pointer;
     margin: 0 15px; /* Horizontal margin */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Optional: adds shadow for depth */
     background: white; /* Card background */
 }
+
 
 .slick-slide > div {
     margin: 0 5px; /* Adjust the margin between slides */
@@ -43,7 +41,31 @@
     margin: 0 -15px; /* Adjust if needed to align with the container */
 }
 
+.slick-prev, .slick-next {
+    font-size: 30px; /* Adjust the size as needed */
+    z-index: 1;
+    color: white; /* Change the color as needed */
+    background-color: green; /* Background to make them stand out */
+    border-radius: 50%; /* Circular shape */
+    width: 60px; /* Width of the button */
+    height: 60px; /* Height of the button */
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Position adjustments if needed */
+.slick-prev {
+    left: 10px; /* Adjust the position as needed */
+}
+
+.slick-next {
+    right: 10px; /* Adjust the position as needed */
+}
+
 .card-content {
+    margin-top: 40px;
     height: 400px; /* Adjust as needed */
     background-size: cover;
     background-position: center;
@@ -55,6 +77,33 @@
     overflow: hidden; /* To keep everything contained in the card */
     position: relative; /* Needed for absolute positioning of pseudo-elements */
     transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transition for zoom and background */
+}
+
+.location-name, .location-title {
+    margin: 0;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    align-items: center;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    width: 100%;
+    position: absolute;
+    bottom: 10px; /* Adjust as needed */
+    left: 0;
+    transition: opacity 0.3s ease;
+}
+
+.location-title {
+    opacity: 0; /* Hide title by default */
+}
+
+.card-content:hover .location-name {
+    opacity: 0; /* Hide name on hover */
+}
+
+.card-content:hover .location-title {
+    opacity: 1; /* Show title on hover */
 }
 .card-content:hover {
     transform: scale(1.1); /* Zoom in the card */
@@ -75,15 +124,11 @@
     background: rgba(0, 0, 0, 0.5); /* Darken the background on hover */
 }
 
-.card-content:hover h3 {
-    color: #fff; /* Change text color on hover */
-}
 .card-content h3 {
     margin: 0;
     color: white;
     padding: 5px 10px;
-    font-weight: 700;    
-    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-weight: 500;    
 }
 
 .home-video-container {
@@ -117,3 +162,56 @@
     padding-top: 20%; 
 }
 
+.new-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10% 0;
+    margin: 0 auto;
+    max-width: 1200px; /* Adjust as needed */
+}
+
+.text-and-button {
+    flex: 1;
+    padding-right: 20px; /* Space between text and image */
+}
+
+.text-and-button h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.text-and-button p {
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    padding-right: 7%;
+}
+
+
+.section-image {
+    flex: 1;
+    text-align: right;
+}
+
+.section-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px; /* Optional: for rounded corners */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .new-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .text-and-button {
+        padding-right: 0;
+        padding-bottom: 20px;
+    }
+
+    .section-image {
+        text-align: center;
+    }
+}
