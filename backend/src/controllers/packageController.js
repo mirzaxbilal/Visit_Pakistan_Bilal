@@ -306,7 +306,7 @@ const getAprrovedPackages = async (req, res) => {
 
         const packages = await packageModel.find({ isApproved: true, isDeleted: false }).skip(page * 1).limit(1).populate({
             path: 'agentId',
-            select: 'email phone'
+            select: 'name email phone'
         }).populate({
             path: 'locations',
             select: 'name'

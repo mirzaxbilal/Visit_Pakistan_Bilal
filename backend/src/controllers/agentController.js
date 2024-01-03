@@ -200,17 +200,16 @@ const getAgentPackages = async (req, res) => {
                 return res.status(404).json({ message: "Agent not found or deleted." });
             }
 
-            // Populate the 'packages' array in the Agent model to get the details of each package
             const agent = await existingAgent.populate({
                 path: 'packages',
                 populate: {
                     path: 'locations',
-                    select: 'name' // Adjust the fields you want to select for locations
+                    select: 'name'
                 }
             });
 
 
-            // Extract the populated packages
+
             const agentPackages = agent.packages;
 
             res.status(200).json(agentPackages);

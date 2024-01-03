@@ -92,3 +92,8 @@
 .booking__btn a:hover {
     color: #fff;
 }
+
+.agent__name {
+    font-size: 0.9rem;
+    color: var(--heading-color)
+}
