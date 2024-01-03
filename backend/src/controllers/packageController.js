@@ -330,7 +330,7 @@ const getPackageBySearch = async (req, res) => {
         })
             .populate({
                 path: 'agentId',
-                select: 'email phone'
+                select: 'name email phone'
             })
             .populate({
                 path: 'locations',

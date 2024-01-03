@@ -35,7 +35,7 @@
 .location-main-image {
     width: 100%;
     max-height: 90vh;
-    /* Control the height of the main image */
+
     object-fit: cover;
 }
 
@@ -47,7 +47,8 @@
     color: white;
     z-index: 2;
     font-size: 4rem;
-    /* Adjust the font size as needed */
+    text-align: Center;
+
 }
 
 .location-content {

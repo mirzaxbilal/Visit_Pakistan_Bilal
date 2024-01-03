@@ -5,13 +5,14 @@ const createLocation = async (req, res) => {
 
         if (req.role === "admin") {
 
-            const { name, description, picture, attractions } = req.body;
+            const { title, name, description, picture, attractions } = req.body;
             if (!name || !description || !picture || !attractions || attractions.length === 0) {
                 return res.status(400).json({ message: "Invalid input. Please provide name, description, picture, and attractions." });
             }
 
 
             const location = new locationModel({
+                title,
                 name,
                 description,
                 picture,
@@ -47,8 +48,10 @@ const updateLocation = async (req, res) => {
                 return res.status(404).json({ message: "Location not found." });
             }
 
-            const { name, description, picture, attractions } = req.body;
-
+            const { title, name, description, picture, attractions } = req.body;
+            if (title) {
+                existingLocation.title = title;
+            }
 
             if (name) {
                 existingLocation.name = name;

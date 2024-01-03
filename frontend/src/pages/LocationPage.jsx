@@ -36,7 +36,7 @@ const LocationPage = () => {
             <Row className="location-header">
                 <Col className="img__col">
                     <img src={locationData.picture} alt={locationData.name} className="img-fluid location-main-image" />
-                    <h1 className="location-name-overlay">{locationData.name}</h1>
+                    <h1 className="location-name-overlay">{locationData.title}</h1>
                 </Col>
             </Row>
             <Row className="location-content">
