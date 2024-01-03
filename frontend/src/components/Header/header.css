@@ -5,14 +5,14 @@
     transition: background-color 0.3s, color 0.3s; /* Smooth transition for background and color changes */
 }
 
-.header.transparent {
+body .header.transparent {
     background-color: transparent;
     color: white;
 }
 
-.header.transparent .nav__item a, 
-.header.transparent .nav__btns a,
-.header.transparent .nav__item .dropdown-toggle {
+body .header.transparent .nav__item a, 
+body .header.transparent .nav__btns a,
+body .header.transparent .nav__item .dropdown-toggle {
     color: white;
 }
 
