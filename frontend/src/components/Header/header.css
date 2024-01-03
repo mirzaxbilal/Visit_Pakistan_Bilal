@@ -2,6 +2,18 @@
     width: 100%;
     height: 80px;
     line-height: 80px;
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for background and color changes */
+}
+
+.header.transparent {
+    background-color: transparent;
+    color: white;
+}
+
+.header.transparent .nav__item a, 
+.header.transparent .nav__btns a,
+.header.transparent .nav__item .dropdown-toggle {
+    color: white;
 }
 
 .logo img {
@@ -21,6 +33,7 @@
     color: var(--heading-color);
     font-weight: 500;
     font-size: 1.1rem;
+    transition: color 0.3s; /* Smooth transition for color changes */
 }
 
 .nav__item a:hover {
@@ -38,6 +51,7 @@
     font-size: 1.1rem;
     background-color: transparent;
     border: none;
+    transition: color 0.3s; /* Smooth transition for color changes */
 }
 
 .nav__item .dropdown-toggle:hover {
