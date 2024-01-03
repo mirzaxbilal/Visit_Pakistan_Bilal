@@ -1,3 +1,91 @@
+@import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css";
+
+.start-planning-btn {
+    background-color: var(--secondary-color) !important;
+    color: white !important;
+    padding: 10px 20px !important;
+    font-size: 1em !important;
+    border: none !important;
+    border-radius: 30px !important;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.start-planning-btn:hover {
+    background-color: green !important;
+}
+
+.start-planning-btn .fa-plane {
+    margin-right: 5px; /* Adds space between the icon and text */
+}
+
+.plan-your-trip-section {
+    text-align: left;
+    font-size: larger;
+}
+
+.plan-your-trip-section h2{
+    font-size: 50px;
+}
+
+.location-card {
+    margin: 0 15px; /* Horizontal margin */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Optional: adds shadow for depth */
+    background: white; /* Card background */
+}
+
+.slick-slide > div {
+    margin: 0 5px; /* Adjust the margin between slides */
+}
+
+.slick-list {
+    margin: 0 -15px; /* Adjust if needed to align with the container */
+}
+
+.card-content {
+    height: 400px; /* Adjust as needed */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    color: white;
+    overflow: hidden; /* To keep everything contained in the card */
+    position: relative; /* Needed for absolute positioning of pseudo-elements */
+    transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transition for zoom and background */
+}
+.card-content:hover {
+    transform: scale(1.1); /* Zoom in the card */
+}
+
+.card-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0); /* Transparent background initially */
+    transition: background-color 0.3s ease; /* Transition for the overlay */
+}
+
+.card-content:hover::before {
+    background: rgba(0, 0, 0, 0.5); /* Darken the background on hover */
+}
+
+.card-content:hover h3 {
+    color: #fff; /* Change text color on hover */
+}
+.card-content h3 {
+    margin: 0;
+    color: white;
+    padding: 5px 10px;
+    font-weight: 700;    
+    font-family:Georgia, 'Times New Roman', Times, serif;
+}
+
 .home-video-container {
     position: relative;
     height: 100vh; /* Adjust the height as needed */
