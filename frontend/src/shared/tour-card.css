@@ -11,6 +11,8 @@
 
 }
 
+
+
 .tour__img {
     position: relative;
 }
@@ -26,6 +28,8 @@
     color: #fff;
     padding: 0.3rem 0.5rem;
     border-radius: 3px 0 0 0;
+    font-size: 0.8rem;
+
 
 }
 
@@ -97,3 +101,8 @@
     font-size: 0.9rem;
     color: var(--heading-color)
 }
+
+/* .tour__card__body {
+    width: 18rem;
+
+} */

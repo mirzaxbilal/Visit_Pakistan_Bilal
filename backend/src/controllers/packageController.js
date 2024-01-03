@@ -304,7 +304,7 @@ const getAprrovedPackages = async (req, res) => {
     try {
         const page = parseInt(req.query.page);
 
-        const packages = await packageModel.find({ isApproved: true, isDeleted: false }).skip(page * 1).limit(1).populate({
+        const packages = await packageModel.find({ isApproved: true, isDeleted: false }).skip(page * 3).limit(3).populate({
             path: 'agentId',
             select: 'name email phone'
         }).populate({
@@ -321,13 +321,18 @@ const getAprrovedPackages = async (req, res) => {
 
 const getPackageBySearch = async (req, res) => {
     try {
+        const page = parseInt(req.query.page) || 0; // Default page is 0 if not provided
+        const itemsPerPage = 3; // Number of items to show per page
         const searchWord = req.query.title;
 
-        const packages = await packageModel.find({
-            isApproved: true,
-            isDeleted: false,
-            title: { $regex: searchWord, $options: 'i' }
-        })
+        const packages = await packageModel
+            .find({
+                isApproved: true,
+                isDeleted: false,
+                title: { $regex: searchWord, $options: 'i' }
+            })
+            .skip(page * itemsPerPage)
+            .limit(itemsPerPage)
             .populate({
                 path: 'agentId',
                 select: 'name email phone'
@@ -337,13 +342,22 @@ const getPackageBySearch = async (req, res) => {
                 select: 'name'
             });
 
-        return res.status(200).json(packages);
+
+        const totalCount = await packageModel
+            .countDocuments({
+                isApproved: true,
+                isDeleted: false,
+                title: { $regex: searchWord, $options: 'i' }
+            });
+
+        return res.status(200).json({ packages, totalCount });
 
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Something went wrong" });
     }
 };
+
 
 const getApprovedPackagesCount = async (req, res) => {
     try {
@@ -356,5 +370,28 @@ const getApprovedPackagesCount = async (req, res) => {
     }
 };
 
+const getPackageByLocation = async (req, res) => {
+    try {
+        const searchLocationId = req.query.location; // Update variable name to reflect the change
 
-module.exports = { createPackage, updatePackage, deletePackage, getAllPackages, getApporovedPackageById, getUnapprovedPackages, getAprrovedPackages, getPackageById, getPackageBySearch, getApprovedPackagesCount }
+        const packages = await packageModel.find({
+            isApproved: true,
+            isDeleted: false,
+            locations: { $in: [searchLocationId] } // Use $in to match locationId in the array
+        }).populate({
+            path: 'agentId',
+            select: 'name email phone'
+        }).populate({
+            path: 'locations',
+            select: 'name'
+        });
+
+        return res.status(200).json(packages);
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Something went wrong" });
+    }
+};
+
+module.exports = { createPackage, updatePackage, deletePackage, getAllPackages, getApporovedPackageById, getUnapprovedPackages, getAprrovedPackages, getPackageById, getPackageBySearch, getApprovedPackagesCount, getPackageByLocation }

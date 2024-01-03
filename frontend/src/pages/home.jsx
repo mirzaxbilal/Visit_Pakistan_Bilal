@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'reactstrap';
 import '../styles/Home.css'
 import Slider from 'react-slick';
-import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Vid from '../assets/videos/home.mp4';
 import Img from '../assets/images/plan.jpg';
@@ -29,7 +29,7 @@ const Home = () => {
 
         fetchLocations();
     }, []);
-    
+
     const redirectToLocation = (locationId) => {
         navigate(`/location/${locationId}`);
     };
@@ -40,7 +40,7 @@ const Home = () => {
         speed: 500,
         slidesToShow: 3,
         slidesToScroll: 3,
-        swipeToSlide: true, // Enable swipe to slide
+        swipeToSlide: true,
         responsive: [
             {
                 breakpoint: 768,
@@ -77,28 +77,28 @@ const Home = () => {
                     {locations.map((location, index) => (
                         <Col md="4" key={index} className="location-card" onClick={() => redirectToLocation(location._id)}>
                             <div className="card-content" style={{ backgroundImage: `url(${location.picture})` }}>
-                            <h3 className="location-name">{location.name}</h3>
-                            <h3 className="location-title">{location.title}</h3>
+                                <h3 className="location-name">{location.name}</h3>
+                                <h3 className="location-title">{location.title}</h3>
                             </div>
                         </Col>
                     ))}
                 </Slider>
             </Container>
             <Container>
-            <div className="new-section">
-                <div className="text-and-button">
-                    <h2>Explore Pakistan with us.</h2>
-                    <p>Discover the hidden gems of Pakistan, where ancient traditions meet 
-                        breathtaking landscapes. Embark on a journey filled with vibrant culture, 
-                        majestic mountains, and warm hospitality that stays with you forever.</p>
-                    <Button className="start-planning-btn" onClick={() => navigate('/tours')}>
-                        <i className="fas fa-plane"></i> Plan Your Trip!
-                    </Button>
+                <div className="new-section">
+                    <div className="text-and-button">
+                        <h2>Explore Pakistan with us.</h2>
+                        <p>Discover the hidden gems of Pakistan, where ancient traditions meet
+                            breathtaking landscapes. Embark on a journey filled with vibrant culture,
+                            majestic mountains, and warm hospitality that stays with you forever.</p>
+                        <Button className="start-planning-btn" onClick={() => navigate('/tours')}>
+                            <i className="fas fa-plane"></i> Plan Your Trip!
+                        </Button>
+                    </div>
+                    <div className="section-image">
+                        <img src={Img} alt="Scenic view of Pakistan" />
+                    </div>
                 </div>
-                <div className="section-image">
-                    <img src={Img} alt="Scenic view of Pakistan" />
-                </div>
-            </div>
             </Container>
         </>
     );
