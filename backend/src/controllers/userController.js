@@ -228,7 +228,7 @@ const deleteProfile = async (req, res) => {
 
     try {
         if (req.role == 'admin' || (req.role == "user" && req.id == req.params.id)) {
-            const existingUser = await userModel.findOne({ _id: req.params.id, isDeleted: false })
+            const existingUser = await userModel.findOne({ _id: req.params.id, isDeleted: false, role: 'user' })
             if (!existingUser) {
                 return res.status(400).json({ message: "User not found!" });
             }
