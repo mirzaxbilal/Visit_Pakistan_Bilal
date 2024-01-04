@@ -27,16 +27,91 @@
     border-bottom: 1px solid #ddd; /* Optional: add a border between rows */
 }
 
-@media screen and (max-width: 1200px) {
-    .Users{
-        justify-content:flex-start;
-        margin-top: 2rem;
-    }
+.focused-form-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050; /* Ensure it's above other content */
 }
 
-@media screen and (max-width: 768px)
-{
-    .Users{
-        align-items: center;
-    }
+.focused-form {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    z-index: 2;    
+    padding: 20px;
+    width: 50%; /* Adjust width as needed */
+    max-width: 600px; /* Adjust max-width as needed */
+}
+
+.focused-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.focused-form .form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    margin-right: 1rem;
+}
+
+.focused-form .form-group {
+    display:contents; /* Adjust as needed */
+    margin-right: 10px;
+}
+
+.focused-form .form-group:last-child {
+    margin-right: 0;
+}
+
+.focused-form .form-group-single {
+    flex-basis: 100%;
+    max-width: 100%;
+}
+
+.focused-form label {
+    display: block;
+    margin-bottom: 5px;
+    margin-left: 1rem;
+    margin-right: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.focused-form input, .focused-form select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.focused-form .form-buttons {
+    text-align: center;
+    margin-top: 20px;
+    align-items: center;
+}
+
+.focused-form button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px; /* Rounded corners */
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.focused-form .save-button {
+    background-color: green;
+    color: white;
+}
+
+.focused-form .cancel-button {
+    background-color: red;
+    color: white;
 }
