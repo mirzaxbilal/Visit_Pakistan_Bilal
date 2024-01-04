@@ -1,13 +1,12 @@
-// src/redux/store.js
-
-import { configureStore, combineReducers } from 'redux';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import bookingReducer from './bookingReducer';
 
 const rootReducer = combineReducers({
     booking: bookingReducer,
-    // Add other reducers if needed
 });
 
-const store = configureStore(rootReducer);
+const store = configureStore({
+    reducer: rootReducer,
+});
 
 export default store;

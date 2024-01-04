@@ -1,5 +1,3 @@
-// src/redux/bookingReducer.js
-
 import { SET_BOOKING_SUCCESS } from './bookingActions';
 
 const initialState = {};
