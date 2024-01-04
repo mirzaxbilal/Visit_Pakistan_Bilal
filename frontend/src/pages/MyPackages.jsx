@@ -35,7 +35,7 @@ const MyPackages = () => {
         } else {
             setLoading(false);
         }
-    }, [user]);
+    }, [user, packages]);
 
     const handleDelete = async (packageId) => {
 
