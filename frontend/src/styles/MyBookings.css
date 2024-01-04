@@ -71,3 +71,13 @@
 .btn-danger:hover {
     background-color: #980f1d !important;
 }
+
+.button-container .button-stack {
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.custom-button {
+    width: 100%;
+    display: block;
+}

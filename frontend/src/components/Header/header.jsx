@@ -120,9 +120,9 @@ const Header = () => {
                                     <>
                                         <Button className="btn secondary__btn">
                                             {user.role === 'user' ? (
-                                                <Link to="/userprofile">{user.name}</Link>
+                                                <Link to="/userprofile">My Profile</Link>
                                             ) : user.role === 'agent' ? (
-                                                <Link to="/agentprofile">{user.name}</Link>
+                                                <Link to="/agentprofile">My Profile</Link>
                                             ) : null}
                                         </Button>
                                         <Button className="btn btn-dark" onClick={logout}>

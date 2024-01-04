@@ -44,7 +44,34 @@ const MyBookings = () => {
             setLoading(false);
         }
     }, [user]);
+    const handleConfirm = async (bookingId) => {
+        const isConfirmed = window.confirm('Are you sure you want to Confirm this booking?');
 
+        if (isConfirmed) {
+            try {
+                const response = await fetch(`${BASE_URL}/bookings/updateBooking/${bookingId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${user.AccessToken}`,
+                    },
+                    body: JSON.stringify({ status: 'Confirmed' }),
+                });
+
+                if (response.ok) {
+                    console.log('Booking confirmed successfully');
+                    alert('Booking confirmed successfully');
+                    fetchBookings();
+                } else {
+                    console.error('Error confirming booking:', response.message);
+                    alert('Error cancelling booking');
+                }
+            } catch (error) {
+                console.error('Error confirming booking:', error);
+                alert('Error confirming booking');
+            }
+        }
+    };
 
     const handleCancel = async (bookingId) => {
         const isConfirmed = window.confirm('Are you sure you want to cancel this booking?');
@@ -195,9 +222,21 @@ const MyBookings = () => {
                                             Phone: {booking.agent.phone}<br />
                                             Email: {booking.agent.email}
                                         </CardText>
-                                        <Button color="danger" className="custom-button" onClick={() => handleCancel(booking._id)}>
-                                            Cancel
-                                        </Button>
+
+                                        <div className="button-container">
+                                            <div className="button-stack">
+                                                <Button color="green" className="custom-button" onClick={() => handleConfirm(booking._id)}>
+                                                    Confirm
+                                                </Button>
+                                            </div>
+                                            <div className="button-stack">
+                                                <Button color="danger" className="custom-button" onClick={() => handleCancel(booking._id)}>
+                                                    Cancel
+                                                </Button>
+                                            </div>
+                                        </div>
+
+
                                     </CardBody>
                                 </Card>
                             </Col>

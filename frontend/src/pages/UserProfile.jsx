@@ -11,6 +11,7 @@ import registerImg from '../assets/images/profilepic.png';
 const UserProfile = () => {
     const { user } = useContext(AuthContext);
     const [profileData, setProfileData] = useState(null);
+    const [updateStatus, setUpdateStatus] = useState(false);
     const navigate = useNavigate();
     const { dispatch } = useContext(AuthContext);
     const [credentials, setCredentials] = useState({
@@ -96,13 +97,13 @@ const UserProfile = () => {
             setTooltips((prev) => ({ ...prev, username: true }));
         }
 
-        // Validate email if it has a value
+
         if (nonEmptyCredentials.email && !/\S+@\S+\.\S+/.test(nonEmptyCredentials.email)) {
             newErrors.email = 'Please enter a valid email address.';
             setTooltips((prev) => ({ ...prev, email: true }));
         }
 
-        // Validate password if it has a value
+
         if (
             nonEmptyCredentials.password &&
             (!/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/.test(nonEmptyCredentials.password) ||
@@ -113,7 +114,6 @@ const UserProfile = () => {
             setTooltips((prev) => ({ ...prev, password: true }));
         }
 
-        // Validate phone number if it has a value
         if (nonEmptyCredentials.phone && !/^\d{11}$/.test(nonEmptyCredentials.phone)) {
             newErrors.phone = 'Please enter a valid phone number (exactly 11 digits).';
             setTooltips((prev) => ({ ...prev, phone: true }));
@@ -138,12 +138,15 @@ const UserProfile = () => {
                 if (!res.ok) {
                     alert(result.message);
                 } else {
-                    dispatch({
-                        type: 'PROFILE_UPDATE_SUCCESS',
-                        payload: result.existingUser,
-                    });
+                    // Update the local state with the new profile data
+                    // setProfileData({ ...result, name: result.username });
+
+                    // dispatch({
+                    //     type: 'PROFILE_UPDATE_SUCCESS',
+                    //     payload: result.existingUser,
+                    // });
+
                     alert('Profile updated successfully.');
-                    navigate('/login');
                 }
             } catch (err) {
                 alert(err.message);
@@ -174,6 +177,7 @@ const UserProfile = () => {
                     } else {
                         const profileName = result.username;
                         setProfileData({ ...result, name: profileName });
+                        setUpdateStatus(!updateStatus);
                     }
                 } catch (error) {
                     console.error(error.message);
@@ -182,7 +186,7 @@ const UserProfile = () => {
         };
 
         fetchProfile();
-    }, [user]);
+    }, [user, updateStatus]);
 
     return (
         <Container>
