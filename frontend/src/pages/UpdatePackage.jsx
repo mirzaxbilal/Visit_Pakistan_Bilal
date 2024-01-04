@@ -25,6 +25,11 @@ const UpdatePackage = () => {
 
     useEffect(() => {
         const fetchLocationsAndPackageData = async () => {
+            if (!user || user.role !== 'agent') {
+                console.warn('User not logged in or unauthorized');
+                return;
+            }
+
             try {
                 const authHeader = {
                     'Authorization': `Bearer ${user.AccessToken}`
@@ -62,13 +67,11 @@ const UpdatePackage = () => {
         };
 
         fetchLocationsAndPackageData();
-    }, [packageId, user.AccessToken]);
+    }, [packageId, user]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 
-        // Add specific logic for individual fields if needed
-        // Example: Ensure that maxPersons is not less than 1
         const newValue = name === 'maxPersons' ? Math.max(1, parseInt(value, 10) || 1) : value;
 
         setFormData((prevData) => ({ ...prevData, [name]: newValue }));
@@ -138,7 +141,7 @@ const UpdatePackage = () => {
             }
 
             alert('Package updated successfully');
-            navigate('/packages');
+            navigate('/my-packages');
         } catch (error) {
             console.error('Error updating package:', error);
             alert('Error updating package. Please try again.');
@@ -147,71 +150,81 @@ const UpdatePackage = () => {
 
     return (
         <div className="create-package-container">
-            {user && user.role === 'agent' ? (
-                <form onSubmit={handleSubmit}>
-                    <h1>Update Package</h1>
+            {user ? (
+                user.role === 'agent' ? (
+                    <form onSubmit={handleSubmit}>
+                        <h1>Update Package</h1>
 
-                    <div className="form-group">
-                        <label>Title:</label>
-                        <input type="text" name="title" value={formData.title} onChange={handleInputChange} />
-                    </div>
-
-                    <div className="form-group">
-                        <label>Overview:</label>
-                        <textarea name="overview" value={formData.overview} onChange={handleInputChange}></textarea>
-                    </div>
-
-                    <div className="form-group">
-                        <label>What's Included:</label>
-                        <textarea name="whatsIncluded" value={formData.whatsIncluded} onChange={handleInputChange}></textarea>
-                    </div>
-
-                    <div className="form-group">
-                        <label>Tour Itinerary:</label>
-                        <textarea name="tourItinerary" value={formData.tourItinerary} onChange={handleInputChange}></textarea>
-                    </div>
-
-                    <div className="form-group">
-                        <label>Price:</label>
-                        <input type="number" name="price" value={formData.price} onChange={handleInputChange} />
-                    </div>
-
-                    <div className="form-group">
-                        <label>Duration (in days):</label>
-                        <input type="number" name="duration" value={formData.duration} onChange={handleInputChange} />
-                    </div>
-
-                    <div className="form-group">
-                        <label>Max Persons Allowed:</label>
-                        <input type="number" name="maxPersons" value={formData.maxPersons} onChange={handleInputChange} />
-                    </div>
-
-                    <div className="form-group">
-                        <label>Images:</label>
-                        <input type="file" multiple onChange={handleFileChange} />
-                    </div>
-
-                    <div className="form-group">
-                        <label>Select Locations:</label>
-                        <div className="locations-checkbox-container" style={{ overflowY: 'auto', maxHeight: '200px' }}>
-                            {locations.map((location) => (
-                                <div key={location._id} className="location-checkbox">
-                                    <input
-                                        type="checkbox"
-                                        id={location._id}
-                                        value={location._id}
-                                        checked={checkedLocations[location._id] || false}
-                                        onChange={handleLocationCheckboxChange}
-                                    />
-                                    <label htmlFor={location._id}>{location.name}</label>
-                                </div>
-                            ))}
+                        <div className="form-group">
+                            <label>Title:</label>
+                            <input type="text" name="title" value={formData.title} onChange={handleInputChange} />
                         </div>
-                    </div>
 
-                    <button type="submit">Update Package</button>
-                </form>
-            ) : null}
+                        <div className="form-group">
+                            <label>Overview:</label>
+                            <textarea name="overview" value={formData.overview} onChange={handleInputChange}></textarea>
+                        </div>
+
+                        <div className="form-group">
+                            <label>What's Included:</label>
+                            <textarea name="whatsIncluded" value={formData.whatsIncluded} onChange={handleInputChange}></textarea>
+                        </div>
+
+                        <div className="form-group">
+                            <label>Tour Itinerary:</label>
+                            <textarea name="tourItinerary" value={formData.tourItinerary} onChange={handleInputChange}></textarea>
+                        </div>
+
+                        <div className="form-group">
+                            <label>Price:</label>
+                            <input type="number" name="price" value={formData.price} onChange={handleInputChange} />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Duration (in days):</label>
+                            <input type="number" name="duration" value={formData.duration} onChange={handleInputChange} />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Max Persons Allowed:</label>
+                            <input type="number" name="maxPersons" value={formData.maxPersons} onChange={handleInputChange} />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Images:</label>
+                            <input type="file" multiple onChange={handleFileChange} />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Select Locations:</label>
+                            <div className="locations-checkbox-container" style={{ overflowY: 'auto', maxHeight: '200px' }}>
+                                {locations.map((location) => (
+                                    <div key={location._id} className="location-checkbox">
+                                        <input
+                                            type="checkbox"
+                                            id={location._id}
+                                            value={location._id}
+                                            checked={checkedLocations[location._id] || false}
+                                            onChange={handleLocationCheckboxChange}
+                                        />
+                                        <label htmlFor={location._id}>{location.name}</label>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <button type="submit">Update Package</button>
+                    </form>
+                ) : (
+                    <div>
+                        <p>You are unauthorized to view this page.</p>
+                    </div>
+                )
+            ) : (
+                <div>
+                    <p>Please log in to view this page.</p>
+                </div>
+            )}
         </div>
     );
 };

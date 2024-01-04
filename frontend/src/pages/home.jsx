@@ -3,31 +3,40 @@ import { useNavigate } from 'react-router-dom';
 import { Container, Col, Button } from 'reactstrap';
 import '../styles/Home.css'
 import Slider from 'react-slick';
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import Vid from '../assets/videos/home.mp4';
-import Img from '../assets/images/plan.jpg';
-
 const Home = () => {
     const [locations, setLocations] = useState([]);
+    const [homePageContent, setHomePageContent] = useState({});
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchLocations = async () => {
+        const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:5000/locations/');
-                const data = await response.json();
-                if (response.ok) {
-                    setLocations(data);
+                // Fetch homepage content
+                const homeResponse = await fetch('http://localhost:5000/homepage/');
+                const homeData = await homeResponse.json();
+                if (homeResponse.ok) {
+                    setHomePageContent(homeData);
                 } else {
-                    throw new Error(data.message);
+                    throw new Error(homeData.message);
+                }
+
+                // Fetch locations
+                const locationsResponse = await fetch('http://localhost:5000/locations/');
+                const locationsData = await locationsResponse.json();
+                if (locationsResponse.ok) {
+                    setLocations(locationsData);
+                } else {
+                    throw new Error(locationsData.message);
                 }
             } catch (error) {
-                console.error("Fetching locations failed:", error);
+                console.error('Fetching data failed:', error);
             }
         };
 
-        fetchLocations();
+        fetchData();
     }, []);
 
     const redirectToLocation = (locationId) => {
@@ -47,16 +56,16 @@ const Home = () => {
                 settings: {
                     slidesToShow: 2,
                     slidesToScroll: 2,
-                }
+                },
             },
             {
                 breakpoint: 480,
                 settings: {
                     slidesToShow: 1,
                     slidesToScroll: 1,
-                }
-            }
-        ]
+                },
+            },
+        ],
     };
 
     return (
@@ -67,12 +76,12 @@ const Home = () => {
             </video>
             <div className="home-video-container">
                 <div className="content">
-                    <h1>Find your pace in Pakistan</h1>
-                    <p>Where endless sunshine meets vibrant culture, enriching experiences and limitless adventure.</p>
+                    <h1>{homePageContent.WelcomeHeading}</h1>
+                    <p>{homePageContent.WelcomeTagline}</p>
                 </div>
             </div>
             <Container>
-                <h2 className="plan-your-trip-section">Explore the Untouched Beauty of Pakistan</h2>
+                <h2 className="plan-your-trip-section">{homePageContent.LocationsHeading}</h2>
                 <Slider {...settings}>
                     {locations.map((location, index) => (
                         <Col md="4" key={index} className="location-card" onClick={() => redirectToLocation(location._id)}>
@@ -87,16 +96,14 @@ const Home = () => {
             <Container>
                 <div className="new-section">
                     <div className="text-and-button">
-                        <h2>Explore Pakistan with us.</h2>
-                        <p>Discover the hidden gems of Pakistan, where ancient traditions meet
-                            breathtaking landscapes. Embark on a journey filled with vibrant culture,
-                            majestic mountains, and warm hospitality that stays with you forever.</p>
+                        <h2>{homePageContent.PlanTripHeading}</h2>
+                        <p>{homePageContent.PlanTripDescripton}</p>
                         <Button className="start-planning-btn" onClick={() => navigate('/tours')}>
-                            <i className="fas fa-plane"></i> Plan Your Trip!
+                            <i className="fas fa-plane"></i> {homePageContent.PlanTripButton}
                         </Button>
                     </div>
                     <div className="section-image">
-                        <img src={Img} alt="Scenic view of Pakistan" />
+                        <img src={homePageContent.PlanTripImage} alt="Scenic view of Pakistan" />
                     </div>
                 </div>
             </Container>
