@@ -7,13 +7,6 @@ const initial_state = {
     error: null,
 };
 
-// const storedUser = localStorage.getItem('user');
-// const initial_state = {
-//     user: storedUser ? JSON.parse(storedUser) : null,
-//     loading: false,
-//     error: null,
-// };
-
 
 export const AuthContext = createContext(initial_state);
 
