@@ -1,0 +1,49 @@
+:root {
+  --green: #01411C; /* A deep green, similar to the green in the Pakistani flag */
+  --white: #FFFFFF; /* White color */
+  --darkGreen: #013220; /* A darker shade of green for contrast */
+  --lightGreen: #76C043; /* A lighter green for highlights or gradients */
+  --glass: rgba(255, 255, 255, 0.54); /* Keeping the glass effect */
+  --boxShadow: 0px 19px 60px rgb(0 0 0 / 8%);
+  --smboxShadow: -79px 51px 60px rgba(0, 0, 0, 0.08);
+  --activeItem: rgba(118, 192, 67, 0.33); /* Light green with transparency for active items */
+}
+
+.App {
+  color: var(--darkGreen);
+  background: linear-gradient(
+    106.37deg,
+    var(--lightGreen) 29.63%,
+    var(--white) 51.55%,
+    var(--green) 90.85%
+  );
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+}
+
+.AppGlass {
+  display: grid;
+  height: 97%;
+  width: 97%;
+  background: var(--glass);
+  border-radius: 2rem;
+  gap: 16px;
+  grid-template-columns: 11rem auto 20rem;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 1200px) {
+  .AppGlass{
+    grid-template-columns: 10% 50% auto;
+    overflow-y: scroll;
+  } 
+}
+
+@media screen and (max-width: 768px) {
+  .AppGlass{
+    grid-template-columns: 1fr;
+  } 
+}
