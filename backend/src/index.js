@@ -8,6 +8,7 @@ const agentRouter = require('./routes/agentRoutes');
 const packageRouter = require('./routes/packageRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 const locationRouter = require('./routes/locationRoutes');
+const homeRouter = require('./routes/homePageRoutes');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -55,6 +56,7 @@ app.use('/agents', agentRouter);
 app.use('/packages', packageRouter);
 app.use('/locations', locationRouter);
 app.use('/bookings', bookingRouter);
+app.use('/homepage', homeRouter);
 
 
 
