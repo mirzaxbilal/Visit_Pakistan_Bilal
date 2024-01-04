@@ -9,20 +9,18 @@ const TourCard = ({ tour }) => {
     console.log(agentId)
     return (
         <div className="tour__card">
-            <Card>
+            <Card className='tour__card__body'>
                 <div className="tour__img">
                     <img src={images[0]} alt="tour-img" />
-                    {/* <span>Featured</span> */}
+                    <span className='travel__agent'><i class="ri-store-line"></i> {agentId.name}</span>
                 </div>
 
-                <CardBody>
+                <CardBody >
                     <div className="card__top d-flex align-items-center justify-content-between">
                         <span className="tour__location d-flex align-items-center gap-1">
                             <i className="ri-map-pin-line"></i> {locations.map(location => location.name).join(', ')}
                         </span>
-                        <span className="agent__name d-flex align-items-center gap-1">
-                            <i class="ri-store-line"></i> {agentId.name}
-                        </span>
+
                     </div>
                     <h5 className="tour__title">
                         <Link to={`/tours/${_id}`}>{title}</Link>

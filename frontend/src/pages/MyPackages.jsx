@@ -9,6 +9,8 @@ const MyPackages = () => {
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
     const [packages, setPackages] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchPackages = async () => {
@@ -22,11 +24,18 @@ const MyPackages = () => {
                 setPackages(data);
             } catch (error) {
                 console.error('Error fetching packages:', error);
+                setError('Error fetching packages');
+            } finally {
+                setLoading(false);
             }
         };
 
-        fetchPackages();
-    }, [user.id]);
+        if (user) {
+            fetchPackages();
+        } else {
+            setLoading(false);
+        }
+    }, [user]);
 
     const handleDelete = async (packageId) => {
 
@@ -63,6 +72,26 @@ const MyPackages = () => {
 
         navigate(`/update-package/${packageId}`);
     };
+    if (!user) {
+        return (
+            <Container className="my-packages-container">
+                <Row>
+                    <Col>
+                        <h3>Please login to view your packages.</h3>
+
+                    </Col>
+                </Row>
+            </Container>
+        );
+    }
+
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+
+    if (error) {
+        return <p>{error}</p>;
+    }
 
     return (
         <Container className="my-packages-container">

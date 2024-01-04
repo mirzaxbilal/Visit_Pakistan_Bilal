@@ -2,7 +2,8 @@
     width: 100%;
     height: 80px;
     line-height: 80px;
-    transition: background-color 0.3s, color 0.3s; /* Smooth transition for background and color changes */
+    transition: background-color 0.3s, color 0.3s;
+    /* Smooth transition for background and color changes */
 }
 
 body .header.transparent {
@@ -10,18 +11,18 @@ body .header.transparent {
     color: white;
 }
 
-body .header.transparent .nav__item a, 
+body .header.transparent .nav__item a,
 body .header.transparent .nav__btns a,
 body .header.transparent .nav__item .dropdown-toggle {
     color: white;
 }
 
 .logo img {
-    width: 40%;
+    width: 50%;
 }
 
 .logo {
-    width: 40%;
+    width: 35%;
 }
 
 .menu {
@@ -33,7 +34,8 @@ body .header.transparent .nav__item .dropdown-toggle {
     color: var(--heading-color);
     font-weight: 500;
     font-size: 1.1rem;
-    transition: color 0.3s; /* Smooth transition for color changes */
+    transition: color 0.3s;
+    /* Smooth transition for color changes */
 }
 
 .nav__item a:hover {
@@ -51,7 +53,8 @@ body .header.transparent .nav__item .dropdown-toggle {
     font-size: 1.1rem;
     background-color: transparent;
     border: none;
-    transition: color 0.3s; /* Smooth transition for color changes */
+    transition: color 0.3s;
+    /* Smooth transition for color changes */
 }
 
 .nav__item .dropdown-toggle:hover {

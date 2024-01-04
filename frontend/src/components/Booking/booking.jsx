@@ -1,18 +1,21 @@
-import React, { useState, useContext } from 'react';
+// src/components/Booking.js
+
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Form, FormGroup, ListGroup, ListGroupItem, Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { AuthContext } from './../../context/AuthContext';
 import './booking.css';
-import Login from '../../pages/Login';
+import Login from './../../pages/Login';
 import PaymentForm from './PaymentForm';
 import { BASE_URL } from './../../utils/config';
-import Img from '../../assets/images/checked.png';
+import Img from './../../assets/images/checked.png';
+import { setBookingSuccess } from './../../redux/bookingActions';
 
-const Booking = ({ packageData }) => {
-    const { user } = useContext(AuthContext);
-    const [isLoginModalOpen, setLoginModalOpen] = useState(false);
-    const [bookingSuccessful, setBookingSuccessful] = useState(false);
-    const [numberOfPersons, setNumberOfPersons] = useState(1);
-    const [numberOfInfants, setNumberOfInfants] = useState(0);
+const Booking = ({ packageData, bookingSuccessful, setBookingSuccess }) => {
+    const { user } = React.useContext(AuthContext);
+    const [isLoginModalOpen, setLoginModalOpen] = React.useState(false);
+    const [numberOfPersons, setNumberOfPersons] = React.useState(1);
+    const [numberOfInfants, setNumberOfInfants] = React.useState(0);
 
     const toggleLoginModal = () => {
         setLoginModalOpen(!isLoginModalOpen);
@@ -28,14 +31,8 @@ const Booking = ({ packageData }) => {
         }
     };
 
-    const formatDate = (date) => {
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        return new Date(date).toLocaleDateString(undefined, options);
-    };
-
     const handleBooking = async () => {
         if (user) {
-
             const selectedDate = document.getElementById('bookAt').value;
 
             if (!selectedDate) {
@@ -67,7 +64,6 @@ const Booking = ({ packageData }) => {
             };
 
             try {
-
                 const response = await fetch(`${BASE_URL}/bookings/createBooking`, {
                     method: 'POST',
                     headers: {
@@ -83,7 +79,8 @@ const Booking = ({ packageData }) => {
                     return;
                 }
 
-                setBookingSuccessful(true);
+                // Dispatch the Redux action with the packageId
+                setBookingSuccess(packageData._id, true);
 
             } catch (error) {
                 console.error('Error creating booking:', error);
@@ -101,7 +98,7 @@ const Booking = ({ packageData }) => {
 
     const handlePaymentSuccess = () => {
         console.log('Payment successful. Continue booking logic here');
-        setBookingSuccessful(true);
+        setBookingSuccess(packageData._id, true);
     };
 
     return (
@@ -125,16 +122,10 @@ const Booking = ({ packageData }) => {
                     </div>
 
                     <div className="booking__form">
-                        <h5 className='booking__detail__title'>Booking Details</h5>
+                        <h5 className="booking__detail__title">Booking Details</h5>
                         <FormGroup>
                             <label htmlFor="bookAt">Departure Date</label>
-                            <input
-                                type="date"
-                                placeholder=""
-                                id="bookAt"
-                                required
-                                onChange={() => { }}
-                            />
+                            <input type="date" placeholder="" id="bookAt" required onChange={() => { }} />
                         </FormGroup>
                         <FormGroup>
                             <label htmlFor="goupSize">Number of Persons (excluding infants)</label>
@@ -193,4 +184,12 @@ const Booking = ({ packageData }) => {
     );
 };
 
-export default Booking;
+const mapStateToProps = (state, ownProps) => ({
+    bookingSuccessful: state.booking[ownProps.packageData._id]?.bookingSuccessful || false,
+});
+
+const mapDispatchToProps = {
+    setBookingSuccess,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Booking);

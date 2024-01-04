@@ -291,7 +291,7 @@ const AgentProfile = () => {
                         )
                     ) : (
                         <div>
-                            <p>Please login to view your profile.</p>
+                            <h3>Please login to view your profile.</h3>
                         </div>
                     )}
                 </Col>

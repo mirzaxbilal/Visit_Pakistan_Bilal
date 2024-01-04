@@ -63,22 +63,29 @@
 
 .attraction-image {
     padding: 2rem;
-    /* If you want no padding around the images */
+
 }
 
 .attraction-image img {
     border-radius: 15px;
-    /* Rounded corners for images */
+
     max-height: 350px;
-    /* Control the height of the attraction images */
+
     width: 100%;
     object-fit: cover;
     margin-bottom: 1rem;
-    /* Space between the image and the text on smaller screens */
+
 }
 
 .attraction-info {
     padding: 1rem;
+}
+
+.slick-prev:before,
+.slick-next:before {
+
+    color: black;
+    font-size: 2rem;
 }
 
 @media (min-width: 768px) {
@@ -88,16 +95,16 @@
 
     .attraction-row.flex-row-reverse {
         flex-direction: row-reverse;
-        /* Ensure images alternate sides */
+
     }
 
     .attraction-image img {
         margin-bottom: 0;
-        /* Remove the margin between image and text on larger screens */
+
     }
 
     .attraction-info {
         padding: 1rem 15px;
-        /* Padding around the text */
+
     }
 }

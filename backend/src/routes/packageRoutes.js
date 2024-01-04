@@ -6,7 +6,7 @@ const { createPackage,
   updatePackage,
   deletePackage,
   getAllPackages,
-  getApporovedPackageById, getUnapprovedPackages, getAprrovedPackages, getPackageById, getPackageBySearch, getApprovedPackagesCount
+  getApporovedPackageById, getUnapprovedPackages, getAprrovedPackages, getPackageById, getPackageBySearch, getApprovedPackagesCount, getPackageByLocation
 } = require('../controllers/packageController');
 
 /**
@@ -146,7 +146,7 @@ packageRouter.get('/getUnapprovedPackages', auth_access, getUnapprovedPackages);
  */
 
 packageRouter.get('/getPackageBySearch', getPackageBySearch);
-
+packageRouter.get('/getPackageByLocation', getPackageByLocation);
 packageRouter.get('/getApprovedPackagesCount', getApprovedPackagesCount);
 
 packageRouter.get('/:id', getApporovedPackageById);

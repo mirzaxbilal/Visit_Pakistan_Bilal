@@ -28,6 +28,7 @@ const SearchBar = () => {
                             {/* <h6>Location</h6> */}
                             <input type="text" placeholder="Where are you going?" ref={locationRef} />
                         </div>
+
                     </FormGroup>
                     <span className="search__icon" onClick={searchHandler}>
                         <i class="ri-search-line"></i>

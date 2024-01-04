@@ -39,7 +39,7 @@ const Tours = () => {
                 const res = await fetch(`${BASE_URL}/packages/?page=${page}`, {
                     method: 'GET',
                 });
-                //console.log(res);
+
                 if (!res.ok) {
                     throw new Error('Failed to fetch tour data');
                 }
@@ -50,7 +50,7 @@ const Tours = () => {
                 console.error(error.message);
             }
         };
-        const pages = Math.ceil(count / 1);
+        const pages = Math.ceil(count / 3);
         setPageCount(pages)
         fetchTourData();
     }, [page, count]);

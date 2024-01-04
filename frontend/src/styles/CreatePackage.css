@@ -1,5 +1,3 @@
-/* CreatePackage.css */
-
 .create-package-container {
     max-width: 600px;
     margin: 0 auto;
@@ -32,11 +30,10 @@ select {
 
 select {
     height: auto;
-    /* To allow multiple lines in the select dropdown */
 }
 
 button {
-    background-color: #4caf50;
+    background-color: var(--secondary-color);
     color: white;
     padding: 10px;
     border: none;
@@ -48,7 +45,6 @@ button:hover {
     background-color: #45a049;
 }
 
-/* Styles for location checkboxes and labels */
 .locations-checkbox-container {
     overflow-y: auto;
     max-height: 200px;
@@ -66,5 +62,3 @@ button:hover {
 .locations-checkbox-container input {
     margin-right: 5px;
 }
-
-/* Add more styles as needed */

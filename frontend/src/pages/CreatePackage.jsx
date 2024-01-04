@@ -216,7 +216,9 @@ const CreatePackage = () => {
                         <button type="submit">Create Package</button>
                     </form>
                 </div>
-            ) : null}
+            ) : (
+                <p>{user ? 'Unauthorized access. Please login as an agent.' : 'Please login to create a package.'}</p>
+            )}
         </div>
     );
 };

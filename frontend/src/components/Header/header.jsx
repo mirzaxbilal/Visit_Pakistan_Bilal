@@ -20,7 +20,10 @@ const Header = () => {
     const closeDropdown = () => setDropdownOpen(false);
 
     const logout = () => {
+        localStorage.removeItem('user');
+        // Dispatch the logout action
         dispatch({ type: 'LOGOUT' });
+        // Navigate to the home route
         navigate('/');
     };
 
