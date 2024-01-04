@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Button } from 'reactstrap';
+import { Container, Col, Button } from 'reactstrap';
 import '../styles/Home.css'
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
