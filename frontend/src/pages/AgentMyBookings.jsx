@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Container, Row, Col, Button, Card, CardBody, CardText, CardTitle, Input } from 'reactstrap';
 import { AuthContext } from '../context/AuthContext';
-import '../styles/MyBookings.css';
+import '../styles/AgentMyBookings.css';
 import CommonSection from '../shared/CommonSection';
 import { Link } from 'react-router-dom';
 import { BASE_URL } from '../utils/config';
@@ -223,13 +223,13 @@ const MyBookings = () => {
                                             Email: {booking.agent.email}
                                         </CardText>
 
-                                        <div className="button-container">
-                                            <div className="button-stack">
+                                        <div className="button__container">
+                                            <div className="button__stack">
                                                 <Button color="green" className="custom-button" onClick={() => handleConfirm(booking._id)}>
                                                     Confirm
                                                 </Button>
                                             </div>
-                                            <div className="button-stack">
+                                            <div className="button__stack">
                                                 <Button color="danger" className="custom-button" onClick={() => handleCancel(booking._id)}>
                                                     Cancel
                                                 </Button>

@@ -4,7 +4,7 @@ import { Container, Row, Col, Button, Form, FormGroup, Tooltip, Label } from 're
 import { AuthContext } from './../context/AuthContext';
 import { BASE_URL } from './../utils/config';
 import { useNavigate } from 'react-router-dom';
-import '../styles/login.css';
+import '../styles/userMyProfile.css';
 import userIcon from '../assets/images/user.png';
 import registerImg from '../assets/images/profilepic.png';
 
@@ -147,6 +147,7 @@ const UserProfile = () => {
                     // });
 
                     alert('Profile updated successfully.');
+                    window.location.reload();
                 }
             } catch (err) {
                 alert(err.message);
@@ -186,7 +187,7 @@ const UserProfile = () => {
         };
 
         fetchProfile();
-    }, [user, updateStatus]);
+    }, []);
 
     return (
         <Container>
@@ -199,9 +200,9 @@ const UserProfile = () => {
                                     <Row>
                                         <Col lg='8' className="m-auto">
                                             <div className="login__container d-flex justify-content-between">
-                                                <div className="login__img">
+                                                {/* <div className="login__img">
                                                     <img src={registerImg} alt="" />
-                                                </div>
+                                                </div> */}
                                                 <div className="login__form">
                                                     <div className="user">
                                                         <img src={userIcon} alt="" />
