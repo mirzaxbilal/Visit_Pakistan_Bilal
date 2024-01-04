@@ -10,6 +10,8 @@ const AdminLogin = () => {
         email: '',
         password: ''
     });
+    const [error, setError] = useState('');
+
 
     const { dispatch } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -30,19 +32,23 @@ const AdminLogin = () => {
                 },
                 body: JSON.stringify(credentials),
             });
-
+    
             const result = await response.json();
+            console.log(result);
 
             if (!response.ok) {
-                dispatch({ type: 'LOGIN_FAILURE', payload: result.message });
-            } else if (result.data.role !== 'admin') {
-                dispatch({ type: 'LOGIN_FAILURE', payload: 'Access Denied: Admin Only' });
-            } else {
+                alert(result.message);
+                navigate('/login');
+            }else if (result.data.role !== 'admin'){
+                alert('Access Denied: Admin Only')
+                navigate('/login'); 
+            }else {
                 dispatch({ type: 'LOGIN_SUCCESS', payload: result.data });
-                navigate('/admin/dashboard');
+                navigate('/dashboard');
             }
         } catch (error) {
             dispatch({ type: 'LOGIN_FAILURE', payload: error.message });
+            setError(error.message || 'An error occurred'); // Set error message
         }
     };
 

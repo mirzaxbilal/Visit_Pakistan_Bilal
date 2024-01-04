@@ -1,0 +1,42 @@
+.Users{
+    /* padding-top: 1rem; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    color: green;
+}
+
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.pagination-controls span {
+    margin: 0 15px;
+}
+
+.table td, .table th {
+    text-align: center; /* Center align table data */
+    vertical-align: middle; /* Align vertically */
+    padding: 9px; /* Add padding to table cells */
+}
+
+.table tr {
+    border-bottom: 1px solid #ddd; /* Optional: add a border between rows */
+}
+
+@media screen and (max-width: 1200px) {
+    .Users{
+        justify-content:flex-start;
+        margin-top: 2rem;
+    }
+}
+
+@media screen and (max-width: 768px)
+{
+    .Users{
+        align-items: center;
+    }
+}
