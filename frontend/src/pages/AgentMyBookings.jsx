@@ -12,6 +12,8 @@ const MyBookings = () => {
     const [filterPackageTitle, setFilterPackageTitle] = useState('');
     const [filterDate, setFilterDate] = useState('');
     const [filterStatus, setFilterStatus] = useState('');
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     const formatDate = (date) => {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -29,12 +31,20 @@ const MyBookings = () => {
             setBookings(data);
         } catch (error) {
             console.error('Error fetching bookings:', error);
+            setError('Error fetching bookings');
+        } finally {
+            setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchBookings();
-    }, [user.id]);
+        if (user) {
+            fetchBookings();
+        } else {
+            setLoading(false);
+        }
+    }, [user]);
+
 
     const handleCancel = async (bookingId) => {
         const isConfirmed = window.confirm('Are you sure you want to cancel this booking?');
@@ -99,6 +109,30 @@ const MyBookings = () => {
             (filterStatus ? booking.status.toLowerCase().includes(filterStatus.toLowerCase()) : true)
         );
     });
+
+
+
+
+    if (!user) {
+        return (
+            <Container className="my-bookings-container">
+                <Row>
+                    <Col>
+                        <h3>Please login to view your bookings.</h3>
+
+                    </Col>
+                </Row>
+            </Container>
+        );
+    }
+
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+
+    if (error) {
+        return <p>{error}</p>;
+    }
 
     return (
         <>

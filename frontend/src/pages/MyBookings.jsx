@@ -9,6 +9,8 @@ import { BASE_URL } from './../utils/config';
 const MyBookings = () => {
     const { user } = useContext(AuthContext);
     const [bookings, setBookings] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const formatDate = (date) => {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         return new Date(date).toLocaleDateString(undefined, options);
@@ -25,13 +27,19 @@ const MyBookings = () => {
             setBookings(data.bookings);
         } catch (error) {
             console.error('Error fetching bookings:', error);
+            setError('Error fetching bookings');
+        } finally {
+            setLoading(false);
         }
     };
 
     useEffect(() => {
-
-        fetchBookings();
-    }, [user.id]);
+        if (user) {
+            fetchBookings();
+        } else {
+            setLoading(false);
+        }
+    }, [user]);
 
     const handleCancel = async (bookingId) => {
 
@@ -68,6 +76,23 @@ const MyBookings = () => {
             }
         }
     };
+    if (!user) {
+        return (
+            <Container className="my-bookings-container">
+
+                <h3>Please login to view your bookings.</h3>
+
+            </Container>
+        );
+    }
+
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+
+    if (error) {
+        return <p>{error}</p>;
+    }
 
     return (
         <>
@@ -75,12 +100,11 @@ const MyBookings = () => {
             <Container className="my-bookings-container">
                 <Row>
                     {Array.isArray(bookings) && bookings.length > 0 ? (
-                        bookings.map(booking => (
+                        bookings.map((booking) => (
                             <Col md="12" key={booking._id}>
-
                                 <Card className="booking-item">
                                     <div>
-                                        <CardTitle className="custom-card-title" tag="h2" >
+                                        <CardTitle className="custom-card-title" tag="h2">
                                             <Link to={`/tours/${booking.package._id}`}>{booking.package.title}</Link>
                                         </CardTitle>
                                         <hr className="custom-hr" />
@@ -100,18 +124,17 @@ const MyBookings = () => {
                                         <Button color="danger" className="custom-button" onClick={() => handleCancel(booking._id)}>Cancel</Button>
                                     </CardBody>
                                 </Card>
-                            </Col >
+                            </Col>
                         ))
                     ) : (
                         <Col>
                             <p>No bookings available</p>
                         </Col>
                     )}
-                </Row >
-            </Container >
+                </Row>
+            </Container>
         </>
     );
-
 };
 
 export default MyBookings;

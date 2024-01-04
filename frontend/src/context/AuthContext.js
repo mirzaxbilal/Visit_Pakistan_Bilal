@@ -51,7 +51,7 @@ const AuthReducer = (state, action) => {
             };
         case "PROFILE_UPDATE_SUCCESS":
             return {
-                user: action.payload, // Use the updated user data from the response
+                user: action.payload,
                 loading: false,
                 error: null,
             };
