@@ -16,6 +16,7 @@ import MyBookings from '../pages/MyBookings';
 import AgentMyBookings from '../pages/AgentMyBookings';
 import LocationPage from '../pages/LocationPage';
 import SearchResultList from '../pages/SearchResultList';
+import About from '../pages/About';
 
 const Router = () => {
     return (
@@ -37,7 +38,7 @@ const Router = () => {
             <Route path='/MyBookings' element={<MyBookings />} />
             <Route path='/AgentMyBookings' element={<AgentMyBookings />} />
             <Route path='/location/:id' element={<LocationPage />} />
-
+            <Route path='/about' element={<About />} />
         </Routes >
     )
 }

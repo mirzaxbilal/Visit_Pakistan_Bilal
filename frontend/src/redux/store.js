@@ -1,6 +1,6 @@
 // src/redux/store.js
 
-import { configureStore, combineReducers } from 'redux';
+import { createStore, combineReducers } from 'redux';
 import bookingReducer from './bookingReducer';
 
 const rootReducer = combineReducers({
@@ -8,6 +8,6 @@ const rootReducer = combineReducers({
     // Add other reducers if needed
 });
 
-const store = configureStore(rootReducer);
+const store = createStore(rootReducer);
 
 export default store;

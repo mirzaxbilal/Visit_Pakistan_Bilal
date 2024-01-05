@@ -1,0 +1,51 @@
+.about-heading {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.about-section {
+    margin-top: 20px;
+}
+
+.about-image {
+    width: 100%;
+    height: auto;
+}
+
+.reviews-heading {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.review-card {
+    padding: 15px;
+    border: 1px solid #ddd;
+    margin: 10px;
+    text-align: center;
+}
+
+.review-row {
+    color: black;
+    margin-top: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.review-username {
+    color:black;
+    font-weight: bold;
+}
+
+.review-comment {
+    text-align: right;
+}
+
+/* Pagination styles */
+.pagination {
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination li.active {
+    font-weight: bold;
+}

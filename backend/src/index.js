@@ -9,6 +9,7 @@ const packageRouter = require('./routes/packageRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 const locationRouter = require('./routes/locationRoutes');
 const homeRouter = require('./routes/homePageRoutes');
+const aboutPageRouter = require('./routes/aboutPageRoutes')
 const mongoose = require('mongoose');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -41,7 +42,6 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 const dotenv = require('dotenv').config();
 app.use(cookieParser());
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(express.json());
 
 app.use((req, res, next) => {
@@ -57,6 +57,7 @@ app.use('/packages', packageRouter);
 app.use('/locations', locationRouter);
 app.use('/bookings', bookingRouter);
 app.use('/homepage', homeRouter);
+app.use('/aboutpage', aboutPageRouter);
 
 
 
