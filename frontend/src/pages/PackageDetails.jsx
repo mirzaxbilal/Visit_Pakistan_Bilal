@@ -4,7 +4,7 @@ import { Container, Row, Col } from 'reactstrap';
 import { useParams } from 'react-router-dom';
 import { BASE_URL } from './../utils/config';
 import Booking from '../components/Booking/booking'
-import { loadStripe } from '@stripe/stripe-js';
+
 
 
 const PackageDetails = () => {

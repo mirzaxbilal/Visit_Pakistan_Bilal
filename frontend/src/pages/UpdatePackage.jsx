@@ -18,7 +18,7 @@ const UpdatePackage = () => {
         tourItinerary: '',
         price: 0,
         duration: 0,
-        maxPersons: 1, // Added field
+        maxPersons: 1,
         locations: [],
         images: [],
     });
