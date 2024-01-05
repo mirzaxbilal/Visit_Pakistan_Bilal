@@ -2,6 +2,7 @@ const express = require('express');
 const agentRouter = express.Router();
 const { auth_access } = require('../middlewares/auth');
 const { createAgent, getAllAgents, updateAgent, getAgentById, deleteAgent, signin, refreshtoken, getAgentPackages } = require('../controllers/agentController');
+const { auth_refresh } = require('../middlewares/auth');
 /**
  * @swagger
  * components:
@@ -225,5 +226,37 @@ agentRouter.put('/updateAgent/:id', auth_access, updateAgent);
 agentRouter.delete('/deleteAgent/:id', auth_access, deleteAgent);
 agentRouter.get('/getAgentPackage/:id', auth_access, getAgentPackages);
 
+
+/**
+ * @swagger
+ * /agents/refreshtoken:
+ *   post:
+ *     security:
+ *       - Bearer: []
+ *     tags:
+ *       - Agents
+ *     summary: Refresh the authentication token
+ *     description: Refreshes the authentication token for an agent. Requires a valid refresh token.
+ *     responses:
+ *       201:
+ *         description: Successfully refreshed the token.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 email:
+ *                   type: string
+ *                   format: email
+ *                   description: Email of the agent.
+ *                 token:
+ *                   type: string
+ *                   description: New authentication token.
+ *       401:
+ *         description: Unauthorized User -- Token is invalid or missing.
+ *       500:
+ *         description: Something went wrong with the server.
+ */
+agentRouter.post('/refreshtoken', auth_refresh, refreshtoken);
 
 module.exports = agentRouter;

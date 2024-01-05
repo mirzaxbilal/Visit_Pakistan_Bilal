@@ -19,11 +19,11 @@
 
 
 
-.login__form__main {
+.login__form {
+    width: 100%;
     padding: 50px;
     background: var(--secondary-color);
     position: relative;
-
 }
 
 .login__container {
@@ -32,7 +32,7 @@
 
 }
 
-.login__form__main .user {
+.login__form .user {
     width: 80px;
     height: 80px;
     position: absolute;
@@ -42,17 +42,17 @@
 
 }
 
-.login__form__main .user img {
+.login__form .user img {
     width: 100%;
 }
 
-.login__form__main h2 {
+.login__form h2 {
     color: #fff;
     text-align: center;
     margin-bottom: 2rem;
 }
 
-.login__form__main input {
+.login__form input {
     width: 100%;
     padding: 0.5rem 1rem;
     border-radius: 5px;
@@ -62,7 +62,7 @@
 
 }
 
-.login__form__main input:focus {
+.login__form input:focus {
     outline: none;
 
 }
@@ -73,14 +73,14 @@
     color: #fff !important;
 }
 
-.login__form__main p {
+.login__form p {
     font-size: 0.9rem;
     color: #fff;
     margin-top: 1.5rem;
     text-align: center;
 }
 
-.login__form__main p a {
+.login__form p a {
     color: var(--heading-color);
     text-decoration: none;
     margin-left: 5px;

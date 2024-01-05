@@ -114,8 +114,56 @@ packageRouter.post('/createPackage/:id', auth_access, createPackage);
  */
 packageRouter.get('/', getAprrovedPackages);
 
+/**
+ * @swagger
+ * /packages/getAllPackages:
+ *   get:
+ *     security:
+ *       - Bearer: []
+ *     tags: [TourPackages]
+ *     summary: Get all packages
+ *     description: Retrieve a list of all packages. Requires admin privileges.
+ *     responses:
+ *       200:
+ *         description: A list of packages.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/TourPackage'
+ *       401:
+ *         description: Unauthorized Access -- Only accessible by admin.
+ *       500:
+ *         description: Something went wrong with the server.
+ */
 packageRouter.get('/getAllPackages', auth_access, getAllPackages);
 
+/**
+ * @swagger
+ * /packages/getUnapprovedPackages:
+ *   get:
+ *     security:
+ *       - Bearer: []
+ *     tags: [TourPackages]
+ *     summary: Get unapproved packages
+ *     description: Retrieve a list of unapproved packages. Requires admin privileges.
+ *     responses:
+ *       200:
+ *         description: A list of unapproved packages.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/TouPackage'
+ *       404:
+ *         description: No unapproved packages found.
+ *       401:
+ *         description: Unauthorized Access -- Only accessible by admin.
+ *       500:
+ *         description: Something went wrong with the server.
+ */
 packageRouter.get('/getUnapprovedPackages', auth_access, getUnapprovedPackages);
 
 /**

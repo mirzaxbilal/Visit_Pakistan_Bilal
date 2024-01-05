@@ -49,7 +49,7 @@ const LocationPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Fetch location data
+
                 const locationResponse = await fetch(`http://localhost:5000/locations/${id}`);
                 const locationData = await locationResponse.json();
                 if (locationResponse.ok) {
@@ -59,10 +59,10 @@ const LocationPage = () => {
                     throw new Error(locationData.message);
                 }
 
-                // Fetch tour data for the specific location
+
                 const tourResponse = await fetch(`http://localhost:5000/packages/getPackageByLocation?location=${id}`);
                 const tourData = await tourResponse.json();
-                console.log("tour data", tourData);
+
                 if (tourResponse.ok) {
                     setTourData(tourData);
                 } else {

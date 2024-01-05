@@ -62,7 +62,7 @@ const Login = ({ onLoginSuccess }) => {
                             <div className="login__img">
                                 <img src={loginImg} alt="" />
                             </div>
-                            <div className="login__form">
+                            <div className="login__form__main">
                                 <div className="user">
                                     <img src={userIcon} alt="" />
                                 </div>
