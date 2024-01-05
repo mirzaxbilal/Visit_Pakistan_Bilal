@@ -42,7 +42,9 @@ const Sidebar = () => {
       case "Users":
         navigate('/userTable');
         break;
-      // Add cases for other headings as needed
+      case "Packages":
+        navigate('/package-confirmation');
+        break;
       default:
         break;
     }

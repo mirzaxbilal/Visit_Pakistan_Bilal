@@ -2,15 +2,14 @@
 import {
   UilEstate,
   UilClipboardAlt,
-  UilUsersAlt,
+  UilUser,
   UilPackage,
-  UilChart,
-  UilSignOutAlt,
+  UilUsersAlt,
+  UilLocationArrowAlt
 } from "@iconscout/react-unicons";
 
 // Analytics Cards imports
 import { UilUsdSquare, UilMoneyWithdrawal } from "@iconscout/react-unicons";
-import { keyboard } from "@testing-library/user-event/dist/keyboard";
 
 // Recent Card Imports
 import img1 from "../imgs/img1.png";
@@ -24,7 +23,7 @@ export const SidebarData = [
     heading: "Dashboard",
   },
   {
-    icon: UilClipboardAlt,
+    icon: UilUser,
     heading: "Users",
   },
   {
@@ -36,7 +35,7 @@ export const SidebarData = [
     heading: 'Packages'
   },
   {
-    icon: UilChart,
+    icon: UilLocationArrowAlt,
     heading: 'Locations'
   },
 ];
@@ -92,6 +91,7 @@ export const cardsData = [
       },
     ],
   },
+  
 ];
 
 // Recent Update Card Data

@@ -34,6 +34,7 @@ const EditUserForm = ({ userData, onSave, onCancel }) => {
                 <div className="form-group">
                     <label htmlFor="role">Role:</label>
                     <select id="role" name="role" value={formData.role} onChange={handleChange}>
+                        <option value="">None</option>
                         <option value="user">User</option>
                         <option value="admin">Admin</option>
                     </select>
