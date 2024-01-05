@@ -1,12 +1,8 @@
 const express = require('express');
 const agentRouter = express.Router();
-<<<<<<< HEAD:backend/src/routes/agentRoutes.js
 const { auth_access } = require('../middlewares/auth');
 const { createAgent, getAllAgents, updateAgent, getAgentById, deleteAgent, signin, refreshtoken, getAgentPackages } = require('../controllers/agentController');
-=======
-const { auth_access, auth_refresh } = require('../middlewares/auth');
-const { createAgent, getAllAgents, updateAgent, getAgentById, deleteAgent, signin, refreshtoken } = require('../controllers/agentController');
->>>>>>> bc1d05f79dfe6ddef63e9938cd2de503101bdcad:src/routes/agentRoutes.js
+const { auth_refresh } = require('../middlewares/auth');
 /**
  * @swagger
  * components:
@@ -228,10 +224,8 @@ agentRouter.put('/updateAgent/:id', auth_access, updateAgent);
  *         description: Server errory
  */
 agentRouter.delete('/deleteAgent/:id', auth_access, deleteAgent);
-<<<<<<< HEAD:backend/src/routes/agentRoutes.js
 agentRouter.get('/getAgentPackage/:id', auth_access, getAgentPackages);
 
-=======
 
 /**
  * @swagger
@@ -264,6 +258,5 @@ agentRouter.get('/getAgentPackage/:id', auth_access, getAgentPackages);
  *         description: Something went wrong with the server.
  */
 agentRouter.post('/refreshtoken', auth_refresh, refreshtoken);
->>>>>>> bc1d05f79dfe6ddef63e9938cd2de503101bdcad:src/routes/agentRoutes.js
 
 module.exports = agentRouter;
