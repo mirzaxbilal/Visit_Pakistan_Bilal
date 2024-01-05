@@ -19,7 +19,7 @@ const SearchResultList = () => {
             const res = await fetch(`${BASE_URL}/packages/getPackageBySearch?title=${searchQuery}&page=${page}`);
             const result = await res.json();
             setData(result.packages);
-            setPageCount(Math.ceil(result.totalCount / 3));
+            setPageCount(Math.ceil(result.totalCount / 4));
         };
 
         fetchData();

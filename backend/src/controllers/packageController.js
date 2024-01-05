@@ -304,7 +304,7 @@ const getAprrovedPackages = async (req, res) => {
     try {
         const page = parseInt(req.query.page);
 
-        const packages = await packageModel.find({ isApproved: true, isDeleted: false }).skip(page * 3).limit(3).populate({
+        const packages = await packageModel.find({ isApproved: true, isDeleted: false }).skip(page * 4).limit(4).populate({
             path: 'agentId',
             select: 'name email phone'
         }).populate({
@@ -321,8 +321,8 @@ const getAprrovedPackages = async (req, res) => {
 
 const getPackageBySearch = async (req, res) => {
     try {
-        const page = parseInt(req.query.page) || 0; // Default page is 0 if not provided
-        const itemsPerPage = 3; // Number of items to show per page
+        const page = parseInt(req.query.page) || 0;
+        const itemsPerPage = 4;
         const searchWord = req.query.title;
 
         const packages = await packageModel
@@ -372,12 +372,12 @@ const getApprovedPackagesCount = async (req, res) => {
 
 const getPackageByLocation = async (req, res) => {
     try {
-        const searchLocationId = req.query.location; // Update variable name to reflect the change
+        const searchLocationId = req.query.location;
 
         const packages = await packageModel.find({
             isApproved: true,
             isDeleted: false,
-            locations: { $in: [searchLocationId] } // Use $in to match locationId in the array
+            locations: { $in: [searchLocationId] }
         }).populate({
             path: 'agentId',
             select: 'name email phone'
