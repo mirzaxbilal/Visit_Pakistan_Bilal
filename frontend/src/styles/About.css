@@ -13,6 +13,7 @@
 }
 
 .reviews-heading {
+    margin-bottom: 40px;
     text-align: center;
     margin-top: 40px;
 }
@@ -24,21 +25,45 @@
     text-align: center;
 }
 
-.review-row {
-    color: black;
-    margin-top: 10px;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 10px;
+.review-row{
+    margin: 2rem;
 }
+
 
 .review-username {
     color:black;
     font-weight: bold;
+    text-align: center;
 }
 
 .review-comment {
-    text-align: right;
+    color:black;
+    text-align: left;
 }
+
+.review-input {
+    width: 50%;
+    padding: 20px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+}
+
+.submit-review-btn-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px; /* Adjust as needed */
+}
+
+.submit-review-btn {
+    padding: 10px 20px;
+    background-color: green;
+    color: white;
+    border-radius: 2rem;
+    border: none;
+    cursor: pointer;
+}
+
+
 
 /* Pagination styles */
 .pagination {
