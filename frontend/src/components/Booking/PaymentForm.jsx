@@ -1,4 +1,3 @@
-// PaymentForm.jsx
 import React, { useState } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
@@ -21,7 +20,7 @@ const PaymentForm = ({ totalAmount, onPaymentSuccess }) => {
         if (error) {
             setError(error.message);
         } else {
-            // Send the token to your server or handle it as needed.
+
             console.log('Token:', token);
             onPaymentSuccess();
         }

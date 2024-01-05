@@ -1,12 +1,9 @@
-// src/components/Booking.js
-
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Form, FormGroup, ListGroup, ListGroupItem, Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { AuthContext } from './../../context/AuthContext';
 import './booking.css';
 import Login from './../../pages/Login';
-import PaymentForm from './PaymentForm';
 import { BASE_URL } from './../../utils/config';
 import Img from './../../assets/images/checked.png';
 import { setBookingSuccess } from './../../redux/bookingActions';
@@ -78,8 +75,6 @@ const Booking = ({ packageData, bookingSuccessful, setBookingSuccess }) => {
                     alert(`Error creating booking: ${errorData.message}`);
                     return;
                 }
-
-                // Dispatch the Redux action with the packageId
                 setBookingSuccess(packageData._id, true);
 
             } catch (error) {
