@@ -50,7 +50,7 @@ const Tours = () => {
                 console.error(error.message);
             }
         };
-        const pages = Math.ceil(count / 3);
+        const pages = Math.ceil(count / 4);
         setPageCount(pages)
         fetchTourData();
     }, [page, count]);
