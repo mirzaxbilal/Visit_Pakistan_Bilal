@@ -1,0 +1,22 @@
+services:
+  backend:
+    build: ./backend  # Specifies the directory containing the Dockerfile for building the backend image.
+    ports:
+      - "5000:5000"  # Maps port 5000 on the host to port 5000 in the container, making the backend accessible externally.
+    environment:
+      NODE_ENV: production  # Sets the environment variable NODE_ENV to 'production' inside the container.
+      MONGO_URL: ${MONGO_URL}  # Sets the MONGO_URL environment variable, value taken from the host's environment or .env file.
+      SECRET_KEY_ACCESS: ${SECRET_KEY_ACCESS}  # Sets the SECRET_KEY_ACCESS environment variable.
+      SECRET_KEY_REFRESH: ${SECRET_KEY_REFRESH}  # Sets the SECRET_KEY_REFRESH environment variable.
+
+  frontend:
+    build: ./frontend  # Specifies the directory containing the Dockerfile for building the frontend image.
+    ports:
+      - "3000:80"  # Maps port 3000 on the host to port 80 in the container, making the frontend accessible externally.
+    # If our frontend should wait for the backend service to start
+    # depends_on:
+    #   - backend
+
+volumes:
+  mongodb-data:
+    external: true  # Declares an external volume named 'mongodb-data', not managed by this docker-compose file, for persisting MongoDB data.
